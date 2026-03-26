@@ -1,0 +1,51 @@
+For Captable: ✅ STRONGLY RECOMMENDED
+
+Why Database-Per-Tenant is Right for Captable
+1. Security Posture
+Cap tables contain:
+
+Company valuation data
+Shareholder personally identifiable information (PII)
+Investor commitment amounts
+Board member details
+Stock option pricing
+A single data breach destroys your business. Database-per-tenant means:
+
+SQL injection affects one tenant, not all
+Misconfigured query exposes one company, not entire platform
+Compromised credentials impact single tenant
+You can demonstrate physical data separation to enterprise customers
+2. Compliance Requirements
+Your enterprise customers will demand:
+
+SOC2 Type II certification: Easier with physical isolation
+Data residency: "Store our data in EU region only"
+Right to be forgotten (GDPR): Delete database = complete deletion
+Audit trails: Per-tenant logs are cleaner
+3. Business Model Alignment
+Captable's competitors (Carta, Pulley) serve:
+
+Startups (small datasets, price-sensitive)
+Growth companies (medium datasets, feature-focused)
+Enterprises (large datasets, WILLING TO PAY FOR ISOLATION)
+Database-per-tenant lets you offer:
+
+"Standard" tier: Shared RDS with many small tenant DBs
+"Enterprise" tier: Dedicated RDS instance, advertise as feature
+"Enterprise Plus" tier: Dedicated VPC, complete infrastructure isolation
+You can charge premium pricing for isolation. "Your cap table runs on dedicated infrastructure" is a selling point.
+
+4. AWS Architecture Benefits
+With database-per-tenant on AWS:
+
+Use RDS Proxy for connection pooling per tenant
+Implement Aurora Serverless v2 for cost optimization (scale to zero for inactive tenants)
+Use RDS Read Replicas for high-traffic tenants only
+Apply AWS Backup with per-tenant retention policies
+Leverage Database Activity Streams for per-tenant audit logs
+5. Operational Advantages
+Debugging: Query slow tenant DB without impacting others
+Testing: Clone one tenant DB to staging for investigation
+Maintenance: Upgrade PostgreSQL version tenant-by-tenant (zero downtime)
+Disaster Recovery: Restore single tenant without full platform outage
+Performance Tuning: Optimize indexes for specific tenant patterns

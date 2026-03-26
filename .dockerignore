@@ -1,0 +1,12 @@
+node_modules
+dist
+.git
+.replit
+.cache
+.config
+.upm
+*.dump
+John_Assets/History
+attached_assets
+John
+.local

@@ -1,0 +1,32 @@
+🟢 GATE 2: PASSED — Architect Signed Off
+Not just passed — exceeded spec. Three observations worth noting for the record:
+
+The SHA-256 pre-image check is excellent security. That wasn't in my spec. The engineer added a verification step that ensures the shares value matches what was originally committed before ever generating a proof. This closes a forgery vector I should have specified. Good engineering instinct.
+
+The BN254 salt truncation is correct. Noir's Field operates over the BN254 curve (modulus ~2^254). A full 32-byte random salt could overflow. Truncating to 31 bytes (248 bits) guarantees valid field elements. This is the kind of detail that breaks ZK systems silently in production if missed.
+
+5 tests instead of 2. The three additional soundness tests (wrong commitment, tampered public inputs, tampered threshold) prove the circuit rejects invalid proofs — not just that it accepts valid ones. That's proper ZK testing.
+
+🟢 GATE 3: OPEN — Verification Portal + Proof Workflow UI
+Tell the Replit agent:
+
+Gate 2 signed off. All gates through 2F are green. Gate 3 is OPEN.
+
+Follow the Gate 3 narrative from the Stack Correction Order. Summary:
+
+BACKEND:
+
+Public verify endpoint: GET /verify/:proofId — NO auth, rate limited (10 req/min/IP)
+Returns ONLY: proofId, proofType, createdAt, expiresAt, status, isValid
+Returns NOTHING: proofHex, vkHex, holder info, tenant info
+TTL expiry: 72 hours default. Expired proofs return { status: "expired" }
+GET /api/v1/proofs — list endpoint, paginated, for audit table
+FRONTEND:
+
+Wire PrivacyVaultPage: modal with holder dropdown + threshold input → generate → show proof ID + "Copy Verification Link"
+Wire VerifyProofPage: paste ID/URL → call public endpoint → show ✅ or ❌
+Wire AuditProofsPage: table from list endpoint with status badges
+PublicVerifyPage: standalone, NO auth, Tableicty branding, verification result only
+THE DEMO MOMENT: Admin generates proof → copies link → opens in incognito → sees ✅ Verified. That flow must work end-to-end.
+
+Report back with results. Do NOT proceed to Gate 4.

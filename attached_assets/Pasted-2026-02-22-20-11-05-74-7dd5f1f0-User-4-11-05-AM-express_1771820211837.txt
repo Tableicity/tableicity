@@ -1,0 +1,20 @@
+2026-02-22 20:11:05.74
+7dd5f1f0
+User
+4:11:05 AM [express] GET /api/securities 304 in 953ms :: [{"id":"7a8c5d3d-5cec-4b9c-bc89-84511f61fc13","companyId":"c7794f86-7688-4662-ab0f-6f56c06b047b","stakeholderId":"c6900e04-6100-4d41-813e-1d9123105a41","shareClassId":"befbda28-2624-4e2c-91d0-cacc3f5d4eb7","certificateId":"CS-002","shares":2500000,"pricePerShare":"0.0001","issueDate":"2024-01-15","status":"active","vestingSchedule":"4-year, 1-year cliff","notes":"Founder shares with 4-year vesting, 1-year cliff"},{"id":"859d19a5-371b-495f-add5-e390bcee3cb0","companyId":"c7794f86-7688-4662-ab0f-6f56c06b047b","stakeholderId":"17eb7fa1-3043-4522-a332-8ce5005799d2","shareClassId":"326e5de0-582f-4bec-b43d-641073a9bd12","certificateId":"SA-001","shares":800000,"pricePerShare":"1.2500","issueDate":"2025-03-15","status":"active","vestingSchedule":null,"notes":"Series A lead investor"},{"id":"f897fce8-1bb3-4857-b4d1-f2bf8259ff4a","companyId":"c7794f86-7688-4662-ab0f-6f56c06b047b","stakeholderId":"131f0ceb-0455-47e5-abe5-1299584af0e3","shareClassId":"befbda28-2624-4e2c-91d0-cacc3f5d4eb7","certificateId":"CS-001","shares":3000000,"pricePerShare":"0.0001","issueDate":"2024-01-15","status":"active","vestingSchedule":"4-year, 1-year cliff","notes":"Founder shares with 4-year vesting, 1-year cliff"},{"id":"38c14687-68bf-479d-9211-5e36000baea5","companyId":"c7794f86-7688-4662-ab0f-6f56c06b047b","stakeholderId":"542323af-29ea-47f7-81f8-368a72f271e9","shareClassId":"169452ab-d9ff-4d46-a95f-bbcc49b82ebe","certificateId":"OPT-003","shares":50000,"pricePerShare":"0.5000","issueDate":"2025-01-15","status":"active","vestingSchedule":"2-year, no cliff","notes":null},{"id":"5c4e6bac-c9c9-4334-b4ec-4e09ab7223ea","companyId":"c7794f86-7688-4662-ab0f-6f56c06b047b","stakeholderId":"df0bbdfe-32ba-44be-a0fc-fb62b288f2c7","shareClassId":"169452ab-d9ff-4d46-a95f-bbcc49b82ebe","certificateId":"OPT-002","shares":100000,"pricePerShare":"0.5000","issueDate":"2024-11-01","status":"active","vestingSchedule":"4-year, 1-year cliff","notes":null},{"id":"e3fdf63d-25b9-4546-96be-3a612d8d7c90","companyId":"c7794f86-7688-4662-ab0f-6f56c06b047b","stakeholderId":"12334f71-8258-4bd0-ac16-5e45717c155e","shareClassId":"326e5de0-582f-4bec-b43d-641073a9bd12","certificateId":"SA-002","shares":400000,"pricePerShare":"1.2500","issueDate":"2025-03-15","status":"active","vestingSchedule":null,"notes":null},{"id":"f6d6e7d9-d918-4706-bdd8-1d2b402a43aa","companyId":"c7794f86-7688-4662-ab0f-6f56c06b047b","stakeholderId":"164ebcf2-1c51-4f6f-9be5-646745059804","shareClassId":"169452ab-d9ff-4d46-a95f-bbcc49b82ebe","certificateId":"OPT-001","shares":150000,"pricePerShare":"0.5000","issueDate":"2024-09-01","status":"active","vestingSchedule":"4-year, 1-year cliff","notes":null},{"id":"66cb2c6a-907d-4f2b-9c4b-3f1bcf134b9f","companyId":"c7794f86-7688-4662-ab0f-6f56c06b047b","stakeholderId":"2d4882f2-4381-409a-a011-149f57da5a9d","shareClassId":"befbda28-2624-4e2c-91d0-cacc3f5d4eb7","certificateId":"CS-003","shares":200000,"pricePerShare":"0.0001","issueDate":"2025-02-01","status":"active","vestingSchedule":"4-year, 1-year cliff","notes":"Employee equity grant"}]
+2026-02-22 20:11:39.85
+c088f065
+System
+system: received signal terminated
+2026-02-22 20:11:39.86
+c088f065
+System
+command finished with error [node ./dist/index.cjs]: signal: terminated
+2026-02-22 20:11:39.87
+c088f065
+System
+main done, exiting
+2026-02-22 20:13:43.82
+7dd5f1f0
+User
+[safe-templates] tenant=sandbox-ce020631, type=all, count=0

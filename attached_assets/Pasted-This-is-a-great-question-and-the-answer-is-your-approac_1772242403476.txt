@@ -1,0 +1,33 @@
+This is a great question, and the answer is: your approach is not wrong, and you're not breaking anything. Let me explain clearly.
+
+How abc17@gmail.com Works Today
+abc17@gmail.com is a platform admin with tenant_admin access to tenant_acme (Archer Technologies). It was originally created as a seeded admin account — not through the trial sign-up flow. It sits on the same tenant (acme) where all the seed data is written. So when seed functions run on startup, they populate tenant_acme, and abc17@gmail.com sees that data immediately.
+
+Can You Rely on It for Building and Testing?
+Yes, completely. Here's why:
+
+Seed data flows directly to abc17@gmail.com's tenant. The seedDatabase() function runs on every server startup. It seeds tenant_acme specifically. abc17@gmail.com is a tenant_admin on tenant_acme. So every iteration — new instruments, new sample data, schema changes — lands exactly where abc17@gmail.com can see it.
+
+No sandbox indirection. abc17@gmail.com is NOT on a sandbox. It's on a first-class tenant. There's no auto-provisioning layer between you and the data. What I write to tenant_acme is what you see. Period.
+
+Same database, both environments. Dev and deployed share one database. When I seed data or run a migration, it's visible everywhere — no "push to production" gap for data.
+
+Should You Switch to admin@exemptifi.com?
+No need. Both abc17@gmail.com and admin@exemptifi.com are platform admins on the same tenants (acme and globex). They see the exact same data. There's no advantage to switching. abc17@gmail.com is a perfectly good workbench.
+
+The One Thing to Be Aware Of
+The seed functions are designed to be idempotent — they check "does data already exist?" before inserting. For example, seedEsopGrants checks if (existing.length > 0) return. This means:
+
+If you manually delete a grant through the UI, the seed function will recreate it on next restart
+If you manually add grants, the seed function won't touch them (it sees existing data and skips)
+If I add a new seed function for a new instrument, it will only insert if that table is empty for the tenant
+This is the correct behavior for a development workbench. Your manual changes persist, and new seed data only fills in gaps.
+
+Summary
+Question	Answer
+Is abc17@gmail.com the right account to iterate with?	Yes
+Will seeded data show up for this account?	Yes, directly
+Am I breaking the system by using it?	No
+Do I need to switch accounts?	No
+Can I trust that what you change is what I see?	Yes — one database, one tenant, one path
+You're on solid ground. When you're ready to continue with the ESOP work, just say the word.

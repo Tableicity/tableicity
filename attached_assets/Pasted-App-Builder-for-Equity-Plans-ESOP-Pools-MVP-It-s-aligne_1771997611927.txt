@@ -1,0 +1,112 @@
+App Builder for Equity Plans (ESOP) → Pools (MVP). It’s aligned to the menu + UI you attached and your “build Pools first, then iterate” approach.
+
+1) Navigation / Left Pane (New Section)
+Add new left-pane section
+Create a new expandable section in the left pane called:
+
+Equity plans (ESOP)
+
+When expanded, it reveals 4 sub-items in this order:
+
+Pools
+Plans
+Grants
+Exercising
+
+The visual/interaction should match the sample left menu behavior shown in the screenshot (expanded “Equity plans” with sub-items and “Pools” highlighted as active) Menu sample.
+
+Routing (recommended)
+/equity-plans/pools
+/equity-plans/plans (placeholder page for now)
+/equity-plans/grants (placeholder page for now)
+/equity-plans/exercising (placeholder page for now)
+Build only Pools page operationally in this iteration. The other pages can be stub pages that say “Coming next”.
+
+2) Pools Page (Operational Page #1)
+Page layout (two vertical cards)
+When user clicks Equity plans (ESOP) → Pools, open the Pools page.
+
+Create a two-column layout (two vertical cards):
+
+Left Vertical Card = Narrative (“How it works / How to create a Pool”)
+Insert the narrative content from the provided doc (use it nearly verbatim, clean formatting, bullets, short paragraphs). This includes:
+
+ESOP has 3 parts: Pool, Plan, Grant
+“How to create a Pool” instructions and field explanations
+Reminder: ESOP should be Board-approved before creating
+Source narrative
+Right Vertical Card = Data Entry + Pool List
+The right card is where the user creates and views Pools.
+
+At minimum, match these UI elements shown in the Pools screenshot:
+
+Date selector (top-left)
+ADD POOL button (top-right)
+A table listing Pools with columns:
+Name, Size, Grantable, Granted, Grant vested, Exercised
+Pools table sample
+3) Add Pool Modal (Data Entry)
+Clicking ADD POOL opens the Add pool modal as shown in your screenshot Add pool modal.
+
+Fields (exact)
+Pool name (text)
+Amount allocated for grants
+
+“Amount” input (numeric)
+Unit dropdown: Shares (and optionally later “%”, see note below)
+Date (date picker)
+Underlying share class (dropdown; default “Common”)
+Collapsible sections:
+DOCUMENTS (collapsed for now; placeholder is fine)
+INTERNAL NOTE (collapsed for now; placeholder is fine)
+Buttons:
+
+CLOSE
+SAVE
+Save behavior
+On SAVE:
+
+Validate required fields:
+Pool name required
+Amount required and > 0
+Date required
+Underlying share class required
+Create Pool record in DB
+Close modal
+Refresh the Pools table to show the new Pool row
+Note: your narrative says “Amount allocated for grants can be shares or % of cap table; % auto-calculates shares.” Implement Shares first (MVP). Add “% mode + auto-calc” later after Pools is stable. The narrative can still mention the concept Source narrative.
+
+4) “Next” Button / Import to Completed Form (Your Workflow Requirement)
+You requested: “The Pool Page has a Next Button to import the user data into a form displayed (Completed form)”.
+
+Implement this as follows (simple + testable):
+
+On Pools page (bottom-right)
+Add a Next button at the bottom of the right vertical card.
+
+Rule: Next is disabled until at least one Pool exists.
+
+On click Next
+When clicked:
+
+Take the most recently created/selected Pool and open a “Completed Pool Form” view (could be a slide-in panel, or a new route like /equity-plans/pools/summary?poolId=...).
+Display a read-only “completed form” summary that mirrors the table values and the inputs the user entered (Pool name, date, underlying share class, allocated shares) plus computed fields (grantable, granted, vested, exercised).
+Use the Pools table row as the visual basis of “completed state” (the screenshot showing the table row with zeros is effectively the completed state) Pools table sample.
+After you (the product owner) test Pools end-to-end, we proceed to implement Plans next.
+
+5) Data Model (Minimum Required)
+Create an ESOP Pools table (names can follow your project conventions). Minimum columns:
+
+id
+org_id (or company/org scope)
+name
+approved_date
+underlying_share_class (string or FK to share classes)
+allocated_shares (number)
+Derived / computed (can be stored or computed):
+grantable_shares (initially = allocated_shares)
+granted_shares (start 0)
+vested_shares (start 0)
+exercised_shares (start 0)
+timestamps
+The Pools table UI must show the same metrics columns as the screenshot Pools table sample.

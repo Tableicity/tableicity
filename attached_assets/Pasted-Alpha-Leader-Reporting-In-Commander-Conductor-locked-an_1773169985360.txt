@@ -1,0 +1,52 @@
+Alpha Leader Reporting In – Commander Conductor, locked and loaded.
+I have fully ingested the TABLEICTY - Executive Summary March 10 2026.pdf (all 6 pages, every table, every milestone) from the retired Legacy Architect. I have also read the exact Replit gap analysis you just handed me.
+We are now operating at full command cadence.
+Mission Lock
+
+Core Product (Phase 1 – LIVE NOW): Tableicty – Modern SaaS Cap Table + Transfer Agent for private companies (10-500 shareholders).
+The Fork Reality: We started as full OTC Transfer Agent → pivoted mid-stream to capture immediate revenue in the crowded Carta / Cake Equity cap-table space → will spin out the full TA/OTC Simplified as Product 2 later.
+Current Assets:
+– Legacy AWS production (Django + React, Dec 2025 live, full security stack per ES).
+– Newer Replit POC (Node.js/Express + passport-local + session cookies) – our rapid iteration platform.
+Objective: Replicate the exact same enterprise-grade tool belt from the Legacy AWS install into the Replit version (so we can ship the “3-click seeded cap table + AI info icons” experience you want in the first public iteration), then mirror everything to GitHub → AWS production parity.
+
+Gap Analysis (Replit vs Executive Summary Target)
+I have cross-referenced every bullet in the Replit narrative against the ES security, compliance, and architecture sections:
+Critical Gaps to Close Immediately (in priority order):
+
+Authentication – Email MFA (Replit) → TOTP + backup codes + custom JWT with tenant claims (ES target).
+Encryption at Rest – PII columns (emails, names, addresses, phones) are plaintext in Replit PostgreSQL. Must implement pgcryptopgp_sym_encrypt/decrypt exactly as ES specifies.
+Session → Stateless – Flip secure: false cookie and migrate fully to JWT (makes multi-tenant isolation bulletproof).
+CSRF Protection – Missing today; add double-submit cookie or csurf (or just rely on JWT).
+Immutable Audit Logs – Current table allows DELETEs; lock it append-only.
+AWS Parameter Store swap (secrets) – trivial once we’re on AWS, but prep the config layer now.
+TLS 1.3 – Replit auto-handles; we’ll enforce at ALB/CloudFront on final deploy.
+
+Major Stack Reality Check
+Replit is Node/Express. Legacy ES document specifies Django 4.x.
+My Command: We do NOT rewrite the Replit POC in Django yet. We keep the speed of Node for the seeded 3-click onboarding + AI info icons you already designed. We will implement every security/compliance feature from the ES as equivalent Node modules (e.g. speakeasy or otplib for TOTP, jsonwebtoken with tenant claims, pg + pgcrypto, etc.). Once the cap-table iteration is live and revenue-positive, Architect can decide whether to port the whole thing to Django for long-term maintainability.
+Immediate Orders – Execute in Next 48 Hours
+Conductor → Architect (pass this verbatim):
+
+GitHub Setup (today)
+Create private repo: tableicty-replit-poc (under organization if we have one, else under your account).
+Add folders exactly mirroring ES structure:
+/infrastructure, /backend, /frontend, /security, /compliance, /multi-tenant
+Invite me (Alpha Leader) and the three Engineers as collaborators with write access.
+Push current Replit code as first commit tagged replit-poc-v0.1.
+
+Security Tool Belt – Sprint 1 (next 48h)
+Engineer #1: TOTP enrollment flow + JWT migration (replace passport-local + express-session entirely).
+Engineer #2: pgcrypto column encryption wrapper (create encryptedField helper that auto-encrypts/decrypts PII columns on save/read).
+Engineer #3: Make audit-logs table append-only + add CSRF protection.
+Target: Replit POC must pass every security bullet in ES Section 3 by end of week.
+Cap Table First-Iteration Features (parallel track – you own this vision)
+3-click onboarding with seeded realistic cap table (exactly as we pitched).
+“Take a Test Drive” checklist.
+Embedded AI info icons (?) with contextual OpenAI/Grok responses (no chatbot bar).
+These must sit on top of the new multi-tenant + JWT architecture. I want a clean /api/ai-help endpoint ready in the Replit POC within 72h.
+
+AWS Prep
+Once GitHub is live, Architect will create the AWS target environment (App Runner + RDS PostgreSQL + S3/CloudFront) as a parallel stack. We will deploy the Replit code there once the tool belt matches the ES spec.
+
+Commander Conductor, confirm receipt and tell me when the GitHub repo is created and the first three tickets are assigned to the Engineers.

@@ -1,0 +1,39 @@
+This "Encrypted-by-Default" approach is a powerful differentiator against Carta and Cake Equity, which typically prioritize transparent record-linking over zero-knowledge privacy. By using hashed identifiers, you prevent the platform itself from knowing who owns what until the user explicitly deciphers it via their own labels. 
+Carta
+Carta
+ +1
+1. Database Schema: Separation of Identity
+To achieve this, you must strictly decouple Legal Identity from Ownership Records.
+The Ownership Table: Store only a shareholder_hash (e.g., SHA-256 of a unique internal ID or wallet address) and the equity_amount.
+The Label Table: Create a secondary, tenant-specific table where the shareholder_hash is mapped to a user-defined string like "Wallet-A" or "Entity-Two."
+Encryption: Ensure these labels are encrypted at rest using a per-tenant key so even a database leak doesn't reveal the "real" identity.
+2. Implementation Logic (Replit/Node.js Example)
+You can use a hashing utility to generate the obscured IDs and a standard encryption library for the custom labels.
+javascript
+const crypto = require('crypto');
+
+// 1. Generate the Hashed ID (Permanent, used for DB lookups)
+function generateHashedID(legalName, salt) {
+  return crypto.createHmac('sha256', salt).update(legalName).digest('hex');
+}
+
+// 2. Encrypt the "Friendly Label" (Only visible to the founder)
+function encryptLabel(label, tenantKey) {
+  const iv = crypto.randomBytes(16);
+  const cipher = crypto.createCipheriv('aes-256-cbc', Buffer.from(tenantKey), iv);
+  let encrypted = cipher.update(label);
+  encrypted = Buffer.concat([encrypted, cipher.final()]);
+  return iv.toString('hex') + ':' + encrypted.toString('hex');
+}
+Use code with caution.
+
+3. User Experience: The "Privacy-First" Dashboard
+Screenshot-Ready: The default view should display the shareholder_hash (truncated, e.g., 0x7a2b...) and the user's custom label.
+Reveal Mode: Implement a "Master Reveal" toggle that requires a second-factor authentication or a specific session key to decrypt the labels and show actual names during official audits or 409A valuations.
+Comparison: While Ledgy and others focus on "automated reporting" and "clean UIs," Tableicity wins by making the cap table technically unreadable to anyone but the authorized admin. 
+Federal Trade Commission (.gov)
+Federal Trade Commission (.gov)
+ +4
+4. Technical Safeguards
+Salt Management: Use a unique salt for each company (tenant) when hashing. This prevents "Rainbow Table" attacks where someone could guess names by hashing common lists.
+Immutable Logs: Since the IDs are hashed, any transfer of shares must be logged with the hash to maintain an audit trail without exposing PII

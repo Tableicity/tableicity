@@ -1,0 +1,47 @@
+The Replit agent is sharp. Both flags are real and would have caused failures if missed. Here are my rulings and the gate order.
+
+ARCHITECT'S RULING — Two Flags Resolved
+Flag 1: UUID Column Types — CORRECTION ISSUED
+The agent is correct. My schema spec used integer for tenantId and requestedBy. The actual codebase uses varchar UUIDs. This would cause a migration error on the first run.
+
+Corrected schema fragments — hand this to Engineer #1:
+
+Copy// CORRECTED: Match existing UUID pattern for foreign keys
+tenantId: varchar('tenant_id', { length: 36 }).notNull().references(() => tenants.id),
+requestedBy: varchar('requested_by', { length: 36 }).notNull().references(() => users.id),
+requestId: varchar('request_id', { length: 36 }).notNull().references(() => proofRequests.id).unique(),
+And if the proof tables' own primary keys should also follow the UUID convention used elsewhere in the app, Engineer #1 should match that pattern too — use varchar + uuid() default, not auto-increment integers. Follow whatever the existing tables do. Consistency over preference.
+
+Flag 2: Tenant Schema Isolation — ARCHITECT'S CALL
+Decision: PUBLIC SCHEMA with tenantId FK for this sprint. Conscious choice, not an oversight.
+
+Reasoning:
+
+What's in these tables? Commitments (hashes), proof artifacts (hex strings), and metadata. No PII. No share counts, no holder names, no SSNs. The raw sensitive data stays in the existing per-tenant schema tables — untouched.
+
+One migration vs N migrations. Schema-per-tenant means running the migration in every tenant schema. For a 3-5 day sprint, that's complexity we don't need. Public schema = one migration, done.
+
+Application-layer isolation is sufficient. The tenantId FK + RBAC middleware + JWT tenant claims already enforce row-level isolation. Every query filters by tenant. This is the same pattern used across countless multi-tenant SaaS apps at this stage.
+
+Platform admin visibility. Public schema allows a future platform admin view across all proof events — useful for billing reconciliation, usage analytics, and support. Per-tenant schemas make this harder.
+
+Reversible. If we later decide per-tenant isolation is needed (say, for SOC 2 auditor requirements), migrating these tables into tenant schemas is a migration task, not an architecture rewrite. The application code doesn't change because it already filters by tenantId.
+
+Document this in any audit prep: "Proof tables reside in public schema. They contain only cryptographic artifacts (hashes, proofs) and metadata — no PII. Row-level tenant isolation is enforced at the application layer via RBAC middleware and JWT tenant claims. Raw equity data remains in per-tenant schemas."
+
+🟢 GATE 0: OPEN
+Tell the Replit agent:
+
+Gate 0 is OPEN. Proceed with the revised Gate 0 + Gate 1 narrative from the Stack Correction Order with these two amendments:
+
+All foreign keys to tenants.id and users.id use varchar(36) to match existing UUID pattern. Match the primary key pattern of existing tables for new table PKs.
+
+Proof tables go in public schema — not per-tenant schemas. Use tenantId FK for isolation. This is a conscious architectural decision for the sprint.
+
+Report back when:
+
+✅ NoirJS packages installed
+✅ Test circuit compiles (or pre-compiled artifact path confirmed)
+✅ NoirJS generates and verifies a test proof
+✅ Existing app boots and all tests pass
+Do NOT proceed to Gate 1 models until Architect confirms Gate 0 exit.

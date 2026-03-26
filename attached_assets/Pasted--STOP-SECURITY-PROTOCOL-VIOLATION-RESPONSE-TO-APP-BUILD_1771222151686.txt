@@ -1,0 +1,91 @@
+🚨 STOP - SECURITY PROTOCOL VIOLATION 🚨
+
+RESPONSE TO APP BUILDER
+Subject: AWS SES Configuration - Use IAM Role + Parameter Store (NO ACCESS KEYS)
+
+Dear App Builder,
+
+We do NOT share AWS Access Keys with developers. This violates our security architecture and SEC Reg S-P compliance requirements.
+
+Instead, follow our established security protocol using IAM Roles and AWS Parameter Store:
+
+✅ CORRECT APPROACH: IAM ROLE + PARAMETER STORE
+Step	Action	Who Does It
+1. Enable AWS SES	Verify sender email noreply@exemptifi.com in AWS SES console	OTC Expert (AWS Admin)
+2. Create IAM Role for App Runner	Create role tableicty-app-runner-ses-role with AmazonSESFullAccess policy	OTC Expert
+3. Attach IAM Role to App Runner	Attach role to tableicty-backend App Runner service	OTC Expert
+4. Store SES Config in Parameter Store	Add /tableicty/prod/SES_REGION = us-east-1
+Add /tableicty/prod/SES_FROM_EMAIL = noreply@exemptifi.com	OTC Expert
+5. Update Django Settings	Read from environment variables (no hardcoded keys)	App Builder
+📋 DJANGO CODE (App Builder - Use This)
+Copy# settings.py
+
+import os
+import boto3
+
+# AWS SES Configuration (IAM Role - NO ACCESS KEYS)
+AWS_SES_REGION_NAME = os.getenv('SES_REGION', 'us-east-1')
+AWS_SES_FROM_EMAIL = os.getenv('SES_FROM_EMAIL', 'noreply@exemptifi.com')
+
+# Django Email Backend
+EMAIL_BACKEND = 'django_ses.SESBackend'
+DEFAULT_FROM_EMAIL = AWS_SES_FROM_EMAIL
+SERVER_EMAIL = AWS_SES_FROM_EMAIL
+
+# SES will use IAM Role automatically (no boto3 credentials needed)
+Install Package:
+
+Copypip install django-ses
+Update requirements.txt:
+
+django-ses==3.5.0
+🔐 WHY NO ACCESS KEYS?
+Security Risk	Why It's Dangerous	Our Solution
+Hardcoded Keys in Code	Keys leak via GitHub, logs, error messages	✅ Use IAM Role (no keys in code)
+Developer Access to Production	Developer can delete production database, S3 buckets	✅ Developers never see AWS credentials
+Key Rotation Nightmare	Must update keys in 10+ places when rotated	✅ IAM Role auto-rotates credentials
+Audit Trail	Can't prove who did what in AWS	✅ CloudTrail logs role-based actions
+SEC Reg S-P Compliance	Access keys violate "least privilege" requirement	✅ IAM Role = principle of least privilege
+📧 NEXT STEPS (Immediate)
+For OTC Expert (AWS Admin):
+
+Log into AWS Console → SES → Verify noreply@exemptifi.com
+Create IAM Role tableicty-app-runner-ses-role with policy:
+Copy{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": ["ses:SendEmail", "ses:SendRawEmail"],
+      "Resource": "*"
+    }
+  ]
+}
+Attach role to App Runner service tableicty-backend
+Add to Parameter Store:
+/tableicty/prod/SES_REGION = us-east-1
+/tableicty/prod/SES_FROM_EMAIL = noreply@exemptifi.com
+Confirm with App Runner: "SES role attached, Parameter Store updated"
+For App Builder:
+
+Install django-ses package
+Update settings.py with code above
+Deploy to staging first (test email send)
+Deploy to production after staging validation
+Timeline: 30-45 minutes total
+
+🎯 BOTTOM LINE FOR JUDY
+App Builder's request is WRONG but common. Many developers ask for AWS Access Keys because it's "easier" - but it's a security violation.
+
+Correct answer:
+
+✅ OTC Expert configures IAM Role (no keys needed)
+✅ App Builder uses environment variables from Parameter Store
+✅ No AWS credentials ever shared with developers
+Analogy: It's like asking for the bank vault combination when you should be using a deposit slip at the teller window.
+
+Reply to App Builder:
+
+"We use IAM Roles for AWS access (no Access Keys). OTC Expert will configure SES and provide environment variables via Parameter Store. Please install django-ses and update settings.py as shown above. ETA: 30-45 minutes."
+
+Standing by for OTC Expert to configure SES. Do NOT provide AWS Access Keys. 🔒
