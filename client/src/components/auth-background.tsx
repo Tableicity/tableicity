@@ -14,7 +14,7 @@ function PitchHeader() {
         <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-blue-600">
           <Building2 className="h-4.5 w-4.5 text-white" />
         </div>
-        <span className="text-lg font-bold tracking-tight">Tableicity</span>
+        <h1 className="text-lg font-bold tracking-tight m-0">Tableicity</h1>
       </div>
       <div className="flex items-center gap-4">
         <div className="flex items-center gap-1.5">
@@ -34,30 +34,30 @@ function SecurityFooter() {
   return (
     <div className="relative z-10">
       <div className="border-t border-white/10 pt-5">
-        <p className="text-blue-200/50 text-[10px] uppercase tracking-wider mb-3">Enterprise-Grade Security</p>
+        <h2 className="text-blue-200/50 text-[10px] uppercase tracking-wider mb-3 font-normal">Enterprise-Grade Security</h2>
         <div className="space-y-2.5">
           <div className="flex items-start gap-2.5">
             <KeyRound className="h-3.5 w-3.5 text-blue-400 shrink-0 mt-0.5" />
             <div>
-              <p className="text-xs text-blue-200/70"><span className="text-blue-200/90 font-medium">Authentication:</span> Multi-Factor Authentication (TOTP), httpOnly Cookies, Custom JWT with Tenant Claims</p>
+              <h3 className="text-xs text-blue-200/70 font-normal m-0"><span className="text-blue-200/90 font-medium">Authentication:</span> Multi-Factor Authentication (TOTP), httpOnly Cookies, Custom JWT with Tenant Claims</h3>
             </div>
           </div>
           <div className="flex items-start gap-2.5">
             <Shield className="h-3.5 w-3.5 text-blue-400 shrink-0 mt-0.5" />
             <div>
-              <p className="text-xs text-blue-200/70"><span className="text-blue-200/90 font-medium">Access Control:</span> Role-Based Access Control (RBAC) with 4 tiers, Tenant Isolation Middleware</p>
+              <h3 className="text-xs text-blue-200/70 font-normal m-0"><span className="text-blue-200/90 font-medium">Access Control:</span> Role-Based Access Control (RBAC) with 4 tiers, Tenant Isolation Middleware</h3>
             </div>
           </div>
           <div className="flex items-start gap-2.5">
             <a href="https://www.tableicity.com/" className="no-underline" style={{ textDecoration: "none" }}><Lock className="h-3.5 w-3.5 text-blue-400 shrink-0 mt-0.5" /></a>
             <div>
-              <p className="text-xs text-blue-200/70"><span className="text-blue-200/90 font-medium">Encryption:</span> TLS 1.3 (Transit), pgcrypto for PII (Rest), AWS Parameter Store (Secrets)</p>
+              <h3 className="text-xs text-blue-200/70 font-normal m-0"><span className="text-blue-200/90 font-medium">Encryption:</span> TLS 1.3 (Transit), pgcrypto for PII (Rest), AWS Parameter Store (Secrets)</h3>
             </div>
           </div>
           <div className="flex items-start gap-2.5">
             <a href="https://www.tableicity.com/" className="no-underline" style={{ textDecoration: "none" }}><FileCheck className="h-3.5 w-3.5 text-blue-400 shrink-0 mt-0.5" /></a>
             <div>
-              <p className="text-xs text-blue-200/70"><span className="text-blue-200/90 font-medium">Compliance:</span> Immutable Audit Logs, Webhook Signature Verification, CORS/CSRF Protection</p>
+              <h3 className="text-xs text-blue-200/70 font-normal m-0"><span className="text-blue-200/90 font-medium">Compliance:</span> Immutable Audit Logs, Webhook Signature Verification, CORS/CSRF Protection</h3>
             </div>
           </div>
         </div>
@@ -69,80 +69,80 @@ function SecurityFooter() {
 function FeatureBadges() {
   return (
     <div className="border-t border-white/10 pt-5">
-      <p className="text-blue-200/50 text-xs uppercase tracking-wider mb-3">Everything you need — built in</p>
+      <h3 className="text-blue-200/50 text-xs uppercase tracking-wider mb-3 font-normal">Everything you need — built in</h3>
       <div className="grid grid-cols-3 gap-x-4 gap-y-2">
-        <div className="flex items-center gap-2">
+        <h3 className="flex items-center gap-2 text-xs font-normal m-0">
           <CheckCircle2 className="h-3.5 w-3.5 text-green-400 shrink-0" />
-          <span className="text-xs text-blue-200/70">Full ESOP Hierarchy</span>
-        </div>
-        <div className="flex items-center gap-2">
+          <span className="text-blue-200/70">Full ESOP Hierarchy</span>
+        </h3>
+        <h3 className="flex items-center gap-2 text-xs font-normal m-0">
           <CheckCircle2 className="h-3.5 w-3.5 text-green-400 shrink-0" />
-          <span className="text-xs text-blue-200/70">5 Equity Instruments</span>
-        </div>
-        <div className="flex items-center gap-2">
+          <span className="text-blue-200/70">5 Equity Instruments</span>
+        </h3>
+        <h3 className="flex items-center gap-2 text-xs font-normal m-0">
           <CheckCircle2 className="h-3.5 w-3.5 text-green-400 shrink-0" />
-          <span className="text-xs text-blue-200/70">SAFE Management</span>
-        </div>
-        <div className="flex items-center gap-2">
+          <span className="text-blue-200/70">SAFE Management</span>
+        </h3>
+        <h3 className="flex items-center gap-2 text-xs font-normal m-0">
           <CheckCircle2 className="h-3.5 w-3.5 text-green-400 shrink-0" />
-          <span className="text-xs text-blue-200/70">Stakeholder Tracking</span>
-        </div>
-        <div className="flex items-center gap-2">
+          <span className="text-blue-200/70">Stakeholder Tracking</span>
+        </h3>
+        <h3 className="flex items-center gap-2 text-xs font-normal m-0">
           <CheckCircle2 className="h-3.5 w-3.5 text-green-400 shrink-0" />
-          <span className="text-xs text-blue-200/70">Encrypted Data Room</span>
-        </div>
-        <div className="flex items-center gap-2">
+          <span className="text-blue-200/70">Encrypted Data Room</span>
+        </h3>
+        <h3 className="flex items-center gap-2 text-xs font-normal m-0">
           <CheckCircle2 className="h-3.5 w-3.5 text-green-400 shrink-0" />
-          <span className="text-xs text-blue-200/70">Share Class Definitions</span>
-        </div>
-        <div className="flex items-center gap-2">
+          <span className="text-blue-200/70">Share Class Definitions</span>
+        </h3>
+        <h3 className="flex items-center gap-2 text-xs font-normal m-0">
           <CheckCircle2 className="h-3.5 w-3.5 text-green-400 shrink-0" />
-          <span className="text-xs text-blue-200/70">Dashboard & Metrics</span>
-        </div>
-        <div className="flex items-center gap-2">
+          <span className="text-blue-200/70">Dashboard & Metrics</span>
+        </h3>
+        <h3 className="flex items-center gap-2 text-xs font-normal m-0">
           <CheckCircle2 className="h-3.5 w-3.5 text-green-400 shrink-0" />
-          <span className="text-xs text-blue-200/70">PDF Generation - Certificates</span>
-        </div>
-        <div className="flex items-center gap-2">
+          <span className="text-blue-200/70">PDF Generation - Certificates</span>
+        </h3>
+        <h3 className="flex items-center gap-2 text-xs font-normal m-0">
           <CheckCircle2 className="h-3.5 w-3.5 text-green-400 shrink-0" />
-          <span className="text-xs text-blue-200/70">Email MFA Security</span>
-        </div>
-        <div className="flex items-center gap-2">
+          <span className="text-blue-200/70">Email MFA Security</span>
+        </h3>
+        <h3 className="flex items-center gap-2 text-xs font-normal m-0">
           <CheckCircle2 className="h-3.5 w-3.5 text-green-400 shrink-0" />
-          <span className="text-xs text-blue-200/70">Role-Based Access (4 Roles)</span>
-        </div>
-        <div className="flex items-center gap-2">
+          <span className="text-blue-200/70">Role-Based Access (4 Roles)</span>
+        </h3>
+        <h3 className="flex items-center gap-2 text-xs font-normal m-0">
           <CheckCircle2 className="h-3.5 w-3.5 text-green-400 shrink-0" />
-          <span className="text-xs text-blue-200/70">Audit Logging</span>
-        </div>
-        <div className="flex items-center gap-2">
+          <span className="text-blue-200/70">Audit Logging</span>
+        </h3>
+        <h3 className="flex items-center gap-2 text-xs font-normal m-0">
           <CheckCircle2 className="h-3.5 w-3.5 text-green-400 shrink-0" />
-          <span className="text-xs text-blue-200/70">Test Drive System</span>
-        </div>
-        <div className="flex items-center gap-2">
+          <span className="text-blue-200/70">Test Drive System</span>
+        </h3>
+        <h3 className="flex items-center gap-2 text-xs font-normal m-0">
           <CheckCircle2 className="h-3.5 w-3.5 text-green-400 shrink-0" />
-          <span className="text-xs text-blue-200/70">Multi-Tenant Isolation</span>
-        </div>
-        <div className="flex items-center gap-2">
+          <span className="text-blue-200/70">Multi-Tenant Isolation</span>
+        </h3>
+        <h3 className="flex items-center gap-2 text-xs font-normal m-0">
           <CheckCircle2 className="h-3.5 w-3.5 text-green-400 shrink-0" />
-          <span className="text-xs text-blue-200/70">Platform Admin Panel</span>
-        </div>
-        <div className="flex items-center gap-2">
+          <span className="text-blue-200/70">Platform Admin Panel</span>
+        </h3>
+        <h3 className="flex items-center gap-2 text-xs font-normal m-0">
           <CheckCircle2 className="h-3.5 w-3.5 text-green-400 shrink-0" />
-          <span className="text-xs text-blue-200/70">401A Validations</span>
-        </div>
-        <div className="flex items-center gap-2">
+          <span className="text-blue-200/70">401A Validations</span>
+        </h3>
+        <h3 className="flex items-center gap-2 text-xs font-normal m-0">
           <CheckCircle2 className="h-3.5 w-3.5 text-green-400 shrink-0" />
-          <span className="text-xs text-blue-200/70">Migrations</span>
-        </div>
-        <div className="flex items-center gap-2">
+          <span className="text-blue-200/70">Migrations</span>
+        </h3>
+        <h3 className="flex items-center gap-2 text-xs font-normal m-0">
           <CheckCircle2 className="h-3.5 w-3.5 text-green-400 shrink-0" />
-          <span className="text-xs text-blue-200/70">AI Powered Simulations</span>
-        </div>
-        <div className="flex items-center gap-2">
+          <span className="text-blue-200/70">AI Powered Simulations</span>
+        </h3>
+        <h3 className="flex items-center gap-2 text-xs font-normal m-0">
           <CheckCircle2 className="h-3.5 w-3.5 text-green-400 shrink-0" />
-          <span className="text-xs text-blue-200/70">Parent - Child Apps</span>
-        </div>
+          <span className="text-blue-200/70">Parent - Child Apps</span>
+        </h3>
       </div>
     </div>
   );
@@ -151,17 +151,17 @@ function FeatureBadges() {
 function LoginPitchContent() {
   return (
     <>
-      <p className="text-blue-200/80 text-sm leading-relaxed mb-4">
+      <h2 className="text-blue-200/80 text-sm leading-relaxed mb-4 font-normal">
         One leaked or hacked screenshot of your Cap Table can cost millions in a lost deal or trigger a regulatory nightmare. Mitigate this risk by ensuring your equity ownership remains pseudonymous through SHA-256 Encryption with on-demand auditor reveal. Built for Founders who refuse to treat their ownership data as public property.
-      </p>
+      </h2>
 
       <div className="mb-5">
         <MarketingSlideshow />
       </div>
 
-      <p className="text-blue-200/70 text-sm leading-relaxed mb-4">
+      <h2 className="text-blue-200/70 text-sm leading-relaxed mb-4 font-normal">
         <span className="text-blue-200/90 font-medium">SHA-256 Encryption: The Industry Gold Standard.</span> Developed by the NSA, this same tech secures the Bitcoin blockchain and government-grade data, making your cap table mathematically impossible for hackers to de-anonymize.
-      </p>
+      </h2>
 
       <FeatureBadges />
     </>
@@ -228,7 +228,8 @@ function MfaPitchContent() {
             <div className="overflow-hidden rounded-tl-[2rem] rounded-tr-xl rounded-bl-xl rounded-br-xl">
               <img
                 src={pitchPhoto}
-                alt="Professional using Tableicity platform"
+                alt="Tableicity Encrypted Hash: Privacy-first cap table platform using SHA-256 encryption for equity ownership protection — a secure alternative to Carta."
+                title="Tableicity — Privacy-First Equity Management"
                 className="w-full h-auto object-cover"
                 data-testid="img-pitch-photo"
               />
@@ -266,6 +267,8 @@ export function AuthBackground({ children, variant = "login" }: { children: Reac
         <div
           className="absolute inset-0 bg-cover bg-no-repeat opacity-[0.25] pointer-events-none"
           style={{ backgroundImage: `url(${capTablePreview})`, backgroundPosition: "0% center" }}
+          role="img"
+          aria-label="Tableicity Encrypted Hash: Privacy-first cap table platform using SHA-256 encryption for equity ownership protection — a secure alternative to Carta."
         />
 
         <div className="absolute top-6 right-6 z-20">

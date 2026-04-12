@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 612 792" width="612" height="792">
+
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#000"/>
+    </marker>
+  </defs>
+
+  <!-- Sheet number -->
+  <text x="556" y="28" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="12" fill="#000" text-anchor="end">4/5</text>
+
+  <!-- Title -->
+  <text x="306" y="50" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="16" font-weight="bold" fill="#000" text-anchor="middle">FIG. 4 — Atomic Usage Metering System</text>
+
+  <!-- ==================== STEP 1: Incoming Proof Request (60) ==================== -->
+  <rect x="181" y="80" width="250" height="45" rx="8" fill="white" stroke="#000" stroke-width="1.5"/>
+  <text x="306" y="100" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="13" fill="#000" text-anchor="middle">Incoming Proof Request</text>
+  <text x="306" y="116" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="11" fill="#000" text-anchor="middle">(60)</text>
+
+  <!-- Arrow -->
+  <line x1="306" y1="125" x2="306" y2="148" stroke="#000" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- ==================== STEP 2: proof-service.ts (62) ==================== -->
+  <rect x="156" y="148" width="300" height="60" rx="8" fill="white" stroke="#000" stroke-width="1.5"/>
+  <text x="306" y="168" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="13" fill="#000" text-anchor="middle">proof-service.ts</text>
+  <text x="306" y="183" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="10" fill="#000" text-anchor="middle">1. Validate request parameters</text>
+  <text x="306" y="196" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="10" fill="#000" text-anchor="middle">2. Load ownership_threshold circuit</text>
+  <text x="306" y="210" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="11" fill="#000" text-anchor="middle">(62)</text>
+
+  <!-- Arrow -->
+  <line x1="306" y1="210" x2="306" y2="232" stroke="#000" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- ==================== STEP 3: Circuit Execution (64) ==================== -->
+  <rect x="141" y="232" width="330" height="50" rx="8" fill="white" stroke="#000" stroke-width="1.5"/>
+  <text x="306" y="252" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="13" fill="#000" text-anchor="middle">Circuit Execution: ownership_threshold</text>
+  <text x="306" y="267" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="10" fill="#000" text-anchor="middle">Input: stakeholder data → Output: ZKP proof blob</text>
+  <text x="306" y="280" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="11" fill="#000" text-anchor="middle">(64)</text>
+
+  <!-- Arrow -->
+  <line x1="306" y1="282" x2="306" y2="305" stroke="#000" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- ==================== DECISION: Proof valid? ==================== -->
+  <polygon points="306,305 396,340 306,375 216,340" fill="white" stroke="#000" stroke-width="1.5"/>
+  <text x="306" y="343" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="12" fill="#000" text-anchor="middle">Proof valid?</text>
+
+  <!-- No branch (right) -->
+  <line x1="396" y1="340" x2="480" y2="340" stroke="#000" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="420" y="332" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="12" font-weight="bold" fill="#000" text-anchor="start">No</text>
+  <rect x="480" y="320" width="110" height="40" rx="6" fill="white" stroke="#000" stroke-width="1.5"/>
+  <text x="535" y="337" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="11" fill="#000" text-anchor="middle">Return Error</text>
+  <text x="535" y="352" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="10" fill="#000" text-anchor="middle">(No usage charged)</text>
+
+  <!-- Yes branch (down) -->
+  <line x1="306" y1="375" x2="306" y2="402" stroke="#000" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="320" y="393" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="12" font-weight="bold" fill="#000" text-anchor="start">Yes</text>
+
+  <!-- ==================== STEP 4: Store Proof Record (65) — OUTSIDE transaction ==================== -->
+  <rect x="156" y="402" width="300" height="48" rx="8" fill="white" stroke="#000" stroke-width="1.5"/>
+  <text x="306" y="420" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="13" fill="#000" text-anchor="middle">Store Proof Record</text>
+  <text x="306" y="435" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="10" fill="#000" text-anchor="middle">storage.ts → createProofResult() + updateProofRequest()</text>
+  <text x="306" y="448" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="11" fill="#000" text-anchor="middle">(65)</text>
+
+  <!-- Arrow -->
+  <line x1="306" y1="450" x2="306" y2="478" stroke="#000" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- ==================== ATOMIC UPSERT BOUNDARY ==================== -->
+  <rect x="116" y="478" width="380" height="128" rx="10" fill="white" stroke="#000" stroke-width="2.5" stroke-dasharray="8,4"/>
+
+  <!-- BEGIN label -->
+  <text x="306" y="496" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="11" font-weight="bold" fill="#000" text-anchor="middle" letter-spacing="1">BEGIN ATOMIC UPSERT</text>
+
+  <!-- Step 5: incrementProofUsage (66) -->
+  <rect x="166" y="505" width="280" height="48" rx="8" fill="white" stroke="#000" stroke-width="1.5"/>
+  <text x="306" y="523" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="12" fill="#000" text-anchor="middle">storage.ts → incrementProofUsage()</text>
+  <text x="306" y="538" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="9" fill="#000" text-anchor="middle">PostgreSQL Upsert — INSERT ... ON CONFLICT DO UPDATE</text>
+  <text x="306" y="552" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="11" fill="#000" text-anchor="middle">(66)</text>
+
+  <!-- Atomic detail (68) -->
+  <rect x="186" y="560" width="240" height="26" rx="6" fill="white" stroke="#000" stroke-width="1"/>
+  <text x="306" y="578" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="10" fill="#000" text-anchor="middle">Update usage counter atomically (68)</text>
+
+  <!-- COMMIT label -->
+  <text x="306" y="603" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="11" font-weight="bold" fill="#000" text-anchor="middle" letter-spacing="1">COMMIT</text>
+
+  <!-- Arrow -->
+  <line x1="306" y1="608" x2="306" y2="636" stroke="#000" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- ==================== STEP 6: Return Verification URL (70) ==================== -->
+  <rect x="181" y="636" width="250" height="45" rx="8" fill="white" stroke="#000" stroke-width="1.5"/>
+  <text x="306" y="656" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="13" fill="#000" text-anchor="middle">Return Verification URL</text>
+  <text x="306" y="672" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="11" fill="#000" text-anchor="middle">(70)</text>
+
+  <!-- Footer reference -->
+  <text x="40" y="720" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="9" fill="#000" text-anchor="start">Reference: 60=Incoming Request, 62=Validation, 64=Circuit Execution,</text>
+  <text x="40" y="733" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="9" fill="#000" text-anchor="start">65=Proof Record Storage, 66=incrementProofUsage() Atomic Upsert,</text>
+  <text x="40" y="746" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="9" fill="#000" text-anchor="start">68=Atomic Usage Counter Update, 70=Verification URL</text>
+
+</svg>

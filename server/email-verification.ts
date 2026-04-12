@@ -74,9 +74,14 @@ export async function verifyCode(userId: string, code: string): Promise<{ succes
 }
 
 export async function sendVerificationEmail(email: string, code: string): Promise<void> {
-  console.log(`\n========================================`);
-  console.log(`[EMAIL VERIFICATION] Code for ${email}: ${code}`);
-  console.log(`========================================\n`);
+  const showCode = process.env.NODE_ENV !== "production" || process.env.BETA_LAB_CODE === "true";
+  if (showCode) {
+    console.log(`\n========================================`);
+    console.log(`[EMAIL VERIFICATION] Code for ${email}: ${code}`);
+    console.log(`========================================\n`);
+  } else {
+    console.log(`[EMAIL VERIFICATION] Code sent to ${email}`);
+  }
 
   const sesRegion = process.env.AWS_SES_REGION;
   const fromEmail = process.env.AWS_SES_FROM_EMAIL;

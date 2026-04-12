@@ -1,0 +1,14 @@
+Dear Replit Team,
+
+I’m reaching out as the Conductor for Tableicity, our Beta-ready cap table management platform hosted on Replit at tableicity.com (USA) and tableicty.eu (Germany). We’re at a critical juncture as we prepare to file a Provisional Patent to protect our unique innovations in the equity management space, and we need your expertise to extract detailed technical insights from the Tableicity build. My Alpha Leader and I are focused on ensuring we capture the full scope of our differentiating features to build a defensible patent against competitors like Carta and Cake Equity.
+
+We’d like to start with a deep dive into NOIR, our Zero-Knowledge Evidence Engine, which uses Zero-Knowledge Proofs (ZKPs) to ensure privacy for cap table data. This feature is the cornerstone of our platform’s value proposition, allowing client-side generation of cryptographic proofs without exposing sensitive information. To support our patent drafting, we need granular details on the following aspects:
+
+1. **Code Integration**: Can you walk us through how NOIR is implemented within the Django backend and React frontend? What specific libraries (e.g., NoirJS) or custom code handle ZKP generation?
+2. **Client-Side Processing**: How does NOIR transform data into cryptographic commitments locally on the user’s device? What optimizations ensure performance in a browser-based environment?
+3. **Cloud Verification**: What mechanisms store and verify proofs in the cloud without revealing raw data? How can external parties (e.g., auditors, investors) confirm statements via a simple click?
+4. **Monetization Logic**: How is the verification event monetization (charging per proof validation) coded into the system?
+
+Your insights will be instrumental in shaping our patent claims around privacy-preserving equity management. We’re eager to collaborate closely, and my Alpha Leader will help refine follow-up questions as needed to ensure we cover every angle. Please let us know a suitable time for a detailed discussion or if you can provide initial documentation, code snippets, or flowcharts for NOIR’s architecture. Subsequent topics will include data shredding across 8 nodes, HASH-256 stakeholder privacy, and our Seeded Sandbox onboarding feature, but let’s start here.
+
+Thank you for your partnership in making Tableicity a market leader.

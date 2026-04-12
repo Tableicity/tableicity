@@ -150,6 +150,10 @@ export async function registerRoutes(
   app.use("/api/v1", proofPublicRouter);
   app.use("/api/v1/proofs", requireAuth, tenantMiddleware, proofRouter);
 
+  const hayloModule = await import("./haylo");
+  const hayloRouter = hayloModule.default;
+  app.use("/api/v1/haylo", requireAuth, tenantMiddleware, hayloRouter);
+
   app.use("/uploads", requireAuth, (req, res, next) => {
     const express = require("express");
     express.static(uploadsDir)(req, res, next);

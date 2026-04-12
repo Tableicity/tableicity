@@ -29,6 +29,8 @@ import {
   ShieldCheck,
   CheckCircle,
   FileSearch,
+  Brain,
+  Activity,
 } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import {
@@ -121,6 +123,11 @@ const zeroProofItems = [
   { title: "Audit Proofs", url: "/audit-proofs", icon: FileSearch },
 ];
 
+const hayloItems = [
+  { title: "Console", url: "/haylo", icon: Brain },
+  { title: "Activity Log", url: "/haylo/activity", icon: Activity },
+];
+
 function MenuGroup({ label, items, location }: { label: string; items: typeof adminItems; location: string }) {
   return (
     <SidebarGroup>
@@ -195,6 +202,7 @@ function EquityPlansGroup({ location }: { location: string }) {
 }
 
 const noirEnabled = import.meta.env.VITE_NOIR_ENABLED === 'true';
+const hayloEnabled = import.meta.env.VITE_HAYLO_ENABLED === 'true';
 
 function ZeroProofsGroup({ location }: { location: string }) {
   const isActive = location.startsWith("/privacy-vault") || location.startsWith("/verify-proof") || location.startsWith("/audit-proofs");
@@ -230,6 +238,56 @@ function ZeroProofsGroup({ location }: { location: string }) {
                         className="data-[active=true]:text-primary data-[active=true]:font-medium"
                       >
                         <Link href={item.url} data-testid={`link-${item.title.toLowerCase().replace(/\s/g, "-")}`}>
+                          <item.icon className="h-3.5 w-3.5 mr-1" />
+                          {item.title}
+                        </Link>
+                      </SidebarMenuSubButton>
+                    </SidebarMenuSubItem>
+                  ))}
+                </SidebarMenuSub>
+              </CollapsibleContent>
+            </SidebarMenuItem>
+          </Collapsible>
+        </SidebarMenu>
+      </SidebarGroupContent>
+    </SidebarGroup>
+  );
+}
+
+function HayloAIGroup({ location }: { location: string }) {
+  const isActive = location.startsWith("/haylo");
+  const [open, setOpen] = useState(isActive);
+
+  if (!hayloEnabled) return null;
+
+  return (
+    <SidebarGroup>
+      <SidebarGroupLabel>Haylo AI</SidebarGroupLabel>
+      <SidebarGroupContent>
+        <SidebarMenu>
+          <Collapsible open={open} onOpenChange={setOpen}>
+            <SidebarMenuItem>
+              <CollapsibleTrigger asChild>
+                <SidebarMenuButton
+                  data-active={isActive}
+                  className="data-[active=true]:bg-sidebar-accent w-full"
+                  data-testid="link-haylo-ai"
+                >
+                  <Brain className="h-4 w-4" />
+                  <span className="flex-1">Haylo AI</span>
+                  {open ? <ChevronDown className="h-3.5 w-3.5" /> : <ChevronRight className="h-3.5 w-3.5" />}
+                </SidebarMenuButton>
+              </CollapsibleTrigger>
+              <CollapsibleContent>
+                <SidebarMenuSub>
+                  {hayloItems.map((item) => (
+                    <SidebarMenuSubItem key={item.title}>
+                      <SidebarMenuSubButton
+                        asChild
+                        data-active={location === item.url || location.startsWith(item.url + "/")}
+                        className="data-[active=true]:text-primary data-[active=true]:font-medium"
+                      >
+                        <Link href={item.url} data-testid={`link-haylo-${item.title.toLowerCase().replace(/\s/g, "-")}`}>
                           <item.icon className="h-3.5 w-3.5 mr-1" />
                           {item.title}
                         </Link>
@@ -295,6 +353,7 @@ export function AppSidebar() {
               </SidebarGroupContent>
             </SidebarGroup>
             <ZeroProofsGroup location={location} />
+            <HayloAIGroup location={location} />
             <SidebarGroup>
               <SidebarGroupLabel>Compliance</SidebarGroupLabel>
               <SidebarGroupContent>

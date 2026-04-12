@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="950" viewBox="0 0 900 950">
+  <rect width="900" height="950" fill="white"/>
+  <text x="450" y="30" text-anchor="middle" font-family="Arial" font-size="16" font-weight="bold">FIG. 8 — Four-Gate Middleware: Logical Gate Architecture</text>
+
+  <!-- Incoming Request -->
+  <rect x="300" y="55" width="300" height="55" fill="white" stroke="black" stroke-width="2" rx="5"/>
+  <text x="450" y="78" text-anchor="middle" font-family="Arial" font-size="12">Incoming API Request</text>
+  <text x="450" y="95" text-anchor="middle" font-family="Arial" font-size="10">(from User Device (10) or Inference Interface)</text>
+
+  <!-- Arrow -->
+  <line x1="450" y1="110" x2="450" y2="150" stroke="black" stroke-width="2"/>
+  <polygon points="445,145 455,145 450,155" fill="black"/>
+
+  <!-- Four-Gate Middleware Boundary -->
+  <rect x="75" y="155" width="750" height="630" fill="none" stroke="black" stroke-width="2.5" rx="10"/>
+  <text x="450" y="178" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold">FOUR-GATE MIDDLEWARE (12)</text>
+
+  <!-- Gate 1: Contextual Identity Isolation (400) -->
+  <rect x="125" y="195" width="650" height="110" fill="white" stroke="black" stroke-width="2" rx="5"/>
+  <text x="150" y="218" font-family="Arial" font-size="13" font-weight="bold">Gate 1 — Contextual Identity Isolation</text>
+  <text x="150" y="236" font-family="Arial" font-size="11">The "Who" Gate — tenantMiddleware (server/tenant.ts)</text>
+  <text x="150" y="258" font-family="Arial" font-size="11">1. Extract tenant slug from request (query parameter or HTTP header)</text>
+  <text x="150" y="274" font-family="Arial" font-size="11">2. Resolve tenant record and verify active membership via getUserTenantRole()</text>
+  <text x="150" y="290" font-family="Arial" font-size="11">3. Tag request with cryptographically verified TenantID → scoped session</text>
+  <text x="740" y="298" text-anchor="middle" font-family="Arial" font-size="11" font-style="italic">(400)</text>
+
+  <!-- Arrow -->
+  <line x1="450" y1="305" x2="450" y2="335" stroke="black" stroke-width="2"/>
+  <polygon points="445,330 455,330 450,340" fill="black"/>
+
+  <!-- Gate 2: Schema-Bound Query Translation (402) -->
+  <rect x="125" y="340" width="650" height="110" fill="white" stroke="black" stroke-width="2" rx="5"/>
+  <text x="150" y="363" font-family="Arial" font-size="13" font-weight="bold">Gate 2 — Schema-Bound Query Translation</text>
+  <text x="150" y="381" font-family="Arial" font-size="11">The "How" Gate — Express route handlers + tenantStorage</text>
+  <text x="150" y="403" font-family="Arial" font-size="11">1. Obtain DB connection pool configured for tenant's isolated schema</text>
+  <text x="150" y="419" font-family="Arial" font-size="11">2. SET search_path TO "tenant_{slug}", public at connection level</text>
+  <text x="150" y="435" font-family="Arial" font-size="11">3. Construct tenant-scoped storage interface bound to isolated schema</text>
+  <text x="740" y="443" text-anchor="middle" font-family="Arial" font-size="11" font-style="italic">(402)</text>
+
+  <!-- Arrow -->
+  <line x1="450" y1="450" x2="450" y2="480" stroke="black" stroke-width="2"/>
+  <polygon points="445,475 455,475 450,485" fill="black"/>
+
+  <!-- Gate 3: Policy Enforcement & ZKP Check (404) -->
+  <rect x="125" y="485" width="650" height="120" fill="white" stroke="black" stroke-width="2" rx="5"/>
+  <text x="150" y="508" font-family="Arial" font-size="13" font-weight="bold">Gate 3 — Policy Enforcement &amp; ZKP Check</text>
+  <text x="150" y="526" font-family="Arial" font-size="11">The "Should" Gate — Deterministic Validation Layer (proof-middleware.ts)</text>
+  <text x="150" y="548" font-family="Arial" font-size="11">1. checkProofAccess: verify tier, BETA_MODE config, and subscription state</text>
+  <text x="150" y="564" font-family="Arial" font-size="11">2. Query Proof Allocation Meter (56) for remaining allocation</text>
+  <text x="150" y="580" font-family="Arial" font-size="11">3. Governance Rules: block if metered allocation exhausted or tier disabled</text>
+  <text x="150" y="596" font-family="Arial" font-size="10" font-style="italic">Computational Governor for manual and external inference agents (Haylo AI)</text>
+  <text x="740" y="598" text-anchor="middle" font-family="Arial" font-size="11" font-style="italic">(404)</text>
+
+  <!-- Arrow -->
+  <line x1="450" y1="605" x2="450" y2="635" stroke="black" stroke-width="2"/>
+  <polygon points="445,630 455,630 450,640" fill="black"/>
+
+  <!-- Gate 4: Closed-Loop Feedback & Verification (406) -->
+  <rect x="125" y="640" width="650" height="110" fill="white" stroke="black" stroke-width="2" rx="5"/>
+  <text x="150" y="663" font-family="Arial" font-size="13" font-weight="bold">Gate 4 — Closed-Loop Feedback &amp; Verification</text>
+  <text x="150" y="681" font-family="Arial" font-size="11">The "Result" Gate — createProofResult() + incrementProofUsage()</text>
+  <text x="150" y="703" font-family="Arial" font-size="11">1. Store proof record and verification key via createProofResult() (65)</text>
+  <text x="150" y="719" font-family="Arial" font-size="11">2. Atomic usage increment via PostgreSQL upsert — incrementProofUsage() (66)</text>
+  <text x="150" y="735" font-family="Arial" font-size="11">3. Return confirmation proof (Verification URL) to user and/or inference agent</text>
+  <text x="740" y="743" text-anchor="middle" font-family="Arial" font-size="11" font-style="italic">(406)</text>
+
+  <!-- Arrow out of middleware -->
+  <line x1="450" y1="790" x2="450" y2="830" stroke="black" stroke-width="2"/>
+  <polygon points="445,825 455,825 450,835" fill="black"/>
+
+  <!-- Output -->
+  <rect x="275" y="835" width="350" height="55" fill="white" stroke="black" stroke-width="2" rx="5"/>
+  <text x="450" y="858" text-anchor="middle" font-family="Arial" font-size="12">Verified State Change + Verification URL (42)</text>
+  <text x="450" y="878" text-anchor="middle" font-family="Arial" font-size="10">Committed to Isolated Tenant Schema (30/32/34)</text>
+
+  <!-- Reject path from Gate 1 -->
+  <line x1="775" y1="250" x2="850" y2="250" stroke="black" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <line x1="850" y1="250" x2="850" y2="860" stroke="black" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <line x1="850" y1="860" x2="800" y2="860" stroke="black" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <text x="865" y="400" font-family="Arial" font-size="10" transform="rotate(90, 865, 400)">Reject (403/429)</text>
+
+  <!-- Reject path from Gate 3 -->
+  <line x1="775" y1="550" x2="830" y2="550" stroke="black" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <line x1="830" y1="550" x2="830" y2="860" stroke="black" stroke-width="1.5" stroke-dasharray="5,3"/>
+
+  <!-- Legend -->
+  <text x="450" y="915" text-anchor="middle" font-family="Arial" font-size="10" font-style="italic">Reference: 400=Gate 1 (Identity), 402=Gate 2 (Schema Translation), 404=Gate 3 (Policy/ZKP), 406=Gate 4 (Feedback)</text>
+  <text x="450" y="932" text-anchor="middle" font-family="Arial" font-size="10" font-style="italic">Cross-ref: (12) FIG. 1, (56) FIG. 2, (65)(66) FIG. 4, (42) FIG. 1</text>
+</svg>

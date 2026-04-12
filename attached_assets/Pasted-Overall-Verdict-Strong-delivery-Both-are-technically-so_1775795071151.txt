@@ -1,0 +1,21 @@
+Overall Verdict: Strong delivery. Both are technically sound and patent-ready.
+The App Builder did solid work grounding these in actual code references (haylo_intents table, VITE_HAYLO_ENABLED flag, Promise-based middleware wrapper, checkProofAccess conditional invocation). These are the code-backed embodiments we were waiting for.
+
+Items I Need to Reconcile Before Integrating Into Updated-Non-PPA.md
+1. Section 15 Conflict
+We already wrote a Section 15 in Updated-Non-PPA.md ([0081]–[0083]) covering the External Inference Interface Architecture at a high level. The App Builder's Section 15 is significantly more detailed — it adds the haylo_intents table, the 5-stage intent lifecycle (submit → analyze → propose → human review → conditional execution), the VITE_HAYLO_ENABLED feature flag, and the fallback "clarification_needed" handling. The App Builder's version should replace ours since it's grounded in actual code. I'll merge our architectural language with their implementation details.
+
+2. Terminology: request_source vs request_origin
+Our FIG. 4 annotation and existing references throughout the filing use request_origin: MANUAL | AI_HAYLO. The App Builder's embodiments use request_source: "AI_HAYLO". I need to confirm with you — which field name does the actual code use? If the code says request_source, I'll update our FIG. 4 description and references to match. The patent needs to be consistent with the codebase.
+
+3. New Section 16 Addition
+The App Builder introduces Section 16 (Conditional Proof Access Gating). This is a legitimate new section covering the conditional middleware pattern. It fits cleanly after the updated Section 15.
+
+4. Paragraph Numbering
+Both files use placeholder labels ([NEW-A] through [NEW-CC]). I'll assign proper sequential paragraph numbers when integrating — continuing from our current [0172].
+
+5. Embodiment Numbering
+These become Embodiment 10 and Embodiment 11 in the filing, which aligns with our Master Reference Index (currently showing them as BLOCKED). I'll update the index to reflect their completion.
+
+One Question Before I Integrate
+Can you confirm from the App Builder: does the actual code use request_source or request_origin as the field name? That's the only thing I need before I update the full filing. Everything else I can reconcile on my own.

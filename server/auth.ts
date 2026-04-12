@@ -36,6 +36,11 @@ function maskEmail(email: string): string {
   return `${"*".repeat(local.length - 2)}${visible}@${domain}`;
 }
 
+function shouldExposeLabCode(): boolean {
+  if (process.env.NODE_ENV !== "production") return true;
+  return process.env.BETA_LAB_CODE === "true";
+}
+
 function userToSession(user: any): Express.User {
   return {
     id: user.id,
@@ -57,14 +62,21 @@ export function setupAuth(app: Express) {
         tableName: "session",
         createTableIfMissing: true,
       }),
-      secret: process.env.SESSION_SECRET || "tableicty-dev-secret",
+      secret: process.env.SESSION_SECRET || (() => {
+        if (process.env.NODE_ENV === "production") {
+          console.error("[SECURITY] SESSION_SECRET is not set — refusing to start in production with a hardcoded fallback");
+          process.exit(1);
+        }
+        console.warn("[SECURITY] Using hardcoded dev session secret — do NOT use in production");
+        return "tableicty-dev-secret";
+      })(),
       resave: false,
       saveUninitialized: false,
       cookie: {
         maxAge: 7 * 24 * 60 * 60 * 1000,
         httpOnly: true,
         sameSite: "lax",
-        secure: false,
+        secure: process.env.NODE_ENV === "production",
       },
     })
   );
@@ -254,7 +266,7 @@ export function setupAuth(app: Express) {
         return res.status(201).json({
           ...userToSession(user),
           requiresVerification: true,
-          lab_code: code,
+          ...(shouldExposeLabCode() ? { lab_code: code } : {}),
         });
       });
     } catch (error: any) {
@@ -288,7 +300,7 @@ export function setupAuth(app: Express) {
         return res.json({
           requiresMfa: true,
           maskedEmail,
-          lab_code: code,
+          ...(shouldExposeLabCode() ? { lab_code: code } : {}),
         });
       } catch (mfaErr) {
         console.error("[LOGIN MFA ERROR]", mfaErr);
@@ -390,7 +402,7 @@ export function setupAuth(app: Express) {
     return res.json({
       message: "A new security code has been sent to your email",
       maskedEmail: maskEmail(pendingEmail),
-      lab_code: code,
+      ...(shouldExposeLabCode() ? { lab_code: code } : {}),
     });
   });
 

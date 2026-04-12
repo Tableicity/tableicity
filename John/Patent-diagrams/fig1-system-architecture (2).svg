@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="720" viewBox="0 0 900 720">
+  <rect width="900" height="720" fill="white"/>
+  <text x="450" y="30" text-anchor="middle" font-family="Arial" font-size="16" font-weight="bold">FIG. 1 — System Architecture: Schema-per-Tenant Isolation</text>
+
+  <!-- User Device (10) -->
+  <rect x="350" y="55" width="200" height="60" fill="white" stroke="black" stroke-width="2" rx="5"/>
+  <text x="450" y="82" text-anchor="middle" font-family="Arial" font-size="13">User Device</text>
+  <text x="450" y="100" text-anchor="middle" font-family="Arial" font-size="11" font-style="italic">(10)</text>
+
+  <!-- Haylo AI Annotation — Claim 22 Hook -->
+  <rect x="600" y="55" width="250" height="60" fill="white" stroke="black" stroke-width="1.5" stroke-dasharray="5,3" rx="5"/>
+  <text x="725" y="75" text-anchor="middle" font-family="Arial" font-size="11">Optional Inference Interface</text>
+  <text x="725" y="92" text-anchor="middle" font-family="Arial" font-size="11">(Haylo AI) for NL-to-Middleware</text>
+  <text x="725" y="107" text-anchor="middle" font-family="Arial" font-size="11">Translation</text>
+  <line x1="550" y1="85" x2="600" y2="85" stroke="black" stroke-width="1.5" stroke-dasharray="5,3"/>
+
+  <!-- Arrow down -->
+  <line x1="450" y1="115" x2="450" y2="155" stroke="black" stroke-width="2"/>
+  <polygon points="445,150 455,150 450,160" fill="black"/>
+
+  <!-- Four-Gate Middleware (12) -->
+  <rect x="275" y="160" width="350" height="70" fill="white" stroke="black" stroke-width="2" rx="5"/>
+  <text x="450" y="187" text-anchor="middle" font-family="Arial" font-size="13">Four-Gate Middleware</text>
+  <text x="450" y="205" text-anchor="middle" font-family="Arial" font-size="11">Authentication | Authorization | Tenant Routing | Rate Limiting</text>
+  <text x="450" y="222" text-anchor="middle" font-family="Arial" font-size="11" font-style="italic">(12)</text>
+
+  <!-- Arrow down -->
+  <line x1="450" y1="230" x2="450" y2="270" stroke="black" stroke-width="2"/>
+  <polygon points="445,265 455,265 450,275" fill="black"/>
+
+  <!-- App Server (20) -->
+  <rect x="300" y="275" width="300" height="70" fill="white" stroke="black" stroke-width="2" rx="5"/>
+  <text x="450" y="302" text-anchor="middle" font-family="Arial" font-size="13">Application Server</text>
+  <text x="450" y="320" text-anchor="middle" font-family="Arial" font-size="11">server/tenant.ts | proof-service.ts</text>
+  <text x="450" y="337" text-anchor="middle" font-family="Arial" font-size="11" font-style="italic">(20)</text>
+
+  <!-- Arrows to three tenant schemas -->
+  <line x1="300" y1="345" x2="130" y2="420" stroke="black" stroke-width="2"/>
+  <polygon points="125,416 135,416 130,426" fill="black"/>
+
+  <line x1="450" y1="345" x2="450" y2="420" stroke="black" stroke-width="2"/>
+  <polygon points="445,415 455,415 450,425" fill="black"/>
+
+  <line x1="600" y1="345" x2="770" y2="420" stroke="black" stroke-width="2"/>
+  <polygon points="765,416 775,416 770,426" fill="black"/>
+
+  <!-- Tenant A Schema (30) -->
+  <rect x="30" y="425" width="200" height="80" fill="white" stroke="black" stroke-width="2" rx="5"/>
+  <text x="130" y="452" text-anchor="middle" font-family="Arial" font-size="12">Database Schema</text>
+  <text x="130" y="470" text-anchor="middle" font-family="Arial" font-size="11" font-weight="bold">tenant_startup123</text>
+  <text x="130" y="488" text-anchor="middle" font-family="Arial" font-size="10">[Cap Table | Securities | Proofs]</text>
+  <text x="130" y="500" text-anchor="middle" font-family="Arial" font-size="11" font-style="italic">(30)</text>
+
+  <!-- Tenant B Schema (32) -->
+  <rect x="350" y="425" width="200" height="80" fill="white" stroke="black" stroke-width="2" rx="5"/>
+  <text x="450" y="452" text-anchor="middle" font-family="Arial" font-size="12">Database Schema</text>
+  <text x="450" y="470" text-anchor="middle" font-family="Arial" font-size="11" font-weight="bold">tenant_companyB</text>
+  <text x="450" y="488" text-anchor="middle" font-family="Arial" font-size="10">[Cap Table | Securities | Proofs]</text>
+  <text x="450" y="500" text-anchor="middle" font-family="Arial" font-size="11" font-style="italic">(32)</text>
+
+  <!-- Sandbox Schema (34) -->
+  <rect x="670" y="425" width="200" height="80" fill="white" stroke="black" stroke-width="2" rx="5"/>
+  <text x="770" y="452" text-anchor="middle" font-family="Arial" font-size="12">Database Schema</text>
+  <text x="770" y="470" text-anchor="middle" font-family="Arial" font-size="11" font-weight="bold">sandbox_schema</text>
+  <text x="770" y="488" text-anchor="middle" font-family="Arial" font-size="10">[Mock Data | Seeded Securities]</text>
+  <text x="770" y="500" text-anchor="middle" font-family="Arial" font-size="11" font-style="italic">(34)</text>
+
+  <!-- Isolation indicator -->
+  <rect x="20" y="415" width="860" height="100" fill="none" stroke="black" stroke-width="1" stroke-dasharray="8,4" rx="10"/>
+  <text x="450" y="545" text-anchor="middle" font-family="Arial" font-size="11" font-style="italic">Isolated Database Layer — No Cross-Tenant Data Access</text>
+
+  <!-- NOIR Circuit (40) -->
+  <rect x="30" y="580" width="200" height="60" fill="white" stroke="black" stroke-width="2" rx="5"/>
+  <text x="130" y="605" text-anchor="middle" font-family="Arial" font-size="12">NOIR Circuit Engine</text>
+  <text x="130" y="623" text-anchor="middle" font-family="Arial" font-size="11" font-style="italic">(40)</text>
+
+  <!-- Arrow from app server to NOIR -->
+  <line x1="350" y1="335" x2="230" y2="590" stroke="black" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <text x="250" y="470" font-family="Arial" font-size="10" transform="rotate(-60, 250, 470)">proof request</text>
+
+  <!-- Verification URL Output (42) -->
+  <rect x="670" y="580" width="200" height="60" fill="white" stroke="black" stroke-width="2" rx="5"/>
+  <text x="770" y="605" text-anchor="middle" font-family="Arial" font-size="12">Verification URL Output</text>
+  <text x="770" y="623" text-anchor="middle" font-family="Arial" font-size="11" font-style="italic">(42)</text>
+
+  <!-- Arrow from app server to verification -->
+  <line x1="550" y1="335" x2="670" y2="590" stroke="black" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <text x="650" y="470" font-family="Arial" font-size="10" transform="rotate(60, 650, 470)">URL generation</text>
+
+  <!-- Legend -->
+  <text x="450" y="680" text-anchor="middle" font-family="Arial" font-size="10" font-style="italic">Reference: 10=User Device, 12=Middleware Gate, 20=App Server, 30/32/34=Tenant Schemas, 40=NOIR Circuit, 42=Verification URL</text>
+  <text x="450" y="700" text-anchor="middle" font-family="Arial" font-size="10" font-style="italic">Dashed annotation: Optional Inference Interface (Haylo AI) — Claim 22 bridge for NL-to-Middleware translation</text>
+</svg>

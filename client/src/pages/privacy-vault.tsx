@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { useLocation } from "wouter";
-import { ShieldCheck, Plus, Clock, CheckCircle, XCircle, Loader2, Copy, ExternalLink, ArrowUpCircle, Zap } from "lucide-react";
+import { ShieldCheck, Plus, Clock, CheckCircle, XCircle, Loader2, Copy, ExternalLink, ArrowUpCircle, Zap, Lock } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -85,6 +85,95 @@ function getStatusBadge(status: string) {
 
 function getVerifyUrl(proofId: string) {
   return `${window.location.origin}/public/verify/${proofId}`;
+}
+
+const RITUAL_STEPS = [
+  { label: "Validating commitment records...", duration: 2500 },
+  { label: "Computing SHA-256 + Pedersen hashes...", duration: 3500 },
+  { label: "Executing Noir zero-knowledge circuit...", duration: 4500 },
+  { label: "Finalizing cryptographic proof...", duration: 2000 },
+];
+
+function SecurityRitualProgress() {
+  const [stepIndex, setStepIndex] = useState(0);
+  const [progress, setProgress] = useState(0);
+  const startTimeRef = useRef(Date.now());
+  const rafRef = useRef<number>();
+
+  useEffect(() => {
+    const totalDuration = RITUAL_STEPS.reduce((sum, s) => sum + s.duration, 0);
+    let cumulativeDurations: number[] = [];
+    let sum = 0;
+    for (const step of RITUAL_STEPS) {
+      sum += step.duration;
+      cumulativeDurations.push(sum);
+    }
+
+    const animate = () => {
+      const elapsed = Date.now() - startTimeRef.current;
+      const pct = Math.min((elapsed / totalDuration) * 100, 98);
+      setProgress(pct);
+
+      let currentStep = 0;
+      for (let i = 0; i < cumulativeDurations.length; i++) {
+        if (elapsed < cumulativeDurations[i]) {
+          currentStep = i;
+          break;
+        }
+        currentStep = i;
+      }
+      setStepIndex(currentStep);
+
+      if (elapsed < totalDuration) {
+        rafRef.current = requestAnimationFrame(animate);
+      }
+    };
+
+    rafRef.current = requestAnimationFrame(animate);
+    return () => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    };
+  }, []);
+
+  const currentStep = RITUAL_STEPS[stepIndex];
+
+  return (
+    <div className="space-y-4 py-6" data-testid="security-ritual-progress">
+      <div className="flex flex-col items-center gap-3">
+        <div className="relative">
+          <div className="h-16 w-16 rounded-full bg-primary/10 flex items-center justify-center">
+            <Lock className="h-8 w-8 text-primary animate-pulse" />
+          </div>
+          <div className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-amber-500 flex items-center justify-center">
+            <span className="text-[10px] font-bold text-white">{stepIndex + 1}</span>
+          </div>
+        </div>
+        <p className="font-semibold text-sm text-center">Security Ritual in Progress</p>
+      </div>
+
+      <div className="space-y-2">
+        <Progress value={progress} className="h-2.5" data-testid="progress-ritual" />
+        <div className="flex justify-between items-center">
+          <p className="text-xs text-muted-foreground transition-all duration-300" data-testid="text-ritual-step">
+            {currentStep.label}
+          </p>
+          <span className="text-xs font-mono text-muted-foreground">{Math.round(progress)}%</span>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-4 gap-1 pt-2">
+        {RITUAL_STEPS.map((step, i) => (
+          <div
+            key={i}
+            className={`h-1 rounded-full transition-colors duration-500 ${
+              i < stepIndex ? "bg-green-500" : i === stepIndex ? "bg-primary animate-pulse" : "bg-muted"
+            }`}
+            data-testid={`ritual-step-indicator-${i}`}
+          />
+        ))}
+      </div>
+    </div>
+  );
 }
 
 export default function PrivacyVaultPage() {
@@ -306,26 +395,21 @@ export default function PrivacyVaultPage() {
                       The proof will verify that the stakeholder owns at least this many shares, without revealing the exact number.
                     </p>
                   </div>
-                  <DialogFooter>
-                    <Button variant="outline" onClick={resetDialog} data-testid="button-cancel">Cancel</Button>
-                    <Button
-                      onClick={handleGenerate}
-                      disabled={generateMutation.isPending || !selectedHolder || !selectedShareClass || !sharesInput || !thresholdInput}
-                      data-testid="button-submit-proof"
-                    >
-                      {generateMutation.isPending ? (
-                        <>
-                          <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                          Generating zero-knowledge proof...
-                        </>
-                      ) : (
-                        <>
-                          <ShieldCheck className="h-4 w-4 mr-2" />
-                          Generate Proof
-                        </>
-                      )}
-                    </Button>
-                  </DialogFooter>
+                  {generateMutation.isPending ? (
+                    <SecurityRitualProgress />
+                  ) : (
+                    <DialogFooter>
+                      <Button variant="outline" onClick={resetDialog} data-testid="button-cancel">Cancel</Button>
+                      <Button
+                        onClick={handleGenerate}
+                        disabled={!selectedHolder || !selectedShareClass || !sharesInput || !thresholdInput}
+                        data-testid="button-submit-proof"
+                      >
+                        <ShieldCheck className="h-4 w-4 mr-2" />
+                        Generate Proof
+                      </Button>
+                    </DialogFooter>
+                  )}
                 </div>
               )}
             </DialogContent>

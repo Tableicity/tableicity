@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 900" width="800" height="900">
+  <style>
+    text { font-family: 'Helvetica Neue', Arial, sans-serif; }
+    .title { font-size: 16px; font-weight: bold; fill: #1a1a2e; }
+    .sheet { font-size: 12px; fill: #666; }
+    .label { font-size: 13px; fill: #1a1a2e; text-anchor: middle; }
+    .sublabel { font-size: 11px; fill: #555; text-anchor: middle; }
+    .ref-num { font-size: 11px; fill: #888; text-anchor: middle; }
+    .decision-text { font-size: 12px; fill: #1a1a2e; text-anchor: middle; }
+    .yes-no { font-size: 12px; font-weight: bold; fill: #1a1a2e; }
+    .error-text { font-size: 12px; fill: #c0392b; text-anchor: middle; }
+    .transaction-label { font-size: 11px; font-weight: bold; fill: #2c3e50; text-anchor: middle; letter-spacing: 1px; }
+    .ref-footer { font-size: 10px; fill: #888; }
+  </style>
+
+  <!-- Sheet number -->
+  <text x="700" y="30" class="sheet">4/5</text>
+
+  <!-- Title -->
+  <text x="400" y="55" class="title" text-anchor="middle">FIG. 4 — Atomic Usage Metering System</text>
+
+  <!-- Step 1: Incoming Proof Request -->
+  <rect x="250" y="80" width="300" height="50" rx="8" fill="#e8eaf6" stroke="#5c6bc0" stroke-width="1.5"/>
+  <text x="400" y="102" class="label">Incoming Proof Request</text>
+  <text x="400" y="118" class="ref-num">(60)</text>
+
+  <!-- Arrow -->
+  <line x1="400" y1="130" x2="400" y2="155" stroke="#555" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Step 2: proof-service.ts -->
+  <rect x="225" y="155" width="350" height="60" rx="8" fill="#e8eaf6" stroke="#5c6bc0" stroke-width="1.5"/>
+  <text x="400" y="178" class="label">proof-service.ts</text>
+  <text x="400" y="193" class="sublabel">1. Validate request parameters</text>
+  <text x="400" y="206" class="sublabel">2. Load ownership_threshold circuit</text>
+  <text x="400" y="222" class="ref-num">(62)</text>
+
+  <!-- Arrow -->
+  <line x1="400" y1="222" x2="400" y2="248" stroke="#555" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Step 3: Circuit Execution -->
+  <rect x="210" y="248" width="380" height="55" rx="8" fill="#e8eaf6" stroke="#5c6bc0" stroke-width="1.5"/>
+  <text x="400" y="270" class="label">Circuit Execution: ownership_threshold</text>
+  <text x="400" y="286" class="sublabel">Input: stakeholder data → Output: ZKP proof blob</text>
+  <text x="400" y="300" class="ref-num">(64)</text>
+
+  <!-- Arrow -->
+  <line x1="400" y1="303" x2="400" y2="328" stroke="#555" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Decision Diamond: Proof valid? -->
+  <polygon points="400,328 500,368 400,408 300,368" fill="#fff3e0" stroke="#ef6c00" stroke-width="1.5"/>
+  <text x="400" y="365" class="decision-text">Proof valid?</text>
+  <text x="400" y="380" class="decision-text"></text>
+
+  <!-- No branch -->
+  <line x1="500" y1="368" x2="620" y2="368" stroke="#c0392b" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="520" y="360" class="yes-no">No</text>
+  <rect x="620" y="348" width="150" height="40" rx="6" fill="#ffebee" stroke="#c0392b" stroke-width="1.5"/>
+  <text x="695" y="365" class="error-text">Return Error</text>
+  <text x="695" y="380" class="error-text">(No usage charged)</text>
+
+  <!-- Yes branch -->
+  <line x1="400" y1="408" x2="400" y2="438" stroke="#2e7d32" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="415" y="425" class="yes-no">Yes</text>
+
+  <!-- Step 4: Store Proof Record (OUTSIDE transaction) -->
+  <rect x="220" y="438" width="360" height="50" rx="8" fill="#e8eaf6" stroke="#5c6bc0" stroke-width="1.5"/>
+  <text x="400" y="458" class="label">Store Proof Record</text>
+  <text x="400" y="473" class="sublabel">storage.ts → createProofResult() + updateProofRequest()</text>
+  <text x="400" y="488" class="ref-num">(65)</text>
+
+  <!-- Arrow -->
+  <line x1="400" y1="488" x2="400" y2="520" stroke="#555" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- ATOMIC TRANSACTION BOUNDARY (only around usage increment) -->
+  <rect x="175" y="520" width="450" height="130" rx="10" fill="none" stroke="#2e7d32" stroke-width="2.5" stroke-dasharray="8,4"/>
+
+  <!-- BEGIN label -->
+  <text x="400" y="540" class="transaction-label">BEGIN ATOMIC UPSERT</text>
+
+  <!-- Step 5: incrementProofUsage -->
+  <rect x="220" y="550" width="360" height="50" rx="8" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1.5"/>
+  <text x="400" y="570" class="label">storage.ts → incrementProofUsage()</text>
+  <text x="400" y="585" class="sublabel">PostgreSQL Atomic Upsert — INSERT ... ON CONFLICT DO UPDATE</text>
+  <text x="400" y="600" class="ref-num">(66)</text>
+
+  <!-- Atomic detail -->
+  <rect x="240" y="610" width="320" height="30" rx="6" fill="#c8e6c9" stroke="#2e7d32" stroke-width="1"/>
+  <text x="400" y="630" class="sublabel">Update usage counter atomically (68)</text>
+
+  <!-- COMMIT label -->
+  <text x="400" y="655" class="transaction-label">COMMIT</text>
+
+  <!-- Arrow -->
+  <line x1="400" y1="655" x2="400" y2="690" stroke="#555" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Step 6: Return Verification URL -->
+  <rect x="250" y="690" width="300" height="50" rx="8" fill="#e8eaf6" stroke="#5c6bc0" stroke-width="1.5"/>
+  <text x="400" y="712" class="label">Return Verification URL</text>
+  <text x="400" y="728" class="ref-num">(70)</text>
+
+  <!-- Footer reference -->
+  <text x="40" y="780" class="ref-footer">Reference: 60=Incoming Request, 62=Validation, 64=Circuit Execution, 65=Proof Record Storage,</text>
+  <text x="40" y="795" class="ref-footer">66=incrementProofUsage() Atomic Upsert, 68=Atomic Usage Counter Update, 70=Verification URL</text>
+
+  <!-- Arrow marker definition -->
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#555"/>
+    </marker>
+  </defs>
+</svg>

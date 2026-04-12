@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="650" viewBox="0 0 900 650">
+  <rect width="900" height="650" fill="white"/>
+  <text x="450" y="30" text-anchor="middle" font-family="Arial" font-size="16" font-weight="bold">FIG. 2 — Seeded Sandbox Environment</text>
+
+  <!-- Sandbox boundary -->
+  <rect x="50" y="50" width="800" height="520" fill="none" stroke="black" stroke-width="2" stroke-dasharray="10,5" rx="15"/>
+  <text x="450" y="75" text-anchor="middle" font-family="Arial" font-size="13" font-weight="bold">Seeded Sandbox Environment</text>
+
+  <!-- seedZkpData() Function (50) -->
+  <rect x="100" y="95" width="300" height="70" fill="white" stroke="black" stroke-width="2" rx="5"/>
+  <text x="250" y="122" text-anchor="middle" font-family="Arial" font-size="13">seedZkpData() Initialization</text>
+  <text x="250" y="142" text-anchor="middle" font-family="Arial" font-size="11">Generates mock equity dataset</text>
+  <text x="250" y="157" text-anchor="middle" font-family="Arial" font-size="11" font-style="italic">(50)</text>
+
+  <!-- Arrow right -->
+  <line x1="400" y1="130" x2="480" y2="130" stroke="black" stroke-width="2"/>
+  <polygon points="475,125 475,135 485,130" fill="black"/>
+
+  <!-- Mock Securities Data Store (52) -->
+  <rect x="490" y="95" width="300" height="70" fill="white" stroke="black" stroke-width="2" rx="5"/>
+  <text x="640" y="118" text-anchor="middle" font-family="Arial" font-size="12">Mock Securities Data Store</text>
+  <text x="640" y="136" text-anchor="middle" font-family="Arial" font-size="11">4 Securities + SHA-256 Hashes</text>
+  <text x="640" y="157" text-anchor="middle" font-family="Arial" font-size="11" font-style="italic">(52)</text>
+
+  <!-- Four security items -->
+  <rect x="130" y="200" width="160" height="50" fill="white" stroke="black" stroke-width="1.5" rx="3"/>
+  <text x="210" y="222" text-anchor="middle" font-family="Arial" font-size="10">Security A</text>
+  <text x="210" y="238" text-anchor="middle" font-family="Arial" font-size="9">hash: a3f2...c8d1</text>
+
+  <rect x="310" y="200" width="160" height="50" fill="white" stroke="black" stroke-width="1.5" rx="3"/>
+  <text x="390" y="222" text-anchor="middle" font-family="Arial" font-size="10">Security B</text>
+  <text x="390" y="238" text-anchor="middle" font-family="Arial" font-size="9">hash: b7e4...f2a9</text>
+
+  <rect x="490" y="200" width="160" height="50" fill="white" stroke="black" stroke-width="1.5" rx="3"/>
+  <text x="570" y="222" text-anchor="middle" font-family="Arial" font-size="10">Security C</text>
+  <text x="570" y="238" text-anchor="middle" font-family="Arial" font-size="9">hash: c1d8...e5b3</text>
+
+  <rect x="670" y="200" width="160" height="50" fill="white" stroke="black" stroke-width="1.5" rx="3"/>
+  <text x="750" y="222" text-anchor="middle" font-family="Arial" font-size="10">Security D</text>
+  <text x="750" y="238" text-anchor="middle" font-family="Arial" font-size="9">hash: d9f6...a7c2</text>
+
+  <!-- Arrow down from securities to Privacy Vault -->
+  <line x1="450" y1="250" x2="450" y2="300" stroke="black" stroke-width="2"/>
+  <polygon points="445,295 455,295 450,305" fill="black"/>
+  <text x="470" y="280" font-family="Arial" font-size="10">data access</text>
+
+  <!-- Privacy Vault UI (54) -->
+  <rect x="250" y="305" width="400" height="80" fill="white" stroke="black" stroke-width="2" rx="5"/>
+  <text x="450" y="332" text-anchor="middle" font-family="Arial" font-size="13">Privacy Vault Interface</text>
+  <text x="450" y="350" text-anchor="middle" font-family="Arial" font-size="11">PrivacyVault.tsx</text>
+  <text x="450" y="368" text-anchor="middle" font-family="Arial" font-size="11">User selects stakeholder → Initiates ZKP request</text>
+  <text x="450" y="380" text-anchor="middle" font-family="Arial" font-size="11" font-style="italic">(54)</text>
+
+  <!-- Arrow down -->
+  <line x1="450" y1="385" x2="450" y2="420" stroke="black" stroke-width="2"/>
+  <polygon points="445,415 455,415 450,425" fill="black"/>
+
+  <!-- Proof Allocation Meter (56) -->
+  <rect x="250" y="425" width="400" height="85" fill="white" stroke="black" stroke-width="2" rx="5"/>
+  <text x="450" y="448" text-anchor="middle" font-family="Arial" font-size="13">Proof Allocation Meter</text>
+  <text x="450" y="466" text-anchor="middle" font-family="Arial" font-size="11">proof-config.ts — Beta Limit: 10 proofs</text>
+  <text x="450" y="482" text-anchor="middle" font-family="Arial" font-size="10">Computational Governor for Manual and External Inference Agents</text>
+  <text x="450" y="500" text-anchor="middle" font-family="Arial" font-size="11" font-style="italic">(56)</text>
+
+  <!-- Usage indicators -->
+  <rect x="290" y="520" width="20" height="20" fill="black" stroke="black" stroke-width="1"/>
+  <rect x="315" y="520" width="20" height="20" fill="black" stroke="black" stroke-width="1"/>
+  <rect x="340" y="520" width="20" height="20" fill="black" stroke="black" stroke-width="1"/>
+  <rect x="365" y="520" width="20" height="20" fill="white" stroke="black" stroke-width="1"/>
+  <rect x="390" y="520" width="20" height="20" fill="white" stroke="black" stroke-width="1"/>
+  <rect x="415" y="520" width="20" height="20" fill="white" stroke="black" stroke-width="1"/>
+  <rect x="440" y="520" width="20" height="20" fill="white" stroke="black" stroke-width="1"/>
+  <rect x="465" y="520" width="20" height="20" fill="white" stroke="black" stroke-width="1"/>
+  <rect x="490" y="520" width="20" height="20" fill="white" stroke="black" stroke-width="1"/>
+  <rect x="515" y="520" width="20" height="20" fill="white" stroke="black" stroke-width="1"/>
+  <text x="380" y="558" text-anchor="middle" font-family="Arial" font-size="10">Used: 3/10</text>
+  <text x="530" y="558" text-anchor="middle" font-family="Arial" font-size="10">Remaining: 7/10</text>
+
+  <!-- Legend -->
+  <text x="450" y="600" text-anchor="middle" font-family="Arial" font-size="10" font-style="italic">Reference: 50=seedZkpData(), 52=Mock Securities Store, 54=Privacy Vault UI, 56=Proof Allocation Meter</text>
+  <text x="450" y="618" text-anchor="middle" font-family="Arial" font-size="10" font-style="italic">Meter (56) acts as Computational Governor for both manual and AI-driven inference requests</text>
+</svg>

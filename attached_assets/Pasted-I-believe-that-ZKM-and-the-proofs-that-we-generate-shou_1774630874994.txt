@@ -1,0 +1,26 @@
+I believe that ZKM and the proofs that we generate should be monetized - example - I have three Price Tiers - on the cheap seats you get a sandbox experience but no real world use; 2nd Price tier maybe you can run 5 proofs and then the Enterprise maybe 100 - share your thoughts
+This is a smart play. Monetizing the 
+proof generation specifically is a "Usage-Based Pricing" model that aligns your costs with the value the customer receives. ZK proof generation is computationally "expensive" compared to a standard database query, so charging for it protects your margins while framing privacy as a premium asset. 
+blog.marlin.org +3
+Here is a breakdown of how you could structure these tiers:
+1. Tier 1: The "Observer" (Sandbox/Free)
+•	Purpose: Education and "Wow" factor.
+•	The Proofs: Use Option B (pre-computed templates).
+•	Usage: Zero real-world proofs. Users can only interact with seeded data to see how the "Privacy Vault" and "Audit Proofs" pages work.
+•	Value Prop: "See how ZK-Privacy protects your equity before you commit." 
+2. Tier 2: The "Builder" (Growth/Professional)
+•	Purpose: Early-stage startups with a few key stakeholders.
+•	The Proofs: Limited "Live" generation (e.g., 5-10 proofs per month).
+•	Usage: Real-world proofs for core founders and first investors.
+•	Monetization Logic: You charge for the Peace of Mind. 5 proofs are enough to cover the most critical Board or Investor requests without overwhelming your server costs.
+•	User Experience: This is where you introduce the "Security Ritual" loading bar. It makes the 5 proofs they do get feel like a heavyweight, premium event.
+3. Tier 3: The "Enterprise" (Scale)
+•	Purpose: Organizations with hundreds of stakeholders and frequent audits.
+•	The Proofs: High volume (e.g., 100+ proofs) or unlimited.
+•	Advanced Features: This is the perfect place for Recursive Proofs.
+o	Since they are generating 100 proofs, you use recursion to bundle them into one "Master Audit Certificate" for the whole company.
+o	You could even offer "Proof-as-a-Service" for their annual tax or legal audits.
+•	Value Prop: "Institutional-grade privacy at scale." 
+Strategic Thoughts
+•	The "Proof Credit" Model: Instead of a hard cap, you could sell "Proof Credits." If a Tier 2 user needs a 6th proof for a surprise funding round, they can buy a "Proof Pack."
+•	Verification is Free, Proving is Paid: In the ZK world, verifying a proof is extremely fast and cheap (milliseconds). You should always keep the Verification Links free and public. This acts as a viral marketing tool—every time an investor clicks that link, they see "Verified by Tableicity" and want it for their other portfolio companies

@@ -87,7 +87,6 @@ export function TenantSwitcher() {
 
   const handleGuideNext = () => {
     dismissGuide();
-    handleCreateOrg();
   };
 
   return (

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 612 792" width="612" height="792">
+  <style>
+    text { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+  </style>
+
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#000"/>
+    </marker>
+  </defs>
+
+  <!-- Sheet number -->
+  <text x="556" y="28" font-size="12" fill="#000" text-anchor="end">5/5</text>
+
+  <!-- Title lines — centered -->
+  <text x="306" y="50" font-size="16" font-weight="bold" fill="#000" text-anchor="middle">FIG. 5 — Security Ritual UX:</text>
+  <text x="306" y="70" font-size="16" font-weight="bold" fill="#000" text-anchor="middle">State Transition Diagram</text>
+
+  <!-- ==================== STATE: IDLE (80) ==================== -->
+  <rect x="181" y="100" width="250" height="75" rx="10" fill="white" stroke="#000" stroke-width="2"/>
+  <text x="306" y="125" font-size="14" font-weight="bold" fill="#000" text-anchor="middle">IDLE</text>
+  <text x="306" y="143" font-size="11" fill="#000" text-anchor="middle">Awaiting user input</text>
+  <text x="306" y="165" font-size="11" fill="#000" text-anchor="middle">(80)</text>
+
+  <!-- Arrow: IDLE → PROCESSING -->
+  <line x1="306" y1="175" x2="306" y2="215" stroke="#000" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="360" y="193" font-size="10" fill="#000" font-style="italic" text-anchor="start">ZKP request</text>
+  <text x="360" y="206" font-size="10" fill="#000" font-style="italic" text-anchor="start">User initiates</text>
+
+  <!-- ==================== STATE: PROCESSING (82) ==================== -->
+  <rect x="181" y="215" width="250" height="85" rx="10" fill="white" stroke="#000" stroke-width="2"/>
+  <text x="306" y="240" font-size="14" font-weight="bold" fill="#000" text-anchor="middle">PROCESSING</text>
+  <text x="306" y="258" font-size="11" fill="#000" text-anchor="middle">Animation active</text>
+  <text x="306" y="276" font-size="12" fill="#000" text-anchor="middle">0% → 98%</text>
+  <text x="306" y="293" font-size="11" fill="#000" text-anchor="middle">(82)</text>
+
+  <!-- Arrow: PROCESSING → 98% CAP -->
+  <line x1="306" y1="300" x2="306" y2="340" stroke="#000" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="360" y="318" font-size="10" fill="#000" font-style="italic" text-anchor="start">Progress hits</text>
+  <text x="360" y="331" font-size="10" fill="#000" font-style="italic" text-anchor="start">threshold</text>
+
+  <!-- ==================== STATE: 98% CAP (84) ==================== -->
+  <rect x="181" y="340" width="250" height="85" rx="10" fill="white" stroke="#000" stroke-width="2"/>
+  <text x="306" y="365" font-size="14" font-weight="bold" fill="#000" text-anchor="middle">98% CAP</text>
+  <text x="306" y="383" font-size="11" fill="#000" text-anchor="middle">requestAnimationFrame</text>
+  <text x="306" y="400" font-size="11" fill="#000" text-anchor="middle">holds at 98%</text>
+  <text x="306" y="418" font-size="11" fill="#000" text-anchor="middle">(84)</text>
+
+  <!-- Arrow: 98% CAP → VERIFIED -->
+  <line x1="306" y1="425" x2="306" y2="465" stroke="#000" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="360" y="443" font-size="10" fill="#000" font-style="italic" text-anchor="start">Server confirms</text>
+  <text x="360" y="456" font-size="10" fill="#000" font-style="italic" text-anchor="start">proof complete</text>
+
+  <!-- ==================== STATE: VERIFIED (86) ==================== -->
+  <rect x="181" y="465" width="250" height="75" rx="10" fill="white" stroke="#000" stroke-width="2"/>
+  <text x="306" y="490" font-size="14" font-weight="bold" fill="#000" text-anchor="middle">VERIFIED</text>
+  <text x="306" y="508" font-size="11" fill="#000" text-anchor="middle">100% — Proof valid</text>
+  <text x="306" y="523" font-size="11" fill="#000" text-anchor="middle">URL displayed</text>
+  <text x="306" y="535" font-size="11" fill="#000" text-anchor="middle">(86)</text>
+
+  <!-- ==================== STATE: ERROR (88) ==================== -->
+  <rect x="30" y="240" width="120" height="60" rx="10" fill="white" stroke="#000" stroke-width="2"/>
+  <text x="90" y="262" font-size="13" font-weight="bold" fill="#000" text-anchor="middle">ERROR</text>
+  <text x="90" y="278" font-size="10" fill="#000" text-anchor="middle">Proof generation</text>
+  <text x="90" y="290" font-size="10" fill="#000" text-anchor="middle">failed</text>
+  <text x="90" y="298" font-size="11" fill="#000" text-anchor="middle">(88)</text>
+
+  <!-- Arrow: PROCESSING → ERROR -->
+  <line x1="181" y1="260" x2="150" y2="260" stroke="#000" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="166" y="252" font-size="10" fill="#000" font-style="italic" text-anchor="middle">failure</text>
+
+  <!-- Arrow: ERROR → IDLE (curved path back up) -->
+  <path d="M 90 240 Q 90 137 181 137" fill="none" stroke="#000" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#arrow)"/>
+  <text x="100" y="185" font-size="10" fill="#000" font-style="italic" text-anchor="start">retry /</text>
+  <text x="100" y="198" font-size="10" fill="#000" font-style="italic" text-anchor="start">dismiss</text>
+
+  <!-- ==================== KEY MECHANISM BOX ==================== -->
+  <rect x="56" y="580" width="500" height="95" rx="8" fill="white" stroke="#000" stroke-width="1"/>
+  <text x="306" y="602" font-size="12" font-weight="bold" fill="#000" text-anchor="middle">Key Mechanism: 98% Progress Cap</text>
+  <text x="306" y="620" font-size="10.5" fill="#000" text-anchor="middle">The visual progress animation (via requestAnimationFrame)</text>
+  <text x="306" y="635" font-size="10.5" fill="#000" text-anchor="middle">is capped at 98% to prevent premature "completion" display.</text>
+  <text x="306" y="650" font-size="10.5" fill="#000" text-anchor="middle">The final 2% transition occurs only upon receipt of</text>
+  <text x="306" y="665" font-size="10.5" fill="#000" text-anchor="middle">server-side proof verification, ensuring visual state</text>
+  <text x="306" y="680" font-size="10.5" fill="#000" text-anchor="middle">matches cryptographic reality.</text>
+
+  <!-- Footer reference -->
+  <text x="56" y="715" font-size="10" fill="#000" text-anchor="start">Reference: 80=Idle, 82=Processing, 84=98% Cap Hold,</text>
+  <text x="56" y="730" font-size="10" fill="#000" text-anchor="start">86=Verified, 88=Error State</text>
+
+</svg>

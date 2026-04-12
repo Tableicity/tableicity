@@ -332,6 +332,20 @@ export async function provisionTenantSchema(slug: string): Promise<void> {
         UNIQUE (company_id, stakeholder_id)
       );
 
+      CREATE TABLE IF NOT EXISTS haylo_intents (
+        id VARCHAR PRIMARY KEY DEFAULT gen_random_uuid(),
+        tenant_id VARCHAR NOT NULL,
+        user_id VARCHAR NOT NULL,
+        natural_language_input TEXT NOT NULL,
+        structured_intent JSONB,
+        grok_raw_response TEXT,
+        status VARCHAR NOT NULL DEFAULT 'pending',
+        proof_request_id VARCHAR,
+        rejection_reason TEXT,
+        created_at TEXT,
+        resolved_at TEXT
+      );
+
       SET search_path TO public;
     `);
 
@@ -688,6 +702,26 @@ export async function provisionTenantSchema(slug: string): Promise<void> {
             encrypted_label TEXT,
             created_at TEXT,
             UNIQUE (company_id, stakeholder_id)
+          )', '${schemaName}');
+        END IF;
+
+        IF NOT EXISTS (
+          SELECT 1 FROM information_schema.tables
+          WHERE table_schema = '${schemaName}'
+          AND table_name = 'haylo_intents'
+        ) THEN
+          EXECUTE format('CREATE TABLE %I.haylo_intents (
+            id VARCHAR PRIMARY KEY DEFAULT gen_random_uuid(),
+            tenant_id VARCHAR NOT NULL,
+            user_id VARCHAR NOT NULL,
+            natural_language_input TEXT NOT NULL,
+            structured_intent JSONB,
+            grok_raw_response TEXT,
+            status VARCHAR NOT NULL DEFAULT ''pending'',
+            proof_request_id VARCHAR,
+            rejection_reason TEXT,
+            created_at TEXT,
+            resolved_at TEXT
           )', '${schemaName}');
         END IF;
       END

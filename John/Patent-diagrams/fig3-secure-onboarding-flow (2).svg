@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="700" height="960" viewBox="0 0 700 960">
+  <rect width="700" height="960" fill="white"/>
+  <text x="350" y="30" text-anchor="middle" font-family="Arial" font-size="16" font-weight="bold">FIG. 3 — Method of Authenticated Zero-Knowledge Proof Generation</text>
+
+  <!-- START -->
+  <ellipse cx="350" cy="70" rx="80" ry="25" fill="white" stroke="black" stroke-width="2"/>
+  <text x="350" y="75" text-anchor="middle" font-family="Arial" font-size="12">START</text>
+
+  <!-- Arrow -->
+  <line x1="350" y1="95" x2="350" y2="130" stroke="black" stroke-width="2"/>
+  <polygon points="345,125 355,125 350,135" fill="black"/>
+
+  <!-- Step 102 -->
+  <rect x="150" y="135" width="400" height="70" fill="white" stroke="black" stroke-width="2" rx="5"/>
+  <text x="170" y="158" font-family="Arial" font-size="12" font-weight="bold">Step 102</text>
+  <text x="350" y="175" text-anchor="middle" font-family="Arial" font-size="12">User Authentication &amp;</text>
+  <text x="350" y="192" text-anchor="middle" font-family="Arial" font-size="12">Tenant Schema Initialization (server/tenant.ts)</text>
+
+  <!-- Arrow -->
+  <line x1="350" y1="205" x2="350" y2="240" stroke="black" stroke-width="2"/>
+  <polygon points="345,235 355,235 350,245" fill="black"/>
+
+  <!-- Step 104 -->
+  <rect x="150" y="245" width="400" height="70" fill="white" stroke="black" stroke-width="2" rx="5"/>
+  <text x="170" y="268" font-family="Arial" font-size="12" font-weight="bold">Step 104</text>
+  <text x="350" y="285" text-anchor="middle" font-family="Arial" font-size="12">Initialize Seeded Sandbox with</text>
+  <text x="350" y="302" text-anchor="middle" font-family="Arial" font-size="12">Mock Equity Data via seedZkpData() (50)</text>
+
+  <!-- Arrow -->
+  <line x1="350" y1="315" x2="350" y2="350" stroke="black" stroke-width="2"/>
+  <polygon points="345,345 355,345 350,355" fill="black"/>
+
+  <!-- Step 106 -->
+  <rect x="150" y="355" width="400" height="80" fill="white" stroke="black" stroke-width="2" rx="5"/>
+  <text x="170" y="378" font-family="Arial" font-size="12" font-weight="bold">Step 106</text>
+  <text x="350" y="395" text-anchor="middle" font-family="Arial" font-size="12">ZKP Generation Request via</text>
+  <text x="350" y="412" text-anchor="middle" font-family="Arial" font-size="12">Privacy Vault Interface (54)</text>
+  <text x="350" y="427" text-anchor="middle" font-family="Arial" font-size="10" font-style="italic">(manual user action or AI-driven inference agent)</text>
+
+  <!-- Arrow -->
+  <line x1="350" y1="435" x2="350" y2="470" stroke="black" stroke-width="2"/>
+  <polygon points="345,465 355,465 350,475" fill="black"/>
+
+  <!-- Decision Diamond - Proof Allocation Check -->
+  <polygon points="350,475 500,540 350,605 200,540" fill="white" stroke="black" stroke-width="2"/>
+  <text x="350" y="532" text-anchor="middle" font-family="Arial" font-size="11">Proof Allocation</text>
+  <text x="350" y="547" text-anchor="middle" font-family="Arial" font-size="11">Meter (56)</text>
+  <text x="350" y="562" text-anchor="middle" font-family="Arial" font-size="11">remaining?</text>
+
+  <!-- No path -->
+  <line x1="500" y1="540" x2="600" y2="540" stroke="black" stroke-width="2"/>
+  <text x="540" y="530" font-family="Arial" font-size="11">No</text>
+  <rect x="560" y="515" width="120" height="50" fill="white" stroke="black" stroke-width="2" rx="5"/>
+  <text x="620" y="538" text-anchor="middle" font-family="Arial" font-size="11">Deny Request</text>
+  <text x="620" y="555" text-anchor="middle" font-family="Arial" font-size="11">(Limit Reached)</text>
+
+  <!-- Yes path -->
+  <line x1="350" y1="605" x2="350" y2="640" stroke="black" stroke-width="2"/>
+  <text x="365" y="625" font-family="Arial" font-size="11">Yes</text>
+  <polygon points="345,635 355,635 350,645" fill="black"/>
+
+  <!-- Step 108 -->
+  <rect x="150" y="645" width="400" height="70" fill="white" stroke="black" stroke-width="2" rx="5"/>
+  <text x="170" y="668" font-family="Arial" font-size="12" font-weight="bold">Step 108</text>
+  <text x="350" y="685" text-anchor="middle" font-family="Arial" font-size="12">Server-side Circuit Execution via</text>
+  <text x="350" y="702" text-anchor="middle" font-family="Arial" font-size="12">NOIR Circuit Engine (40) / proof-service.ts (62)</text>
+
+  <!-- Arrow -->
+  <line x1="350" y1="715" x2="350" y2="745" stroke="black" stroke-width="2"/>
+  <polygon points="345,740 355,740 350,750" fill="black"/>
+
+  <!-- Step 110 -->
+  <rect x="150" y="750" width="400" height="70" fill="white" stroke="black" stroke-width="2" rx="5"/>
+  <text x="170" y="773" font-family="Arial" font-size="12" font-weight="bold">Step 110</text>
+  <text x="350" y="788" text-anchor="middle" font-family="Arial" font-size="12">Store proof via createProofResult() (65)</text>
+  <text x="350" y="805" text-anchor="middle" font-family="Arial" font-size="12">Atomic Usage Upsert — incrementProofUsage() (66)</text>
+
+  <!-- Arrow -->
+  <line x1="350" y1="820" x2="350" y2="850" stroke="black" stroke-width="2"/>
+  <polygon points="345,845 355,845 350,855" fill="black"/>
+
+  <!-- Step 112 -->
+  <rect x="150" y="855" width="400" height="55" fill="white" stroke="black" stroke-width="2" rx="5"/>
+  <text x="170" y="878" font-family="Arial" font-size="12" font-weight="bold">Step 112</text>
+  <text x="350" y="895" text-anchor="middle" font-family="Arial" font-size="12">Return Verification URL (42) + Security Ritual UX Feedback</text>
+
+  <!-- Legend -->
+  <text x="350" y="930" text-anchor="middle" font-family="Arial" font-size="10" font-style="italic">Steps 102-112: Sequential Authenticated ZKP Generation Method</text>
+  <text x="350" y="945" text-anchor="middle" font-family="Arial" font-size="10" font-style="italic">Cross-ref: (40) FIG. 1, (50)(54)(56) FIG. 2, (62)(65)(66) FIG. 4, (42) FIG. 1</text>
+</svg>

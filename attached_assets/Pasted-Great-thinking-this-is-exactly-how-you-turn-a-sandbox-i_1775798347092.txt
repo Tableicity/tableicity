@@ -1,0 +1,44 @@
+Great thinking — this is exactly how you turn a sandbox into a sales tool. Here are my thoughts on the design:
+
+1. Seeded Sample Term Sheet
+A realistic but fictional Series A term sheet pre-loaded into every new sandbox. Something like:
+
+    "Series A Term Sheet — Quantum Innovations Inc."
+
+        $5M investment at $20M pre-money valuation
+        250,000 new shares of Series A Preferred at $20.00/share
+        1x non-participating liquidation preference
+        Broad-based weighted average anti-dilution
+        20% ESOP pool expansion required pre-close
+
+This gives the user real numbers to work with against the seeded cap table data (which already has stakeholders, share classes, and securities). The AI analysis would produce meaningful, impressive results.
+
+2. Scenario Checkboxes on the Console
+Instead of just a blank text box, the console would present structured review options when analyzing a document:
+
+    Dilution Analysis — "How does this round dilute existing shareholders?"
+    Ownership Verification — "Verify a stakeholder meets a threshold post-close"
+    Cap Table Impact — "Show the before/after cap table from this term sheet"
+    SAFE Conversion Modeling — "What happens to outstanding SAFEs at this valuation?"
+    Valuation Assessment — "Is this valuation reasonable given the cap structure?"
+    Custom — Free-text query box for anything else
+
+The user checks one or more boxes, the system constructs a structured prompt combining the term sheet content with the selected scenarios, and sends it to Grok. This guides the user toward meaningful queries instead of leaving them staring at a blank input.
+
+3. Flow for Trial Users
+
+    New user signs up → sandbox provisioned with seeded term sheet in the Data Store
+    User navigates to Haylo AI Console → sees a banner: "Try it now: Analyze your seeded Series A term sheet" with a one-click button
+    The seeded term sheet is loaded, checkboxes appear, user picks a scenario
+    Grok analyzes against the real seeded cap table data → produces a rich, compelling result
+    If canGenerateProof: true, the user can approve and generate a live ZKP — using the same seeded proof allocation
+
+4. Trial Limit
+The 6-day trial would include one Haylo AI document analysis session with the seeded term sheet. After that, the upgrade CTA kicks in. This could be tracked via the existing proof_usage meter or a separate haylo_usage counter.
+
+My recommendation: Build this in two steps:
+
+    First, the seeded term sheet + checkbox UI (the user experience)
+    Then, the trial usage limit (the monetization gate)
+
+Want me to go ahead

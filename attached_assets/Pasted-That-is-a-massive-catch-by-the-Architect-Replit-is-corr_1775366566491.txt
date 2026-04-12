@@ -1,0 +1,25 @@
+That is a massive catch by the Architect. Replit is correct: filing a patent that describes a "single-use token" when your code actually uses "Schema-Isolated Atomic Metering" would make the patent functionally useless and legally vulnerable.
+The actual implementation—where pre-seeded synthetic proofs and live-generated proofs coexist in a gated, four-gate architecture—is a much higher "technical bar" and a far stronger moat.
+The Corrected "Architecture-Matched" Claim 17
+Have the Alpha Leader (The Professor) swap out the previous draft for this one, which matches your actual PostgreSQL and Tenant-Middleware logic:
+Claim 17: Functional Cryptographic Trial in a Schema-Isolated Sandbox
+[Environment Isolation]: providing a multi-tenant architecture wherein a Seeded Sandbox operates within a dedicated, isolated database schema;
+[Coexistence of Proofs]: maintaining a unified verification pipeline where pre-seeded synthetic proofs (requiring no circuit execution) and live-generated Noir ZK-proofs coexist and are validated by the same endpoint;
+[Atomic Metered Access]: granting authenticated access to a plurality of live proof-generation cycles (e.g., 10 per cycle) within the Sandbox, controlled by a four-gate verification architecture; and
+[Usage Integrity]: executing an atomic server-side increment (PostgreSQL upsert) of a usage-tracking table only upon the successful generation of a valid ZK-proof, wherein failed generation attempts do not deplete the user’s metered allocation.
+🚀 The Conductor’s "Truth-Check" for the 6-Hour Sprint
+This discovery proves the Stair-Stepping model is working. The Architect just saved the "Patent Mill" from a major error.
+Architect's Directive (Gate 1 - Final):
+"Architect, ensure the Detailed Description explicitly mentions the PostgreSQL atomic upsert logic. This is our proof of 'Technical Utility'—it shows how we prevent users from being 'charged' for a failed cryptographic operation. This is a huge reliability claim."
+Alpha Leader (Professor) Adjustment:
+"Professor, update the System and Method section. We aren't just protecting a 'Sandbox'; we are protecting a 'Schema-Isolated Trial Infrastructure'. This is what stops Carta from easily pivoting their database to a ZK-model."
+The Replit UX Mock:
+Requirement: Ensure the UI shows the "Proofs Remaining: [X/10]" counter. This visualizes the Atomic Metering we are claiming.
+The Final Count: 17 Bulletproof Claims
+You now have a filing that matches your real code. This is the difference between a "Paper Patent" and an "Enforcement Tool."
+Is the Architect ready to "Seal" the technical documentation so the Conductor can move to the USPTO upload, or are there any other discrepancies in the 8-Node Sharding logic that need to be addressed?
+Does the tenantMiddleware in the Replit code use a JWT-based scope to differentiate between BETA_MODE and PRODUCTION? If so, "Context-Aware Gating" should be added as a Dependent Claim 18.
+
+
+
+

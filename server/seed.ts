@@ -1,9 +1,10 @@
 import { DatabaseStorage, createTenantStorage } from "./storage";
 import { getTenantDb, createTenant, getTenant, provisionTenantSchema } from "./tenant";
 import { db } from "./db";
-import { users, tenantMembers, tenants, platformResources } from "@shared/schema";
-import { eq } from "drizzle-orm";
+import { users, tenantMembers, tenants, platformResources, commitmentRecords, proofRequests, proofResults } from "@shared/schema";
+import { eq, and } from "drizzle-orm";
 import bcrypt from "bcryptjs";
+import { createHash, randomBytes } from "crypto";
 import type { IStorage } from "./storage";
 
 const LABEL_CHARS = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
@@ -132,6 +133,7 @@ export async function seedTenantData(storage: IStorage, shareholderUserId?: stri
     await seedSars(storage, company.id, existingEmployees);
     await seedDataStoreCategories(storage, company.id);
     await seedTestDriveDocuments(storage, company.id);
+    await seedHayloTermSheet(storage, company.id);
     await seedPrivacyLabels(storage, company.id, existingStakeholders);
     return;
   }
@@ -469,8 +471,104 @@ export async function seedTenantData(storage: IStorage, shareholderUserId?: stri
   await seedSars(storage, company.id, employees);
   await seedDataStoreCategories(storage, company.id);
   await seedTestDriveDocuments(storage, company.id);
+  await seedHayloTermSheet(storage, company.id);
 
   console.log("Tenant database seeded successfully");
+}
+
+async function seedZkpData(tenantStorage: IStorage, tenantId: string, userId: string) {
+  const company = await tenantStorage.getCompany();
+  if (!company) return;
+
+  const existingCommitments = await db.select().from(commitmentRecords)
+    .where(eq(commitmentRecords.tenantId, tenantId));
+
+  const existingProofs = await db.select().from(proofRequests)
+    .where(eq(proofRequests.tenantId, tenantId));
+
+  if (existingCommitments.length > 0 && existingProofs.length > 0) return;
+
+  const stakeholders = await tenantStorage.getStakeholders(company.id);
+  if (stakeholders.length === 0) return;
+
+  const securities = await tenantStorage.getSecurities(company.id);
+  if (securities.length === 0) return;
+
+  const shareClasses = await tenantStorage.getShareClasses(company.id);
+  const shareClassMap = new Map(shareClasses.map(sc => [sc.id, sc.name]));
+
+  let seededCommitments: Array<{ stakeholderId: string; shareClassId: string; shares: number; salt: string }> = [];
+
+  if (existingCommitments.length === 0) {
+    for (const security of securities.slice(0, 4)) {
+      if (!security.stakeholderId || !security.shareClassId || !security.shares) continue;
+      const salt = randomBytes(32).toString("hex");
+      const shares = Number(security.shares);
+      const holderRef = security.stakeholderId;
+      const shareClass = security.shareClassId;
+      const preimage = `${shares}||${holderRef}||${salt}`;
+      const commitmentHash = createHash("sha256").update(preimage).digest("hex");
+
+      await db.insert(commitmentRecords).values({
+        tenantId,
+        holderRef,
+        commitmentHash,
+        salt,
+        shareClass,
+        isActive: true,
+        createdAt: new Date().toISOString(),
+      });
+
+      seededCommitments.push({ stakeholderId: holderRef, shareClassId: shareClass, shares, salt });
+    }
+  } else {
+    for (const c of existingCommitments.slice(0, 4)) {
+      const security = securities.find(s => s.stakeholderId === c.holderRef && s.shareClassId === c.shareClass);
+      if (security) {
+        seededCommitments.push({
+          stakeholderId: c.holderRef,
+          shareClassId: c.shareClass,
+          shares: Number(security.shares),
+          salt: c.salt,
+        });
+      }
+    }
+  }
+
+  if (existingProofs.length === 0 && seededCommitments.length > 0) {
+    const firstCommitment = seededCommitments[0];
+    const stakeholder = stakeholders.find(s => s.id === firstCommitment.stakeholderId);
+    const threshold = Math.floor(firstCommitment.shares * 0.5);
+    const expiresAt = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString();
+
+    const [proofRequest] = await db.insert(proofRequests).values({
+      tenantId,
+      proofType: "ownership_threshold",
+      requestedBy: userId,
+      publicInputs: {
+        threshold,
+        holderRef: firstCommitment.stakeholderId,
+        shareClass: firstCommitment.shareClassId,
+      },
+      status: "complete",
+      createdAt: new Date().toISOString(),
+      expiresAt,
+    }).returning();
+
+    await db.insert(proofResults).values({
+      requestId: proofRequest.id,
+      proofHex: "seed_demo_" + randomBytes(64).toString("hex"),
+      verificationKeyHex: "seed_vk_" + randomBytes(32).toString("hex"),
+      verified: true,
+      generatedAt: new Date().toISOString(),
+    });
+
+    const stakeholderName = stakeholder?.name || "Stakeholder";
+    const shareClassName = shareClassMap.get(firstCommitment.shareClassId) || "shares";
+    console.log(`[ZKP Seed] Created ${existingCommitments.length === 0 ? seededCommitments.length + " commitments + " : ""}1 verified proof for ${stakeholderName} (≥${threshold.toLocaleString()} ${shareClassName})`);
+  } else if (existingCommitments.length === 0) {
+    console.log(`[ZKP Seed] Created ${seededCommitments.length} commitment records for tenant ${tenantId.substring(0, 8)}`);
+  }
 }
 
 async function seedInvestmentRoundsAndEsop(storage: IStorage, companyId: string) {
@@ -949,7 +1047,17 @@ async function seedSuperAdmin() {
     .from(users)
     .where(eq(users.email, "abc17@gmail.com"));
 
-  if (existing) return existing;
+  if (existing) {
+    if (!existing.isPlatformAdmin) {
+      const [updated] = await db.update(users)
+        .set({ isPlatformAdmin: true })
+        .where(eq(users.id, existing.id))
+        .returning();
+      console.log("Promoted abc17@gmail.com to platform admin");
+      return updated;
+    }
+    return existing;
+  }
 
   const passwordHash = await bcrypt.hash("admin123!", 12);
   const [superAdmin] = await db
@@ -996,6 +1104,15 @@ export async function seedDatabase() {
   await seedTenantMembership(superAdmin.id, "acme", "tenant_admin");
   await seedTenantMembership(shareholderUser.id, "acme", "shareholder");
   await linkStakeholderToUser(acmeStorage, acmeDb, shareholderUser.id, "johndoe@archertech.com");
+
+  const acmeTenant = await getTenant("acme");
+  if (acmeTenant) {
+    try {
+      await seedZkpData(acmeStorage, acmeTenant.id, admin.id);
+    } catch (e: any) {
+      console.warn(`[SEED] ZKP seed for acme skipped: ${e.message}`);
+    }
+  }
 
   const existingGlobex = await getTenant("globex");
   if (!existingGlobex) {
@@ -1105,13 +1222,21 @@ export async function provisionSandboxForUser(userId: string, userEmail: string)
   await seedTemplatesForTenant(sandboxStorage);
   await seedPlatformResourcesToTenant(sandboxStorage);
 
+  const sandboxTenant = (await getTenant(sandboxSlug))!;
+
   await db.insert(tenantMembers).values({
-    tenantId: (await getTenant(sandboxSlug))!.id,
+    tenantId: sandboxTenant.id,
     userId,
     role: "tenant_admin",
     status: "active",
     createdAt: new Date().toISOString().split("T")[0],
   });
+
+  try {
+    await seedZkpData(sandboxStorage, sandboxTenant.id, userId);
+  } catch (e: any) {
+    console.warn(`[SANDBOX] ZKP seed skipped: ${e.message}`);
+  }
 
   console.log(`[SANDBOX] Created sandbox org "${sandboxSlug}" for user ${userEmail}`);
   return sandboxSlug;
@@ -1557,6 +1682,77 @@ const TEST_DRIVE_CHECKLISTS = [
   { name: "Test Drive Checklist — Phantom Shares", pageLink: "/equity-plans/phantom" },
   { name: "Test Drive Checklist — SARs", pageLink: "/equity-plans/sars" },
 ];
+
+const HAYLO_TERM_SHEET_NAME = "Series A Term Sheet — Quantum Innovations Inc.";
+
+const HAYLO_TERM_SHEET_CONTENT = `SERIES A PREFERRED STOCK TERM SHEET
+Quantum Innovations Inc.
+Confidential — For Discussion Purposes Only
+
+Date: March 15, 2025
+
+PARTIES
+Issuer: Archer Technologies, Inc. (the "Company")
+Lead Investor: Quantum Innovations Inc. ("Lead Investor")
+Round Type: Series A Preferred Stock Financing
+
+OFFERING TERMS
+Aggregate Amount: $5,000,000
+Pre-Money Valuation: $20,000,000
+Post-Money Valuation: $25,000,000
+Price Per Share: $20.00
+Shares Issued: 250,000 shares of Series A Preferred Stock
+
+CAPITALIZATION SUMMARY (PRE-CLOSE)
+Common Stock Outstanding: 5,500,000 shares (Sarah Mitchell: 3,000,000; James Carter: 2,500,000)
+Series A Preferred Outstanding: 1,200,000 shares (Haystack Capital: 800,000; Wei Chen: 400,000)
+Options Outstanding: 300,000 shares (Michael Reynolds: 150,000; Kenji Tanaka: 100,000; Robert Harrison: 50,000)
+Total Fully Diluted: 7,000,000 shares
+
+SAFES PENDING CONVERSION
+Priya Patel — $500,000 Post-Money SAFE at $10M cap, 20% discount
+Haystack Capital — $250,000 Post-Money SAFE at $8M cap
+Wei Chen — $150,000 Pre-Money SAFE at $12M cap, 15% discount
+
+TERMS AND CONDITIONS
+Liquidation Preference: 1x non-participating
+Anti-Dilution: Broad-based weighted average
+Dividends: Non-cumulative, at Board discretion
+Voting Rights: As-converted basis, one vote per share
+Board Composition: 2 Founder seats, 1 Investor seat, 1 Independent seat
+Protective Provisions: Standard Series A protective provisions per NVCA template
+ESOP Expansion: Option pool to be increased to 20% of post-money capitalization pre-close
+Right of First Refusal: Company and Investors have ROFR on Common Stock transfers
+Drag-Along: Standard drag-along provisions
+Information Rights: Quarterly financials, annual audited statements, annual budget
+
+CLOSING CONDITIONS
+Satisfactory completion of legal due diligence
+Board approval of option pool expansion
+Conversion or termination of outstanding SAFEs
+Execution of Investor Rights Agreement, Voting Agreement, and ROFR Agreement
+
+This term sheet is non-binding except for confidentiality, exclusivity (60 days), and governing law (Delaware) provisions.`;
+
+async function seedHayloTermSheet(storage: IStorage, companyId: string) {
+  try {
+    const docs = await storage.getDocuments(companyId);
+    const exists = docs.some(d => d.name === HAYLO_TERM_SHEET_NAME);
+    if (!exists) {
+      await storage.createDocument({
+        companyId,
+        name: HAYLO_TERM_SHEET_NAME,
+        type: "investor",
+        description: `[Category: Test Drives] | Haylo AI Sample Term Sheet\n\n${HAYLO_TERM_SHEET_CONTENT}`,
+        uploadDate: new Date().toISOString().split("T")[0],
+        uploadedBy: "System",
+        encrypted: false,
+      });
+    }
+  } catch (err) {
+    console.log("Note: Could not seed Haylo AI term sheet");
+  }
+}
 
 async function seedPrivacyLabels(storage: IStorage, companyId: string, stakeholders: any[]) {
   try {

@@ -1,0 +1,14 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "T75-nnxtLebrdjp0nHnWV"
+uri = "file://John/Privacy-Vault-ZKP-Walkthrough.md"
+type = "text"
+title = "Privacy Vault (ZKP) Testing Walkthrough"
+
+[[outputs]]
+id = "rhL78nVS9wA0lD8HwpyKZ"
+uri = "file://John/Three - Patent-Carta-.md"
+type = "text"
+title = "Three - Patent-Carta- (Technical Assessment for Patent Team)"

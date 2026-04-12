@@ -1,0 +1,481 @@
+# "System and Method for Privacy-Preserving Equity Management Using Zero-Knowledge Proofs with Schema-per-Tenant Isolation and Metered Cryptographic Operations"
+
+## Draft of Abstract for Tableicity's PPA
+
+The present invention, Tableicity, is a privacy-first equity management platform designed to secure sensitive stakeholder data for private companies through advanced cryptographic techniques and isolated data architectures. The system employs a Schema-per-Tenant isolation architecture to prevent cross-tenant data leakage, ensuring each user's data resides in a dedicated database schema. Central to the invention is the integration of Zero-Knowledge Proofs (ZKPs) via the NOIR circuit framework, enabling privacy-preserving verification of equity data without exposing underlying information.
+
+A functional Seeded Sandbox environment allows new users to experience atomic-metered ZKP generation and verification using mock data, mirroring production constraints for trust-building onboarding. The system further provides a progressive onboarding pipeline that atomically provisions isolated database schemas with seeded equity data, cryptographic commitments, and guided checklists upon a single email verification event, enabling immediate user engagement without manual intervention. Multi-organization membership with per-tenant role-based access control enables users to operate across multiple isolated schemas, each enforced at the database connection level. Access and monetization are governed by a computationally invariant four-gate middleware, controlled by a global Dual-Configuration Feature Gate that toggles between Beta and Production configurations via a single boolean constant, activating a monetization wall across all tenants simultaneously. A subscription-integrated monetization pipeline connects external payment provider subscription state changes to cryptographic operation access gating in real time. This invention addresses critical privacy and security gaps in traditional cap table management, offering a scalable, user-centric solution for stealth startups and pre-IPO entities.
+
+---
+
+## Background of the Invention
+
+The field of equity management for private companies has long been plagued by significant challenges in maintaining the privacy and security of sensitive stakeholder data. Traditional cap table management platforms, such as those offered by competitors like Carta and Cake Equity, often rely on centralized data storage models where sensitive information—such as ownership stakes, investor identities, and transaction details—is stored in databases accessible to platform administrators or vulnerable to breaches. This "public-by-default" approach poses substantial risks for stealth startups, high-net-worth investors, and pre-IPO companies, who cannot afford their proprietary equity structures to be exposed to competitors or compromised through data leaks. High-profile incidents, such as Carta's 2024 secondaries controversy, have further eroded trust in centralized systems, highlighting the potential for even the perception of privileged access to damage market confidence.
+
+Moreover, existing solutions frequently depend on conventional encryption and role-based access controls, which, while offering some protection, still permit data processing by employees or subprocessors, as acknowledged in privacy policies of major platforms. This inherent visibility undermines the sovereignty of company data, particularly in regulated jurisdictions like the European Union, where GDPR imposes stringent requirements on data residency and exposure, or in the United States, where SEC regulations (e.g., Regulation S-P) mandate robust incident response and breach notification protocols. Manual processes, such as Excel spreadsheets and email-based transfers, exacerbate these issues by introducing human error and further security vulnerabilities, often costing companies significant administrative overhead with fees ranging from $15,000 to $50,000 annually for legacy transfer agent services.
+
+Additionally, traditional platforms suffer from onboarding friction that impedes adoption of advanced privacy technologies. Users of Zero-Knowledge Proof systems face a "cold start" problem: without real data loaded into the system, they cannot experience or validate the privacy guarantees that differentiate the platform. Existing competitors address this gap, if at all, through static demonstrations or manual guided tours that do not expose the user to live cryptographic operations. The absence of functional trial environments for privacy-preserving equity systems represents a significant barrier to adoption for stealth startups and pre-IPO entities.
+
+The need for a transformative solution in equity management is evident—one that prioritizes data invisibility by design, eliminates centralized points of exposure, automates compliance with regulatory frameworks, and provides immediate, functional onboarding into privacy-preserving environments. Such a solution must empower founders and stakeholders with control over their sensitive information, while providing a seamless, scalable user experience that addresses the inefficiencies of outdated systems. The present invention seeks to address these critical gaps by introducing a novel approach to privacy and security in cap table management, fundamentally redefining trust and sovereignty in the fintech landscape.
+
+---
+
+## Summary of the Invention
+
+The present invention, Tableicity, is a groundbreaking privacy-first equity management platform designed to address the critical security and trust deficiencies inherent in traditional cap table management systems. Unlike conventional platforms that rely on centralized data storage models susceptible to breaches and unauthorized access, Tableicity introduces a novel architecture that prioritizes data invisibility and user sovereignty through advanced cryptographic techniques and isolated data environments. At the core of the system is a Schema-per-Tenant isolation architecture, which ensures complete separation of stakeholder data by maintaining dedicated database schemas for each user or tenant, thereby preventing cross-tenant data leakage and enhancing security in a multi-tenant SaaS environment.
+
+Tableicity leverages Zero-Knowledge Proofs (ZKPs) implemented through the NOIR circuit framework to enable privacy-preserving verification of equity data, such as ownership thresholds or transaction compliance, without exposing sensitive underlying information to platform administrators or external parties. This cryptographic approach fundamentally differentiates the invention from existing solutions by ensuring that even the system itself remains blind to raw data during processing and verification. Additionally, the invention features a functional Seeded Sandbox environment that provides new users with a controlled, simulated cap table experience, allowing them to generate and verify atomic-metered ZK proofs using mock data under the same security constraints as the production environment, thus building trust and facilitating onboarding for stealth startups and pre-IPO entities unfamiliar with advanced privacy technologies.
+
+The invention further introduces a progressive onboarding pipeline that transforms a single email verification event into the atomic provisioning of an isolated database schema pre-populated with realistic equity data, cryptographic commitment records, a pre-verified Zero-Knowledge Proof, and guided educational checklists — enabling the user to engage with the full privacy-preserving system immediately upon first login without manual intervention or data entry. This pipeline solves the cold-start problem inherent in ZKP-based platforms by providing both pre-seeded synthetic proofs (requiring no circuit execution) and live proof generation capability within the same sandboxed environment.
+
+A multi-organization membership model enables individual users to belong to multiple tenant schemas, each with independently assigned roles (e.g., administrator, staff, shareholder), with every API request dynamically routing to the correct isolated schema via database connection-level enforcement. This per-tenant role-based access control operates in conjunction with Schema-per-Tenant isolation to ensure that a user's permissions in one organization have no bearing on their access in another.
+
+Further enhancing its innovative design, Tableicity incorporates a computationally invariant four-gate middleware for access control and monetization, governed by a global Dual-Configuration Feature Gate. This mechanism utilizes a single compile-time boolean constant (BETA_MODE) to toggle between Beta and Production configurations, enabling a simultaneous, state-wide transition that activates a monetization wall across all tenant schemas without altering underlying code paths. A subscription-integrated monetization pipeline connects an external payment provider's subscription lifecycle events to the proof access gating middleware, ensuring that changes in a tenant's subscription tier are immediately reflected in their cryptographic operation permissions. This kill switch pattern offers a seamless shift from open beta access to tiered, paid access, ensuring scalability and business model flexibility. Complementary privacy layers, such as an Encrypted View system with hashed display formats, provide additional visual data protection, while rigorous testing and validation infrastructure guarantees system reliability and cryptographic integrity.
+
+The system manages five categories of equity instruments — stock options (ESOP), warrants, phantom shares, stock appreciation rights (SARs), and direct stock securities — with differentiated cap table impact rules that automatically determine whether an equity event creates an ownership record based on instrument type and settlement method. A server-side vesting computation engine calculates vested shares in real time at the moment of exercise, preventing manipulation of pre-computed schedules.
+
+In summary, Tableicity redefines equity management by delivering a secure, scalable, and user-centric platform that empowers founders and stakeholders with unprecedented control over their sensitive data. The invention addresses the privacy, security, and compliance challenges of traditional systems, offering a transformative solution that sets a new standard for trust and efficiency in the fintech landscape.
+
+---
+
+## Detailed Description
+
+The present invention, Tableicity, provides a privacy-first equity management platform utilizing a Schema-per-Tenant isolation architecture to ensure complete cryptographic separation of stakeholder data. The system features a functional Sandbox environment allowing for atomic-metered Zero-Knowledge (ZK) proof generation using identical NOIR circuit constraints as the production environment. Access and monetization are managed via a computationally invariant four-gate middleware, controlled by a global Dual-Configuration Feature Gate that allows for a simultaneous, state-wide transition between Beta and Production configurations without modification to the underlying code paths.
+
+### 1. Overview of the System Architecture
+
+Tableicity is designed to address the critical privacy and security gaps in traditional cap table management by introducing a multi-layered, cryptographically secure architecture tailored for private companies, including stealth startups and pre-IPO entities. The system operates as a cloud-native Software-as-a-Service (SaaS) platform, leveraging advanced infrastructure to deliver scalability, efficiency, and regulatory compliance. At its foundation, Tableicity employs a Schema-per-Tenant isolation architecture, implemented through PostgreSQL schemas (e.g., `tenant_{slug}` as defined in `server/tenant.ts`), ensuring that each tenant's data—such as equity records, stakeholder identities, and transaction details—resides in a dedicated, isolated database schema. This design prevents cross-tenant data leakage, a significant risk in conventional multi-tenant systems, and aligns with stringent data residency requirements such as those imposed by GDPR in the European Union.
+
+The system's architecture is composed of multiple functional layers, as detailed in a comprehensive component inventory. These layers include Noir circuits for ZKP generation, a server-side proof engine, data schema and storage modules, seeding scripts for onboarding, frontend ZKP interaction pages, privacy mode toggles, and sidebar integrations, spanning 24 specific files across the codebase. Each layer interacts seamlessly through defined API call paths and data flows, ensuring that sensitive operations, such as proof generation and verification, maintain data invisibility even to platform administrators.
+
+### 2. Schema-per-Tenant Isolation for Data Security
+
+Central to Tableicity's security model is the Schema-per-Tenant isolation mechanism, which creates a distinct PostgreSQL schema for each tenant upon account creation (via `CREATE SCHEMA tenant_{slug}`). This approach, unlike horizontal sharding or shared database models common in legacy platforms, ensures complete cryptographic and logical separation of data. Each schema contains a full set of over twenty tables specific to the tenant, including equity records, commitment hashes, and proof usage tracking, preventing any cross-tenant access or data exposure. This isolation is further enforced through tenant-specific middleware (`tenantMiddleware` in the codebase), which resolves tenant context from session data (stored via `express-session` and `connect-pg-simple`) and applies defense-in-depth `tenantId` checks to restrict operations to the active schema. This architecture serves as a critical "storage moat," providing a robust defense against unauthorized access and aligning with regulatory mandates for data protection.
+
+### 3. Zero-Knowledge Proofs via NOIR Circuit Framework
+
+Tableicity revolutionizes equity management by integrating Zero-Knowledge Proofs (ZKPs) through the NOIR circuit framework, enabling privacy-preserving operations on sensitive data. The system processes equity data—such as ownership percentages or transfer validity—into cryptographic commitments without exposing raw information, even during verification. NOIR operates primarily on the server-side (contrary to initial assumptions of client-side processing), as detailed in the codebase (`proof-service.ts`), for reasons including private input containment, large circuit artifact sizes, and WASM memory management constraints. The process involves a five-stage data transformation pipeline: raw cap table record to salt generation (32-byte random salts), SHA-256 commitment hash for fast integrity, Pedersen commitment for circuit compatibility (using the BN254 elliptic curve pair, with Pedersen operations computed on the embedded Grumpkin curve for binding and hiding properties), and finally, stored state in the database.
+
+Two primary Noir circuits underpin this functionality: `test_hash` for commitment validation leveraging the computational hardness of the Discrete Logarithm Problem on the Grumpkin/BN254 curve pair, and `ownership_threshold` for binding verification and arithmetic threshold enforcement within the zero-knowledge constraint system (e.g., verifying if a stakeholder owns at least a specified number of shares via u64 comparison). Proof generation employs the UltraHonk protocol, with performance optimizations such as circuit caching and TanStack Query caching to ensure scalability for a growing user base. Security measures, including tamper resistance and UUID unpredictability, protect proof integrity, while verification is offered through dual paths: internal cryptographic re-verification (via WASM pairing checks for authenticated users) and public status-based lookups (unauthenticated, efficient endpoint in `proof-routes.ts` with CORS and rate limiting). This ZKP system ensures that sensitive data remains invisible, addressing a core deficiency in traditional platforms like Carta, where data exposure is a persistent risk.
+
+### 4. Functional Seeded Sandbox for User Onboarding
+
+Tableicity introduces a novel Seeded Sandbox environment designed to facilitate user onboarding by providing a controlled, simulated cap table management experience that builds trust in the platform's privacy-first model. This feature is particularly critical for stealth startups and pre-IPO companies unfamiliar with advanced cryptographic technologies like Zero-Knowledge Proofs (ZKPs). The Sandbox, implemented via the `seedZkpData()` function in the codebase, seeds mock equity data (e.g., 4 securities with random 32-byte salts and SHA-256 commitment hashes) into a tenant's isolated schema upon account creation. This mock data mirrors realistic cap table structures, allowing users to interact with the system's privacy features without risking exposure of real equity information.
+
+A distinguishing aspect of the Sandbox is its ability to support a functional cryptographic trial, where pre-seeded synthetic proofs (identified by a `seed_demo_` prefix) and live-generated proofs coexist within the same verification pipeline. Synthetic proofs do not require Noir circuit execution, avoiding WASM latency during initial onboarding, while live proofs—limited to a metered allocation (e.g., 10 per month in beta mode as defined in `proof-config.ts`)—utilize real cryptographic operations against seeded data. This allocation is tracked server-side via an atomic PostgreSQL upsert (`incrementProofUsage()` in `storage.ts`), ensuring failed attempts do not deplete the user's limit, a reliability feature that enhances user experience. The Sandbox operates under identical security constraints as the production environment, with time-to-live (TTL) differences (1 year for demo proofs vs. 72 hours for real proofs) to manage data persistence.
+
+The user journey in the Sandbox includes generating and verifying ZK proofs through a tailored interface, supported by a Security Ritual UX (implemented in `PrivacyVault.tsx`) that guides users through proof generation with visual feedback (e.g., `requestAnimationFrame`-based animations capped at 98% to indicate near-completion). This onboarding mechanism not only reduces the learning curve but also demonstrates the system's mathematical integrity, positioning Tableicity as a unique solution compared to competitors like Carta, who lack interactive, privacy-preserving trial environments.
+
+### 5. Dual-Configuration Feature Gating for Access and Monetization
+
+Tableicity incorporates a sophisticated access control and monetization mechanism through a computationally invariant four-gate middleware architecture, governed by a global Dual-Configuration Feature Gate. This system, detailed in `proof-middleware.ts` and `proof-config.ts`, manages user permissions and billing for ZKP generation and verification events. The middleware operates through four distinct gates: a frontend feature flag to enable/disable UI elements, a server-side tier configuration check (based on tenant plan), the `checkProofAccess` middleware to enforce limits, and race-condition-proof usage tracking via atomic PostgreSQL upserts (`INSERT ... ON CONFLICT DO UPDATE` in `storage.ts`). This ensures that only successful proof generations increment the usage meter, protecting users from penalties for system failures.
+
+Central to this mechanism is a single compile-time boolean constant, `BETA_MODE` (set to `true` or `false` on line 7 of `proof-config.ts`), which toggles the permission matrix between Beta and Production configurations. In Beta mode, all tiers have access to a set allocation (e.g., 10 proofs/month), while in Production mode, access is restricted to paid tiers based on subscription levels (`PROOF_TIER_BETA` vs. `PROOF_TIER_PRODUCTION` in `proof-config.ts`). The middleware remains invariant, executing identical logic paths regardless of mode, with only the tier-limit data retrieved changing based on the `BETA_MODE` flag at module load time. This "kill switch" pattern enables a simultaneous, state-wide transition across all tenant schemas without code modifications, deployment differences, or per-tenant migrations, activating a monetization wall instantly when switched to Production mode. This innovative approach to SaaS monetization provides scalability and flexibility, distinguishing Tableicity from traditional equity management platforms.
+
+### 6. Complementary Privacy Layers with Encrypted View System
+
+Beyond ZKPs and schema isolation, Tableicity implements a complementary privacy layer through an Encrypted View system to further protect sensitive data during user interactions. This system, integrated into the frontend (`PrivacyModeToggle.tsx`), employs HMAC-SHA-256 hashing with `companyId` as the key to obscure displayed data (e.g., stakeholder identities or share counts) in visual interfaces. It features truncated display formats and custom privacy labels (e.g., `XXXX-XXXX` with an unambiguous charset), adhering to a display priority chain (label > hash > placeholder) to balance usability and security. Toggle persistence is managed via `localStorage`, and role-based access control dictates visibility (e.g., staff can view, admins can edit), ensuring granular protection.
+
+This Encrypted View operates as part of a three-layer privacy stack alongside Schema-per-Tenant Isolation and ZKP verification, each addressing distinct threat vectors (e.g., database leaks, visual exposure, data processing). The combined user journey—from login to proof generation—ensures data remains protected at every interaction point, with no coupling between layers to maintain separation. This multi-layered approach enhances Tableicity's defensibility against data exposure risks prevalent in centralized systems like Carta.
+
+### 7. Testing and Validation Infrastructure for System Reliability
+
+Tableicity incorporates a robust testing and validation infrastructure to ensure the reliability, security, and cryptographic integrity of its privacy-first equity management platform. This infrastructure, detailed in the system documentation, is critical for demonstrating the utility and soundness of the invention to regulatory bodies and potential stakeholders. At the foundational level, a Gate 0 smoke test verifies the NoirJS pipeline, ensuring the core Zero-Knowledge Proof (ZKP) generation and verification processes function as intended before further integration. This is complemented by a comprehensive 5-test cryptographic unit suite that evaluates key system behaviors, including positive case validation (successful proof generation and verification), rejection handling (invalid inputs or constraints), mismatch detection (commitment discrepancies), tampering resistance (altered proof rejection), and threshold enforcement (e.g., ownership percentage checks via `ownership_threshold` circuit).
+
+A security properties table maps these tests to essential cryptographic guarantees: soundness (proofs cannot be faked), binding (commitments cannot be altered post-generation), public input integrity (visible data remains consistent), and completeness (valid inputs always produce verifiable proofs). This rigorous validation framework, implemented across the codebase, underpins Tableicity's reliability, distinguishing it from traditional platforms like Carta, where such cryptographic testing is absent due to their lack of ZKP architecture. Additionally, a commitment generation CLI tool allows developers to simulate and debug commitment creation outside the live environment, further ensuring system stability. These testing mechanisms provide concrete evidence of the invention's operational integrity, supporting patent utility under USPTO requirements.
+
+### 8. System Component Interactions and Data Flow
+
+The seamless operation of Tableicity's privacy-first platform relies on well-defined interactions between its multi-layered components, ensuring data invisibility and user sovereignty at every stage. The system is structured across three primary layers: the browser layer (user interface), the server layer (processing and middleware), and the database layer (isolated storage). The browser layer includes four key pages and components (e.g., `PrivacyVault.tsx` for proof generation, `PrivacyModeToggle.tsx` for encrypted display), a custom hook for ZKP interactions, and a sidebar integration for navigation, all facilitating user engagement with privacy features. The server layer comprises API routes (`proof-routes.ts`), proof services (`proof-service.ts`), middleware for access control (`proof-middleware.ts`), configuration settings (`proof-config.ts`), and a WASM backend for cryptographic operations, handling the core logic of ZKP generation and verification. The database layer maintains a plurality of per-tenant tables within each isolated schema — over twenty tables including equity records, commitment hashes, proof requests, proof results, and proof usage tracking — ensuring data separation.
+
+Data flow begins with user input in the browser (e.g., initiating a proof request via the Privacy Vault page), which triggers an API call to the server through authenticated routes (protected by `requireAuth` and `tenantMiddleware`). The server resolves tenant context from session data, applies the four-gate access control (feature flag, tier config, access check, usage tracking), and processes the request—either generating a ZKP using Noir circuits or retrieving a pre-seeded synthetic proof for Sandbox users. Results are stored in the tenant's isolated schema and returned to the browser for display, with sensitive data obscured via the Encrypted View system. Public verification requests (unauthenticated) bypass proof generation, using a status-based lookup endpoint for efficiency. This end-to-end flow, mapped in detailed interaction diagrams, ensures privacy at every touchpoint, providing a scalable, secure framework that redefines equity management compared to centralized alternatives.
+
+### 9. Version Control and Reproducibility for Patent Evidence
+
+To support the reproducibility and long-term validity of Tableicity's system as required for patent enablement, the platform includes strict version lock documentation for its cryptographic dependencies. Core components such as `nargo`, `noir_js`, and `backend_barretenberg` are locked at version 0.36.0, ensuring consistent behavior of ZKP generation and verification processes across development and production environments. Upgrade procedures are defined to maintain compatibility and security, with version-specific artifacts (e.g., compiled `ownership_threshold.json`) preserved to replicate the system's state at the time of filing. This meticulous versioning provides concrete evidence for USPTO examiners to verify the invention's functionality, reinforcing the patent's technical credibility and distinguishing Tableicity from less rigorously documented systems in the equity management space.
+
+### 10. Progressive Onboarding Pipeline with Atomic Schema Provisioning
+
+Tableicity introduces a progressive onboarding pipeline that transforms a prospective user's initial engagement into an immediate, functional experience within a privacy-preserving equity management environment. Unlike traditional SaaS onboarding flows that require manual data entry, demo scheduling, or guided tours before the user can interact with the system, Tableicity's pipeline atomically provisions a complete, schema-isolated workspace pre-populated with realistic equity data and cryptographic commitments upon a single email verification event.
+
+The pipeline operates through five sequential stages, each implemented as a distinct API endpoint (`server/trial.ts`) with corresponding frontend pages:
+
+**Stage 1 — Lead Capture:** A prospective user submits identifying information (name, email, phone, company name) via the platform's launch page. The system creates a record in a dedicated `trialSignups` table in the public database schema, establishing the user's identity without creating an account or allocating any tenant resources. This stage serves as a lightweight data collection point that does not trigger any schema provisioning.
+
+**Stage 2 — Account Creation:** The user establishes authentication credentials (password with minimum complexity requirements). The system hashes the password using bcrypt (12 rounds), creates a user record with `emailVerified: false`, generates a cryptographically random 32-byte hex verification token, and transmits a verification link via email. At this stage, no tenant schema exists — the user has credentials but no workspace.
+
+**Stage 3 — Email Verification and Atomic Provisioning:** Upon clicking the verification link, a single API call (`GET /api/trial-verify`) triggers the following atomic sequence:
+
+  a. The system marks both the trial signup record and the user record as verified.
+
+  b. The system calls `provisionSandboxForUser()`, which executes a complete provisioning pipeline:
+
+  - Creates a new PostgreSQL schema (`tenant_sandbox-{userId}`) via `CREATE SCHEMA IF NOT EXISTS` with over twenty table definitions, custom enum types, and index structures;
+
+  - Inserts a tenant record with `isSandbox: true` and `plan: "trial"`;
+
+  - Creates a membership record linking the user to the new tenant as `tenant_admin`;
+
+  - Seeds the schema with a complete simulated company ("Archer Technologies Inc.") including founders, investors, employees, advisors, share classes, securities, SAFE agreements, documents, investor updates, and equity plan hierarchies;
+
+  - Seeds platform resources (legal templates, SAFE templates) from a master repository into the tenant's document store;
+
+  - Calls `seedZkpData()` to generate 4 cryptographic commitment records (SHA-256 hashes with random 32-byte salts) from the first 4 seeded securities, plus a pre-computed and verified `ownership_threshold` proof with a 1-year TTL (identified by a `seed_demo_` prefix);
+
+  - Seeds Test Drive checklist documents tagged with category metadata for guided feature exploration.
+
+  c. The system generates an organization token (32-byte hex) for the subsequent auto-login step.
+
+**Stage 4 — Silent Auto-Login:** The frontend submits the organization token to the auto-login endpoint (`POST /api/trial-auto-login`), which establishes a server-side session via Passport.js without requiring the user to manually enter credentials again. The tenant slug is persisted to the client's local storage, and the application's Tenant Provider context picks up the slug on redirect, routing all subsequent API requests to the newly provisioned schema.
+
+**Stage 5 — Guided First Experience:** The user arrives in a fully populated workspace containing realistic cap table data, pre-verified Zero-Knowledge Proofs available for inspection via the Privacy Vault, and contextual Test Drive banners on equity plan pages that guide them through feature exploration via the Data Store's category-filtered checklist documents. The user can immediately generate live ZK proofs against the seeded data, inspect pre-seeded synthetic proofs through the public verification pipeline, and explore the complete equity management feature set — all within their own isolated schema.
+
+This five-stage pipeline is distinguished from traditional SaaS onboarding in several ways: the provisioning is atomic (a single verification event triggers the complete sequence), the workspace is functional (real cryptographic operations can be performed immediately), and the data isolation is structural (the sandbox operates within the same Schema-per-Tenant architecture as production tenants, with identical security constraints).
+
+### 11. Sandbox-to-Live Organization Transition with Dual-State Architecture
+
+Upon completing the sandbox onboarding experience, the user may create a live organization at any time via a dedicated organization creation endpoint (`POST /api/trial-create-organization`). This process provisions a second, independent tenant schema, seeds it with platform resources (legal templates, SAFE agreement templates), and establishes the user as the `tenant_admin` of the new organization.
+
+A distinguishing aspect of this transition is the dual-state architecture that results: the user retains concurrent access to both the sandbox environment and the live organization. The client-side Tenant Provider maintains a list of all tenant memberships for the authenticated user and provides a tenant switching mechanism that persists the active tenant selection to local storage. When the user switches tenants, all subsequent API requests include the new tenant identifier, and the server-side tenant middleware dynamically routes the database connection to the corresponding isolated schema by setting the PostgreSQL `search_path` at the connection level (`SET search_path TO "tenant_{slug}", public`).
+
+This dual-state architecture ensures that:
+
+  a. The sandbox remains available as a persistent reference environment where the user can revisit privacy features, re-run ZK proof generation, and consult seeded equity data structures at any time;
+
+  b. The live organization operates under identical security constraints (Schema-per-Tenant isolation, four-gate middleware, role-based access control) as the sandbox;
+
+  c. No data can flow between the sandbox schema and the live organization schema — the database-level schema isolation prevents any cross-tenant data access regardless of the user's authenticated session; and
+
+  d. The transition requires no re-registration, re-authentication, or data migration — the user's session and identity remain continuous across both environments.
+
+### 12. Multi-Organization Membership with Schema-Routed Role-Based Access Control
+
+Tableicity implements a multi-organization membership model that enables a single authenticated user to belong to multiple tenant schemas, each with an independently assigned role. This model is implemented through a `tenant_members` join table in the public database schema, which records the relationship between a user identifier, a tenant identifier, a role designation (e.g., `platform_admin`, `tenant_admin`, `tenant_staff`, `shareholder`), and a membership status.
+
+The enforcement of per-tenant access control operates through a three-stage middleware chain that executes on every authenticated API request:
+
+**Stage 1 — Tenant Resolution and Membership Verification:** The `tenantMiddleware` function extracts the tenant slug from the request (via query parameter or HTTP header), retrieves the tenant record, and calls `getUserTenantRole()` to verify that the authenticated user has an active membership for the specified tenant. If no active membership exists, the request is rejected with a 403 status. Platform administrators (identified by an `isPlatformAdmin` flag on the user record) bypass this membership check, enabling cross-tenant administrative access.
+
+**Stage 2 — Database Connection Routing:** Upon successful membership verification, the middleware obtains a database connection pool configured for the tenant's isolated schema. The pool's connection handler sets the PostgreSQL `search_path` to `"tenant_{slug}", public` on every new connection, ensuring that all subsequent SQL queries within the request lifecycle are confined to the tenant's schema. The middleware then constructs a tenant-scoped storage interface (`tenantStorage`) bound to this connection and attaches it to the request object for use by downstream route handlers.
+
+**Stage 3 — Role Enforcement:** Route-specific role requirements are enforced by a higher-order `requireRole` middleware that accepts a list of permitted roles. This middleware compares the user's resolved role (from Stage 1) against the permitted roles for the endpoint. Platform administrators are granted access to all role-restricted endpoints regardless of the specified role list. This ensures that a user who is a `tenant_admin` in Organization A and a `shareholder` in Organization B can access administrative endpoints only when operating in Organization A's context.
+
+The client-side counterpart of this system is a Tenant Provider context that fetches the user's complete list of tenant memberships (with roles) upon authentication, persists the active tenant selection to local storage, and provides a switching interface. The `appendTenantParam()` helper function ensures that the active tenant identifier is included in every API request, completing the round-trip from client-side selection to server-side schema routing.
+
+This architecture is distinguished from conventional multi-tenant access control in that role enforcement is coupled with database-level schema switching — the user's permissions are not merely checked at the application layer but are structurally enforced by the database connection's schema scope. A user operating in the context of Tenant A literally cannot query Tenant B's tables, regardless of any application-level access control bypass, because the database connection's `search_path` excludes Tenant B's schema.
+
+### 13. Subscription-Integrated Cryptographic Monetization Pipeline
+
+Tableicity implements an end-to-end monetization pipeline that connects an external payment provider's subscription lifecycle to the cryptographic operation access gating described in Section 5. This pipeline ensures that changes in a tenant's subscription tier are immediately reflected in their ability to generate Zero-Knowledge Proofs.
+
+The pipeline operates through three integrated stages:
+
+**Stage 1 — Subscription Initiation with Tenant-Scoped Metadata:** When a user initiates a subscription upgrade, the system creates a checkout session with the external payment provider (Stripe). The checkout session is tagged with metadata containing the user's identifier, the resolved subscription tier identifier (e.g., `starter`, `professional`, `enterprise`), and the tenant identifier. This metadata is propagated to the underlying subscription object, ensuring that subsequent lifecycle events carry the tenant context required for scoped plan updates.
+
+**Stage 2 — Webhook-Driven Plan Synchronization:** The system exposes a webhook endpoint that receives subscription lifecycle events from the payment provider. Upon receiving a subscription creation or update event, the webhook handler extracts the `tierId` and `tenantId` from the subscription metadata and updates the tenant's `plan` field in the platform database. Upon receiving a subscription deletion event, the handler downgrades the tenant's plan to the base tier. Webhook signature verification is enforced in production environments to prevent unauthorized plan modifications.
+
+**Stage 3 — Real-Time Proof Access Enforcement:** When a user subsequently requests a Zero-Knowledge Proof generation, the `checkProofAccess` middleware (described in Section 5) retrieves the tenant's current plan from the database, calls `getProofTierConfig(tenant.plan)` to obtain the corresponding configuration (including `noirEnabled` flag and `maxProofsPerMonth` limit), and either permits or denies the request. Because the webhook handler updates the tenant's plan synchronously upon receiving the payment provider event, the proof access gating reflects the current subscription state in real time.
+
+The integration of Sections 5 and 13 creates a closed-loop monetization system: the BETA_MODE constant determines which tier configuration map is loaded (beta or production), the payment provider's subscription events update the tenant's tier within that map, and the four-gate middleware enforces the corresponding access limits on every proof generation request. This system supports three subscription tiers in production mode: a base tier with cryptographic operations disabled, a professional tier with a defined monthly allocation (e.g., 10 proofs/month) and per-proof overage pricing, and an enterprise tier with a higher allocation (e.g., 100 proofs/month) and reduced overage pricing.
+
+### 14. Multi-Instrument Equity Management with Differentiated Cap Table Impact
+
+Tableicity manages five categories of equity instruments within each tenant's isolated schema, each following a consistent architectural pattern (database schema, storage interface, API routes with validation, frontend pages) while implementing differentiated cap table impact rules that reflect the distinct legal and financial characteristics of each instrument type.
+
+The five instrument categories are:
+
+**a. Stock Options (Employee Stock Option Plans — ESOP):** Managed through a four-level hierarchy: Pool (board-authorized share allocation) → Plan (rules for a group of grants, including grant type) → Grant (individual equity award to a stakeholder, with vesting parameters) → Exercise (conversion of vested options into securities). Upon exercise, the system automatically creates a new securities record on the cap table, linking it to the appropriate share class. **Cap table impact: Yes — exercise creates ownership.**
+
+**b. Warrants:** Rights to purchase shares at a predetermined price. Upon exercise, the system creates a new securities record using the warrant's underlying share class and exercise price. **Cap table impact: Yes — exercise creates ownership.**
+
+**c. Stock Appreciation Rights (SARs):** Rights to receive the appreciation in value of a set number of shares. The cap table impact depends on the settlement type: stock-settled SARs create securities records (with the number of shares calculated as the payout amount divided by the current share price), while cash-settled SARs result only in a monetary payout. **Cap table impact: Conditional — only stock settlement creates ownership.**
+
+**d. Phantom Shares:** Cash-settled grants that track the value of underlying shares. Phantom share payouts never create securities records, as they represent cash obligations rather than equity ownership. **Cap table impact: No — cash-only, no ownership created.**
+
+**e. Direct Stock (Securities):** The foundational cap table records representing actual share ownership, issued through direct purchases, founder allocations, or as a result of exercising the instruments described above.
+
+A server-side vesting computation engine (`computeVestedShares()` in `server/utils/vesting.ts`) calculates vested shares dynamically at the moment of exercise, rather than relying on pre-computed vesting schedules stored in the database. This computation considers the vesting start date, total duration, cliff period, and vesting frequency to determine the exact number of shares exercisable at the time of the request. By computing vesting server-side at exercise time, the system prevents manipulation that could occur if vesting schedules were pre-computed and stored client-side.
+
+The exercise validation enforces a critical integrity rule: the number of shares a user requests to exercise is validated against the server-computed vested amount minus previously exercised shares. If the requested amount exceeds this computed ceiling, the request is rejected. This server-side enforcement ensures that the cap table remains an accurate record of ownership, with automatic securities creation only occurring upon validated exercise events.
+
+---
+
+## Claims
+
+What is claimed is:
+
+**1.** A privacy-first equity management system for private companies, comprising:
+
+a. a Schema-per-Tenant isolation architecture implemented through dedicated database schemas for each tenant to ensure complete cryptographic separation of stakeholder data;
+
+b. a Zero-Knowledge Proof (ZKP) framework utilizing NOIR circuit constraints for privacy-preserving verification of equity data without exposing underlying information;
+
+c. a functional Seeded Sandbox environment enabling atomic-metered ZKP generation and verification using mock equity records under identical security constraints as a production environment; and
+
+d. a computationally invariant four-gate middleware for access control and monetization, governed by a global configuration mechanism to toggle between operational states.
+
+**2.** The system of claim 1, wherein the Schema-per-Tenant isolation architecture prevents cross-tenant data leakage by maintaining distinct PostgreSQL schemas for each tenant, each containing tenant-specific tables for equity records and cryptographic commitments.
+
+**3.** The system of claim 1, wherein the ZKP framework processes equity data through a multi-stage transformation pipeline including salt generation, SHA-256 commitment hashing for integrity, and Pedersen commitment for circuit compatibility using the BN254 elliptic curve pair, with Pedersen operations computed on the embedded Grumpkin curve.
+
+**4.** The system of claim 1, wherein the ZKP framework employs server-side proof generation to manage private input containment, circuit artifact size, and WASM memory constraints, ensuring scalability and security.
+
+**5.** The system of claim 1, wherein the ZKP framework includes dual verification paths comprising an internal cryptographic re-verification path for authenticated users and a public status-based lookup path for unauthenticated external parties.
+
+**6.** The system of claim 1, wherein the NOIR circuit constraints include a test_hash circuit for commitment validation leveraging the computational hardness of the Discrete Logarithm Problem on the Grumpkin/BN254 curve pair, and an ownership_threshold circuit combining commitment binding verification with arithmetic threshold enforcement within the zero-knowledge constraint system.
+
+**7.** The system of claim 1, wherein the Seeded Sandbox environment seeds mock equity data with pre-seeded synthetic proofs requiring no circuit execution and live-generated proofs using real cryptographic operations, coexisting in a unified verification pipeline.
+
+**8.** The system of claim 7, wherein the Seeded Sandbox tracks live proof generation via atomic server-side increments in a usage-tracking table, ensuring failed attempts do not deplete a metered allocation.
+
+**9.** The system of claim 1, wherein the four-gate middleware comprises a frontend feature flag, server-side tier configuration check, access enforcement mechanism, and race-condition-proof usage tracking via PostgreSQL upserts.
+
+**10.** The system of claim 1, wherein the global configuration mechanism utilizes a single compile-time boolean constant to toggle between Beta and Production configurations, activating a monetization wall across all tenant schemas simultaneously without code path modifications.
+
+**11.** The system of claim 1, further comprising a complementary privacy layer stack including an Encrypted View system that obscures displayed data using HMAC-SHA-256 hashing with a company-specific key, formatted via truncated display patterns and custom privacy labels.
+
+**12.** The system of claim 11, wherein the Encrypted View system adheres to a display priority chain of label over hash over placeholder, with toggle persistence managed via local storage and visibility governed by role-based access control.
+
+**13.** The system of claim 1, further comprising a testing and validation infrastructure including a Gate 0 smoke test for NoirJS pipeline verification and a cryptographic unit suite evaluating positive cases, rejections, mismatches, tampering resistance, and threshold enforcement.
+
+**14.** The system of claim 13, wherein the testing infrastructure maps to security properties including soundness, binding, public input integrity, and completeness, ensuring cryptographic reliability of ZKP operations.
+
+**15.** The system of claim 1, further comprising a multi-layered component architecture spanning browser, server, and database layers, with defined API call paths for user-initiated proof requests and public verification lookups, maintaining data invisibility at every interaction point.
+
+**16.** The system of claim 1, further comprising version lock documentation for cryptographic dependencies, including specific versions of nargo, noir_js, and backend_barretenberg, to ensure reproducibility of ZKP generation and verification processes.
+
+**17.** A method for providing a functional cryptographic trial in a schema-isolated sandbox for equity management, comprising:
+
+a. providing a multi-tenant architecture wherein a Seeded Sandbox operates within a dedicated, isolated database schema;
+
+b. maintaining a unified verification pipeline where pre-seeded synthetic proofs, requiring no circuit execution, and live-generated Noir ZK-proofs coexist and are validated by the same endpoint;
+
+c. granting authenticated access to a plurality of live proof-generation cycles within the Sandbox, controlled by a four-gate verification architecture; and
+
+d. executing an atomic server-side increment via PostgreSQL upsert of a usage-tracking table only upon successful generation of a valid ZK-proof, wherein failed generation attempts do not deplete the user's metered allocation.
+
+**18.** A method for global configuration-aware feature gating in a privacy-first equity management system, comprising:
+
+a. providing a simultaneous global state transition, wherein a single compile-time boolean constant toggles a permission matrix between a first configuration (Beta) and a second configuration (Production);
+
+b. maintaining a computationally invariant four-gate verification middleware that executes identical logic paths across both configurations while retrieving disparate tier-limit data; and
+
+c. enabling a universal kill switch mechanism that activates a monetization wall across all tenant schemas simultaneously upon the state change of the single boolean constant.
+
+**19.** A method for progressive onboarding with atomic schema provisioning in a privacy-preserving equity management system, comprising:
+
+a. receiving lead capture data from a prospective user and storing it in a platform-level database without allocating any tenant-specific resources;
+
+b. creating an authentication record for the user with an unverified status and generating a cryptographically random verification token;
+
+c. upon receipt of a verification event triggered by the user activating the verification token, atomically executing a provisioning sequence comprising:
+
+  i. creating a dedicated database schema containing a plurality of tables for equity records, stakeholder data, cryptographic commitments, and proof tracking;
+
+  ii. seeding the schema with a simulated company including a plurality of stakeholder records, share classes, securities, and equity plan hierarchies;
+
+  iii. generating cryptographic commitment records by computing SHA-256 hashes of seeded securities data combined with random salts;
+
+  iv. creating a pre-verified Zero-Knowledge Proof record within the schema, identifiable by a synthetic prefix and configured with an extended time-to-live; and
+
+  v. seeding guided checklist documents tagged with category metadata for feature exploration;
+
+d. establishing an authenticated session for the user without requiring re-entry of credentials; and
+
+e. directing the user to the provisioned schema wherein the user can immediately perform live cryptographic operations against the seeded data.
+
+**20.** The method of claim 19, wherein the provisioning sequence further comprises seeding platform-level resource documents from a master repository into the tenant schema's document store, with deduplication enforced by marker strings to prevent duplicate resource injection.
+
+**21.** The method of claim 19, wherein the pre-verified Zero-Knowledge Proof record is validated by the same verification pipeline as live-generated proofs, with the synthetic prefix distinguishing seeded proofs from user-generated proofs without requiring separate verification logic.
+
+**22.** A method for dual-state environment operation in a schema-isolated equity management system, comprising:
+
+a. maintaining concurrent access for an authenticated user to a first isolated database schema containing a seeded sandbox environment and a second isolated database schema containing a live organization;
+
+b. providing a client-side tenant selection mechanism that persists the active tenant identifier and appends it to all API requests;
+
+c. routing each API request through a server-side middleware that extracts the tenant identifier, verifies the user's membership in the specified tenant, and sets the database connection's schema search path to the corresponding isolated schema; and
+
+d. ensuring that no data flows between the first schema and the second schema, wherein the database-level schema isolation prevents cross-tenant data access regardless of the user's authenticated session state.
+
+**23.** The method of claim 22, wherein the transition from the first schema to the second schema requires no re-authentication, re-registration, or data migration, and wherein the user's session and identity remain continuous across both environments.
+
+**24.** A system for multi-organization membership with schema-routed role-based access control in a privacy-preserving equity management platform, comprising:
+
+a. a membership data structure recording associations between user identifiers, tenant identifiers, role designations, and membership statuses, wherein a single user may hold different roles across a plurality of tenants;
+
+b. a tenant middleware that, for each authenticated API request, extracts the tenant identifier, verifies the user's active membership for the specified tenant, obtains a database connection configured with the tenant's schema as the search path, and constructs a tenant-scoped storage interface bound to the schema-specific connection;
+
+c. a role enforcement middleware that compares the user's resolved role for the active tenant against a list of permitted roles for each API endpoint, wherein the user's role in one tenant has no bearing on their access in another tenant; and
+
+d. a platform administrator override that bypasses tenant-specific membership verification to enable cross-tenant administrative access while still routing database operations through the specified tenant's isolated schema.
+
+**25.** The system of claim 24, wherein role enforcement is coupled with database-level schema switching such that a user operating in the context of a first tenant cannot query a second tenant's tables regardless of any application-level access control state, because the database connection's search path excludes the second tenant's schema.
+
+**26.** A method for subscription-integrated cryptographic monetization in a privacy-preserving equity management system, comprising:
+
+a. creating a subscription checkout session with an external payment provider, the session tagged with metadata comprising a user identifier, a subscription tier identifier, and a tenant identifier;
+
+b. receiving a webhook event from the payment provider upon subscription creation, update, or deletion, extracting the tier identifier and tenant identifier from the subscription metadata, and updating the tenant's plan designation in the platform database to reflect the current subscription state;
+
+c. upon receiving a request for a cryptographic proof generation operation, retrieving the tenant's current plan designation, obtaining the corresponding tier configuration including a feature-enabled flag and a maximum operations-per-billing-period limit, and permitting or denying the request based on the tier configuration; and
+
+d. incrementing a usage counter via an atomic database upsert only upon successful completion of the cryptographic proof generation operation, wherein the usage counter is scoped to the tenant identifier and the current billing period.
+
+**27.** The method of claim 26, wherein the tier configuration is selected from one of two configuration maps based on the state of a compile-time boolean constant, the first map providing uniform access across all tiers for beta evaluation and the second map restricting access to paid tiers with defined monthly allocations and per-operation overage pricing.
+
+**28.** The method of claim 26, wherein the webhook handler enforces signature verification in production environments and extracts the tier identifier and tenant identifier exclusively from the subscription metadata, ensuring that plan updates are scoped to the specific tenant associated with the subscription rather than applied broadly.
+
+**29.** The system of claim 1, further comprising a multi-instrument equity management module supporting stock options, warrants, stock appreciation rights, phantom shares, and direct stock securities, each with differentiated cap table impact rules wherein exercise of stock options and warrants automatically creates securities records, exercise of stock appreciation rights conditionally creates securities records based on settlement type, and phantom share payouts do not create securities records.
+
+**30.** The system of claim 29, further comprising a server-side vesting computation engine that calculates vested shares dynamically at the moment of exercise based on vesting start date, duration, cliff period, and vesting frequency, wherein the computed vested amount is used to validate exercise requests and prevent exercise of shares beyond the server-determined vesting ceiling.
+
+**31.** The system of claim 1, further comprising a guided onboarding system that seeds contextual checklist documents into each tenant's document store upon provisioning, associates each checklist with a category via descriptive metadata tags, and provides dismissible contextual banners on equity plan pages that link to the document store filtered by the associated category, with dismissal state persisted per page via client-side local storage.
+
+**32.** The system of claim 1, further comprising a platform resource auto-propagation mechanism that maintains a master document repository with per-resource auto-seed and admin-only flags, clones resources with the auto-seed flag enabled into each new tenant's document store upon provisioning with deduplication via marker strings, and enforces that resources with the admin-only flag are never auto-seeded to tenant schemas.
+
+---
+
+## Embodiments and Diagrams
+
+### 1. Specific Embodiments of the Invention
+
+The following embodiments illustrate specific implementations of Tableicity, a privacy-first equity management platform, as described in the foregoing sections. These embodiments are provided to enable one of ordinary skill in the art to make and use the invention and are not intended to limit the scope of the claims. Variations and modifications within the spirit and scope of the invention are contemplated and included.
+
+#### 1.1 Embodiment 1: Founder Onboarding via Seeded Sandbox
+
+As shown in FIG. 1, in a first embodiment, a founder of a stealth startup accesses Tableicity from a User Device (10) to manage their company's cap table with privacy as a priority. Upon account creation, the request passes through the Four-Gate Middleware (12), which enforces Authentication, Authorization, Tenant Routing, and Rate Limiting before reaching the Application Server (20). The Application Server (20) initializes a dedicated Database Schema (30) (e.g., tenant_startup123 via server/tenant.ts) for the founder's company, ensuring Schema-per-Tenant Isolation, whereby each tenant's data resides in a structurally separated schema (30, 32, 34) with no cross-tenant data access.
+
+As further shown in FIG. 2, the founder is directed to the Seeded Sandbox environment, where mock equity data (e.g., 4 securities with SHA-256 commitment hashes) is pre-seeded into the Mock Securities Data Store (52) using the seedZkpData() Initialization Function (50). The founder interacts with the Privacy Vault Interface (54) (PrivacyVault.tsx) to initiate a live Zero-Knowledge Proof (ZKP) generation cycle, limited to a metered allocation (e.g., 10 proofs in beta mode) as enforced by the Proof Allocation Meter (56) (per proof-config.ts).
+
+Referring to FIG. 3, the method proceeds through sequential steps: at Step 102, the system authenticates the user and initializes the tenant schema; at Step 104, the Seeded Sandbox is initialized with mock equity data; at Step 106, the user requests ZKP generation via the Privacy Vault Interface (54). If the Proof Allocation Meter (56) confirms remaining allocation, the process advances to Step 108, where the Application Server (20) processes the request server-side (proof-service.ts), invoking the NOIR Circuit Engine (40) to generate a proof using the ownership_threshold circuit to verify a mock stakeholder's ownership percentage without exposing underlying data.
+
+As illustrated in FIG. 4, at Step 110, upon successful proof generation, the proof record is stored via createProofResult() (65). The usage counter is then updated via an atomic PostgreSQL upsert (incrementProofUsage() in storage.ts) (66), where the usage increment is committed atomically (68) to ensure race-condition-proof billing accuracy. Upon successful commit, a Verification URL (42) is returned at Step 112 for sharing with a potential investor.
+
+As depicted in FIG. 5, the Security Ritual UX guides the founder through the process with visual feedback. The interface transitions from the IDLE state (80) to the PROCESSING state (82), where the progress animation advances from 0% to 98%. Upon reaching the threshold, the system enters the 98% CAP state (84), where the display is held via requestAnimationFrame to prevent premature completion indication. Only upon receipt of server-side proof verification from the Application Server (20) does the interface transition to the VERIFIED state (86), displaying the Verification URL (42) at 100% and building trust in the platform's privacy capabilities before the founder transitions to live data management.
+
+#### 1.2 Embodiment 2: Public Verification by External Party
+
+In a second embodiment, as shown in FIG. 1, an external auditor or investor receives a Verification URL (42) from a Tableicity user to confirm an equity-related statement (e.g., ownership threshold) without accessing sensitive data. Unlike the authenticated flow of Embodiment 1, the external party's User Device (10) directs to a public verification endpoint (proof-routes.ts) on the Application Server (20), which is unauthenticated and rate-limited for efficiency — bypassing the full Four-Gate Middleware (12) authentication and authorization gates while retaining the Rate Limiting gate.
+
+Referring to FIG. 1, the Application Server (20) performs a status-based lookup on the stored proof (identified by a unique proofId) within the tenant's isolated Database Schema (30), bypassing cryptographic re-verification via the NOIR Circuit Engine (40) to minimize computational overhead. The Schema-per-Tenant Isolation ensures the lookup is confined to the originating tenant's schema (30), with no cross-tenant data access to adjacent schemas (32, 34).
+
+The result is displayed on a public page (PublicVerify.tsx) with one of four states corresponding to the Security Ritual UX state model depicted in FIG. 5: "Verified" (mapping to the VERIFIED state (86)), "Invalid" (mapping to the ERROR state (88)), "Expired," or "Not Found" — ensuring no raw data or tenant-specific information is exposed. This embodiment demonstrates Tableicity's dual verification paths — internal for authenticated users routed through the Four-Gate Middleware (12), and public for external parties with direct access to the Verification URL Output (42) — enhancing accessibility while maintaining data invisibility, a significant departure from traditional platforms like Carta where raw data exposure is a risk during audits.
+
+#### 1.3 Embodiment 3: Monetization Activation via Dual-Configuration Gating
+
+In a third embodiment, as shown in FIG. 1 and FIG. 2, Tableicity's administrator transitions the platform from Beta to Production mode to activate monetization across all tenant Database Schemas (30, 32, 34). Initially set to BETA_MODE = true in proof-config.ts, the system allows all tiers a metered allocation of ZKP generations (e.g., 10 proofs/month) as enforced by the Proof Allocation Meter (56). Upon updating the compile-time boolean constant to BETA_MODE = false, the permission matrix switches to the Production configuration (PROOF_TIER_PRODUCTION), restricting access to paid tiers only.
+
+Referring to FIG. 1, this state-wide transition occurs simultaneously for all tenants across their isolated Database Schemas (30, 32, 34) without code path changes, as the computationally invariant Four-Gate Middleware (12) — specifically the checkProofAccess function in proof-middleware.ts — retrieves updated tier-limit data while executing identical Authentication, Authorization, Tenant Routing, and Rate Limiting logic. The Application Server (20) processes all requests through the same middleware gates regardless of Beta or Production configuration, ensuring no divergence in the security enforcement path.
+
+As illustrated in FIG. 4, usage tracking remains atomic via the PostgreSQL upsert mechanism in storage.ts (incrementProofUsage()) (66), where the usage counter is committed atomically (68), ensuring billing accuracy across all tenant schemas. This "kill switch" mechanism enables seamless monetization scaling, distinguishing Tableicity's SaaS model from static access systems in equity management.
+
+#### 1.4 Embodiment 4: Progressive Onboarding with Atomic Schema Provisioning
+
+In a fourth embodiment, a prospective user discovers Tableicity and navigates to the platform's launch page on their User Device (10). The user submits lead capture information (name, email, company name) to the Application Server (20), which stores the data in a platform-level `trialSignups` table without allocating any tenant-specific resources or Database Schemas.
+
+The user then creates authentication credentials, which the Application Server (20) hashes using bcrypt (12 rounds) and stores with an unverified status. The Application Server (20) generates a cryptographically random 32-byte hex verification token and transmits a verification link to the user's email address.
+
+Upon clicking the verification link, a single GET request to the Application Server (20) triggers the atomic provisioning sequence described in Section 10. The Application Server (20) creates a new Database Schema (30) (e.g., `tenant_sandbox-{userId}`), executes over twenty `CREATE TABLE` statements with custom enum types, inserts a complete simulated company with founders, investors, employees, share classes, securities, SAFE agreements, and equity plan hierarchies into the new schema, generates 4 SHA-256 commitment records with random 32-byte salts via `seedZkpData()`, creates a pre-verified `ownership_threshold` proof with a 1-year TTL, and seeds Test Drive checklist documents tagged with category metadata.
+
+The Application Server (20) then generates an organization token and returns it to the User Device (10). The frontend submits this token to establish an authenticated session via Passport.js without requiring re-entry of credentials. The Tenant Provider context on the User Device (10) persists the sandbox tenant slug to local storage and routes all subsequent API requests through the tenant middleware to the newly provisioned Database Schema (30).
+
+The user arrives in a fully populated workspace and can immediately: inspect pre-seeded Zero-Knowledge Proofs via the Privacy Vault Interface (54), generate live ZK proofs against the seeded securities data (subject to the metered allocation enforced by the Proof Allocation Meter (56)), explore equity plans, stakeholders, and securities within the seeded cap table, and follow guided Test Drive checklists to learn each feature category.
+
+#### 1.5 Embodiment 5: Multi-Organization User with Per-Tenant Role Enforcement
+
+In a fifth embodiment, a user who has completed onboarding (per Embodiment 4) creates a live organization via the Application Server (20), resulting in a second Database Schema (32) provisioned alongside the existing sandbox Database Schema (30). The user is assigned the `tenant_admin` role in both schemas via the `tenant_members` table.
+
+The user later invites a co-founder, who accepts the invitation and is assigned a `tenant_staff` role in the live organization Database Schema (32) only. The co-founder has no membership in the sandbox Database Schema (30).
+
+When the original user accesses the platform, the Tenant Provider on their User Device (10) fetches their complete membership list from the Application Server (20), revealing two tenants with the `tenant_admin` role. They select the live organization, and the Tenant Provider persists this selection to local storage. All API requests include the live organization's tenant slug, and the `tenantMiddleware` on the Application Server (20) verifies the user's membership, sets the database connection's `search_path` to the live organization's Database Schema (32), and constructs a schema-scoped storage interface.
+
+When the co-founder accesses the platform, their Tenant Provider reveals only one tenant (the live organization) with the `tenant_staff` role. If the co-founder attempts to access a `tenant_admin`-restricted endpoint (e.g., editing privacy labels), the `requireRole` middleware rejects the request with a 403 status. If the co-founder manipulates the tenant identifier to reference the sandbox Database Schema (30), the `tenantMiddleware` rejects the request because no active `tenant_members` record exists for the co-founder in the sandbox tenant, returning a 403 before any database query is executed against the sandbox schema.
+
+#### 1.6 Embodiment 6: Subscription Upgrade with Immediate Proof Access
+
+In a sixth embodiment, a user operating on the base subscription tier attempts to generate a Zero-Knowledge Proof via the Privacy Vault Interface (54). The `checkProofAccess` middleware on the Application Server (20) retrieves the tenant's plan (e.g., "starter"), calls `getProofTierConfig("starter")` which returns `noirEnabled: false` (in Production mode), and returns a 402 "upgrade required" response to the User Device (10). The frontend displays an upgrade prompt.
+
+The user selects a professional tier plan, and the Application Server (20) creates a Stripe checkout session tagged with metadata: `{ tierId: "professional", tenantId: "tenant-123", userId: "user-456" }`. The user completes payment on the external payment provider's hosted checkout page.
+
+The payment provider sends a `customer.subscription.created` webhook event to the Application Server (20). The webhook handler extracts `tierId: "professional"` and `tenantId: "tenant-123"` from the subscription metadata, verifies the webhook signature, and updates the tenant record: `UPDATE tenants SET plan = 'professional' WHERE id = 'tenant-123'`.
+
+The user returns to the Privacy Vault Interface (54) and requests proof generation. The `checkProofAccess` middleware now retrieves `plan: "professional"`, calls `getProofTierConfig("professional")` which returns `{ noirEnabled: true, maxProofsPerMonth: 10 }`, checks the current usage count against the limit, and permits the request. The proof is generated, stored, and the usage counter is atomically incremented — the full monetization pipeline from subscription event to cryptographic operation access is complete.
+
+### 2. Diagrams and Visual Representations
+
+To further enable understanding of Tableicity's system, the following textual descriptions of diagrams illustrate key data flows and component interactions. These representations are derived from detailed interaction mappings in the system documentation and are intended to support the Examiner's comprehension of the invention's operation.
+
+#### 2.1 Diagram 1: System Component Interaction Flow
+
+As shown in FIG. 1, this diagram depicts the multi-layered architecture of Tableicity across browser, server, and database layers. At the browser layer, the User Device (10) hosts four frontend pages — including the Privacy Vault Interface (54) (see FIG. 2) and the public verification page (PublicVerify.tsx) — along with a custom ZKP hook that initiates user requests. Arrows show API calls passing through the Four-Gate Middleware (12), which enforces Authentication, Authorization, Tenant Routing, and Rate Limiting before reaching the server layer.
+
+At the server layer, the Application Server (20) processes requests through routes (proof-routes.ts), middleware (proof-middleware.ts), proof services (proof-service.ts), and configuration settings (proof-config.ts). As further shown in FIG. 4, the Application Server (20) interacts with the NOIR Circuit Engine (40) for cryptographic operations, receiving Incoming Proof Requests (60), validating parameters and loading circuits via proof-service.ts (62), and executing the ownership_threshold circuit (64).
+
+Referring to FIG. 1, data flows to and from the database layer, represented as isolated tenant Database Schemas (30, 32, 34) — each containing over twenty tables (e.g., equity records, commitment hashes, proof requests, proof results, proof usage) — with no cross-tenant data access. As illustrated in FIG. 4, upon successful proof generation, proof records are stored (65), and usage is updated atomically via incrementProofUsage() (66), committing the usage counter within an atomic upsert (68). Return arrows indicate responses — including proofId and Verification URL (42) — back to the User Device (10), with privacy ensured at each step via Encrypted View or ZKP obscurity as governed by the Security Ritual UX states (80, 82, 84, 86) depicted in FIG. 5.
+
+#### 2.2 Diagram 2: ZKP Data Transformation Pipeline
+
+This diagram illustrates the five-stage pipeline for ZKP generation as processed by the Application Server (20) and NOIR Circuit Engine (40) depicted in FIG. 1. Starting with a raw cap table record (e.g., stakeholder shares) retrieved from a tenant's isolated Database Schema (30), data moves through the following transformation stages:
+
+Stage 1 — Raw Record Extraction: The Application Server (20) retrieves the source equity record from the tenant's Database Schema (30), ensuring Schema-per-Tenant Isolation as shown in FIG. 1, with no cross-tenant access to adjacent schemas (32, 34).
+
+Stage 2 — Salt Generation: A 32-byte random salt is generated server-side within proof-service.ts (62) (see FIG. 4) to ensure cryptographic uniqueness per proof cycle.
+
+Stage 3 — SHA-256 Commitment Hashing: The salted record undergoes SHA-256 hashing for fast integrity verification, producing the commitment hashes stored alongside the Mock Securities Data Store (52) as depicted in FIG. 2.
+
+Stage 4 — Pedersen Commitment (BN254/Grumpkin Curve Pair): The hashed data is further processed into a Pedersen commitment using the Grumpkin elliptic curve (embedded in BN254) for circuit compatibility, enabling the NOIR Circuit Engine (40) to operate on the commitment without exposing raw values.
+
+Stage 5 — Cryptographic State Storage: The final cryptographic state — proof record and verification key — is stored in the tenant's Database Schema (30). Usage is tracked separately via an atomic PostgreSQL upsert (incrementProofUsage()) (66) as shown in FIG. 4, ensuring the usage counter (68) is updated only upon successful proof generation.
+
+Parallel paths diverge at Stage 3: the Sandbox path, as shown in FIG. 2, seeds synthetic proofs into the Mock Securities Data Store (52) via the seedZkpData() Initialization Function (50) without invoking the NOIR Circuit Engine (40) — no circuit execution occurs. The live path proceeds through the NOIR Circuit Engine (40), executing the ownership_threshold circuit (64) (see FIG. 4) for actual proof generation. Both paths converge in a unified verification pipeline, where the resulting proof is assigned a Verification URL (42) (see FIG. 1) and the Security Ritual UX transitions from the PROCESSING state (82) through the 98% CAP state (84) to the VERIFIED state (86) as depicted in FIG. 5.
+
+#### 2.3 Diagram 3: Progressive Onboarding Pipeline Flow
+
+This diagram illustrates the five-stage progressive onboarding pipeline described in Section 10. The flow proceeds from left to right through five labeled stages:
+
+Stage 1 — Lead Capture: The User Device (10) submits identifying information to the Application Server (20), which stores it in the platform-level `trialSignups` table. No Database Schema is allocated at this stage.
+
+Stage 2 — Account Creation: The User Device (10) submits credentials. The Application Server (20) creates a user record with `emailVerified: false`, generates a 32-byte verification token, and transmits a verification email. No Database Schema is allocated at this stage.
+
+Stage 3 — Verification and Atomic Provisioning: The User Device (10) activates the verification link. A single API call to the Application Server (20) triggers the complete provisioning sequence: schema creation (Database Schema (30)), table definition (over twenty tables with custom enum types), company seeding (stakeholders, securities, equity plans), ZKP seeding (4 commitment records + 1 pre-verified proof via seedZkpData()), platform resource seeding, and Test Drive checklist document seeding. All operations complete before the API response is returned.
+
+Stage 4 — Silent Auto-Login: The Application Server (20) issues an organization token. The User Device (10) submits the token to establish a session via Passport.js. The Tenant Provider persists the sandbox slug to local storage.
+
+Stage 5 — Guided First Experience: The User Device (10) is redirected to the populated workspace within Database Schema (30). Arrows indicate available interactions: Privacy Vault Interface (54) for ZKP operations, Test Drive banners linking to category-filtered Data Store documents, and the full equity management feature set (stakeholders, securities, SAFE agreements, equity plans).
+
+#### 2.4 Diagram 4: Multi-Organization Schema Routing
+
+This diagram illustrates the per-request schema routing described in Section 12. The flow shows a User Device (10) sending an API request with a tenant identifier to the Application Server (20).
+
+Step 1 — Tenant Extraction: The `tenantMiddleware` extracts the tenant slug from the request query parameter or HTTP header.
+
+Step 2 — Membership Verification: The `getUserTenantRole()` function queries the `tenant_members` table to verify that the authenticated user has an active membership for the specified tenant. If not, a 403 response is returned and no database connection is established.
+
+Step 3 — Schema Routing: Upon successful verification, `getTenantDb(slug)` returns a database connection pool whose connection handler executes `SET search_path TO "tenant_{slug}", public` on every new connection. The middleware constructs a `tenantStorage` interface bound to this scoped connection.
+
+Step 4 — Role Enforcement: The `requireRole` middleware checks the user's resolved role against the endpoint's permitted role list.
+
+Step 5 — Scoped Execution: The route handler executes all database operations through the `tenantStorage` interface, which is structurally bound to the tenant's schema. No query can access tables outside the configured `search_path`.
+
+The diagram shows three parallel Database Schemas (30, 32, 34) at the bottom, with only one (corresponding to the requested tenant) connected to the active request flow. The other schemas are shown as unreachable from the current request context.
+
+#### 2.5 Diagram 5: Subscription-to-Proof-Access Pipeline
+
+This diagram illustrates the end-to-end monetization pipeline described in Section 13. The flow shows three actors: the User Device (10), the Application Server (20), and an External Payment Provider (90).
+
+Step 1 — Checkout Initiation: The User Device (10) selects a subscription tier. The Application Server (20) creates a checkout session with the External Payment Provider (90), tagged with metadata: `{ tierId, tenantId, userId }`.
+
+Step 2 — Payment Completion: The user completes payment on the External Payment Provider's (90) hosted page.
+
+Step 3 — Webhook Event: The External Payment Provider (90) sends a subscription lifecycle event to the Application Server (20). The webhook handler extracts `tierId` and `tenantId` from the subscription metadata and updates the tenant's `plan` field in the platform database.
+
+Step 4 — Proof Request: The User Device (10) requests proof generation. The `checkProofAccess` middleware retrieves the tenant's current plan, calls `getProofTierConfig(plan)` to obtain `{ noirEnabled, maxProofsPerMonth }`, and evaluates access.
+
+Step 5 — Access Decision: If `noirEnabled` is false, a 402 response is returned. If usage exceeds `maxProofsPerMonth`, a 429 response is returned. Otherwise, the request proceeds to the NOIR Circuit Engine (40) for proof generation, with usage incremented atomically upon success.
+
+The diagram shows the BETA_MODE constant as a selector between two configuration maps (PROOF_TIER_BETA and PROOF_TIER_PRODUCTION), visually demonstrating that the middleware logic path remains identical while the tier data changes based on the boolean constant state.
+
+---
+
+*This filing includes fourteen sections of Detailed Description covering the complete Tableicity system architecture, six specific embodiments illustrating real-world use cases (Founder Onboarding, Public Verification, Monetization Activation, Progressive Onboarding, Multi-Organization Role Enforcement, and Subscription Upgrade with Proof Access), and five textual diagram descriptions. All descriptions are grounded in the actual codebase and have been verified against the implementation. No claims describe functionality that does not exist in the system.*

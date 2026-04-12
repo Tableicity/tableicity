@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 550" width="900" height="550">
+  <style>
+    text { font-family: 'Helvetica Neue', Arial, sans-serif; }
+    .title { font-size: 16px; font-weight: bold; fill: #1a1a2e; }
+    .sheet { font-size: 12px; fill: #666; }
+    .state-name { font-size: 14px; font-weight: bold; fill: #1a1a2e; text-anchor: middle; }
+    .state-desc { font-size: 11px; fill: #555; text-anchor: middle; }
+    .state-range { font-size: 12px; fill: #1a1a2e; text-anchor: middle; }
+    .ref-num { font-size: 11px; fill: #888; text-anchor: middle; }
+    .transition { font-size: 10px; fill: #555; font-style: italic; }
+    .key-title { font-size: 12px; font-weight: bold; fill: #1a1a2e; }
+    .key-text { font-size: 10.5px; fill: #444; }
+    .ref-footer { font-size: 10px; fill: #888; }
+  </style>
+
+  <!-- Sheet number -->
+  <text x="830" y="25" class="sheet">5/5</text>
+
+  <!-- Title -->
+  <text x="450" y="45" class="title" text-anchor="middle">FIG. 5 — Security Ritual UX: State Transition Diagram</text>
+
+  <!-- STATE: IDLE (80) -->
+  <rect x="30" y="100" width="140" height="90" rx="10" fill="#e3f2fd" stroke="#1565c0" stroke-width="2"/>
+  <text x="100" y="128" class="state-name">IDLE</text>
+  <text x="100" y="148" class="state-desc">Awaiting user input</text>
+  <text x="100" y="178" class="ref-num">(80)</text>
+
+  <!-- Transition: IDLE → PROCESSING -->
+  <line x1="170" y1="145" x2="240" y2="145" stroke="#555" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="205" y="135" class="transition">ZKP request</text>
+  <text x="205" y="148" class="transition">User initiates</text>
+
+  <!-- STATE: PROCESSING (82) -->
+  <rect x="240" y="100" width="170" height="90" rx="10" fill="#fff3e0" stroke="#ef6c00" stroke-width="2"/>
+  <text x="325" y="128" class="state-name">PROCESSING</text>
+  <text x="325" y="148" class="state-desc">Animation active</text>
+  <text x="325" y="165" class="state-range">0% → 98%</text>
+  <text x="325" y="178" class="ref-num">(82)</text>
+
+  <!-- Transition: PROCESSING → 98% CAP -->
+  <line x1="410" y1="145" x2="490" y2="145" stroke="#555" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="450" y="130" class="transition">threshold</text>
+  <text x="450" y="143" class="transition">Progress hits</text>
+
+  <!-- STATE: 98% CAP (84) -->
+  <rect x="490" y="100" width="170" height="90" rx="10" fill="#f3e5f5" stroke="#7b1fa2" stroke-width="2"/>
+  <text x="575" y="125" class="state-name">98% CAP</text>
+  <text x="575" y="145" class="state-desc">requestAnimationFrame</text>
+  <text x="575" y="162" class="state-desc">holds at 98%</text>
+  <text x="575" y="178" class="ref-num">(84)</text>
+
+  <!-- Transition: 98% CAP → VERIFIED -->
+  <line x1="660" y1="145" x2="720" y2="145" stroke="#2e7d32" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="690" y="130" class="transition">Server confirms</text>
+  <text x="690" y="143" class="transition">proof complete</text>
+
+  <!-- STATE: VERIFIED (86) -->
+  <rect x="720" y="100" width="150" height="90" rx="10" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+  <text x="795" y="125" class="state-name">VERIFIED</text>
+  <text x="795" y="145" class="state-desc">100% — Proof valid</text>
+  <text x="795" y="162" class="state-desc">URL displayed</text>
+  <text x="795" y="178" class="ref-num">(86)</text>
+
+  <!-- STATE: ERROR (88) — below PROCESSING -->
+  <rect x="265" y="270" width="140" height="80" rx="10" fill="#ffebee" stroke="#c62828" stroke-width="2"/>
+  <text x="335" y="298" class="state-name">ERROR</text>
+  <text x="335" y="318" class="state-desc">Proof generation failed</text>
+  <text x="335" y="338" class="ref-num">(88)</text>
+
+  <!-- Transition: PROCESSING → ERROR -->
+  <line x1="325" y1="190" x2="335" y2="270" stroke="#c62828" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="305" y="230" class="transition">failure</text>
+
+  <!-- Transition: ERROR → IDLE -->
+  <path d="M 265 310 Q 150 310 100 190" fill="none" stroke="#888" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#arrow)"/>
+  <text x="155" y="280" class="transition">retry / dismiss</text>
+  <text x="155" y="295" class="transition">User returns</text>
+  <text x="155" y="310" class="transition">to Idle</text>
+
+  <!-- Key Mechanism Box -->
+  <rect x="120" y="400" width="660" height="75" rx="8" fill="#f5f5f5" stroke="#bbb" stroke-width="1"/>
+  <text x="450" y="420" class="key-title" text-anchor="middle">Key Mechanism: 98% Progress Cap</text>
+  <text x="450" y="438" class="key-text" text-anchor="middle">The visual progress animation (via requestAnimationFrame) is capped at 98% to prevent</text>
+  <text x="450" y="453" class="key-text" text-anchor="middle">premature "completion" display. The final 2% transition occurs only upon receipt of</text>
+  <text x="450" y="468" class="key-text" text-anchor="middle">server-side proof verification, ensuring visual state matches cryptographic reality.</text>
+
+  <!-- Footer reference -->
+  <text x="120" y="510" class="ref-footer">Reference: 80=Idle, 82=Processing, 84=98% Cap Hold, 86=Verified, 88=Error State</text>
+
+  <!-- Arrow marker -->
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#555"/>
+    </marker>
+  </defs>
+</svg>

@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="905" viewBox="0 0 800 905">
+  <rect width="800" height="905" fill="white"/>
+  <text x="400" y="30" text-anchor="middle" font-family="Arial" font-size="16" font-weight="bold">FIG. 4 — Proof Generation and Atomic Usage Tracking Pipeline</text>
+
+  <!-- Incoming Proof Request (60) -->
+  <rect x="225" y="55" width="350" height="65" fill="white" stroke="black" stroke-width="2" rx="5"/>
+  <text x="400" y="78" text-anchor="middle" font-family="Arial" font-size="12">Incoming Proof Request</text>
+  <text x="400" y="95" text-anchor="middle" font-family="Arial" font-size="10">request_source: MANUAL | AI_HAYLO</text>
+  <text x="400" y="112" text-anchor="middle" font-family="Arial" font-size="11" font-style="italic">(60)</text>
+
+  <!-- Arrow -->
+  <line x1="400" y1="120" x2="400" y2="155" stroke="black" stroke-width="2"/>
+  <polygon points="395,150 405,150 400,160" fill="black"/>
+
+  <!-- proof-service.ts (62) -->
+  <rect x="200" y="160" width="400" height="80" fill="white" stroke="black" stroke-width="2" rx="5"/>
+  <text x="400" y="188" text-anchor="middle" font-family="Arial" font-size="13" font-weight="bold">proof-service.ts</text>
+  <text x="400" y="208" text-anchor="middle" font-family="Arial" font-size="11">1. Validate request parameters</text>
+  <text x="400" y="225" text-anchor="middle" font-family="Arial" font-size="11">2. Load ownership_threshold circuit</text>
+  <text x="400" y="235" text-anchor="middle" font-family="Arial" font-size="11" font-style="italic">(62)</text>
+
+  <!-- Arrow -->
+  <line x1="400" y1="240" x2="400" y2="275" stroke="black" stroke-width="2"/>
+  <polygon points="395,270 405,270 400,280" fill="black"/>
+
+  <!-- Circuit Execution (64) -->
+  <rect x="225" y="280" width="350" height="70" fill="white" stroke="black" stroke-width="2" rx="5"/>
+  <text x="400" y="308" text-anchor="middle" font-family="Arial" font-size="12">Circuit Execution: ownership_threshold</text>
+  <text x="400" y="326" text-anchor="middle" font-family="Arial" font-size="11">Input: stakeholder data → Output: ZKP proof blob</text>
+  <text x="400" y="342" text-anchor="middle" font-family="Arial" font-size="11" font-style="italic">(64)</text>
+
+  <!-- Arrow -->
+  <line x1="400" y1="350" x2="400" y2="385" stroke="black" stroke-width="2"/>
+  <polygon points="395,380 405,380 400,390" fill="black"/>
+
+  <!-- Proof Generated Successfully? -->
+  <polygon points="400,395 530,450 400,505 270,450" fill="white" stroke="black" stroke-width="2"/>
+  <text x="400" y="445" text-anchor="middle" font-family="Arial" font-size="11">Proof valid?</text>
+
+  <!-- No path -->
+  <line x1="530" y1="450" x2="650" y2="450" stroke="black" stroke-width="2"/>
+  <text x="580" y="440" font-family="Arial" font-size="11">No</text>
+  <rect x="620" y="425" width="140" height="50" fill="white" stroke="black" stroke-width="2" rx="5"/>
+  <text x="690" y="448" text-anchor="middle" font-family="Arial" font-size="11">Return Error</text>
+  <text x="690" y="465" text-anchor="middle" font-family="Arial" font-size="11">(No usage charged)</text>
+
+  <!-- Yes path -->
+  <line x1="400" y1="505" x2="400" y2="540" stroke="black" stroke-width="2"/>
+  <text x="415" y="525" font-family="Arial" font-size="11">Yes</text>
+  <polygon points="395,535 405,535 400,545" fill="black"/>
+
+  <!-- createProofResult() (65) -->
+  <rect x="200" y="545" width="400" height="70" fill="white" stroke="black" stroke-width="2" rx="5"/>
+  <text x="400" y="565" text-anchor="middle" font-family="Arial" font-size="12">Proof Record Storage via createProofResult()</text>
+  <text x="400" y="583" text-anchor="middle" font-family="Arial" font-size="11">Store proof blob, verification key, and result metadata</text>
+  <text x="400" y="600" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold">request_source persisted — enables per-source auditing (Claim 34)</text>
+  <text x="400" y="612" text-anchor="middle" font-family="Arial" font-size="11" font-style="italic">(65)</text>
+
+  <!-- Arrow -->
+  <line x1="400" y1="615" x2="400" y2="650" stroke="black" stroke-width="2"/>
+  <polygon points="395,645 405,645 400,655" fill="black"/>
+
+  <!-- BEGIN ATOMIC TRANSACTION -->
+  <rect x="130" y="655" width="540" height="105" fill="none" stroke="black" stroke-width="2" stroke-dasharray="6,3" rx="10"/>
+  <text x="400" y="675" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold">ATOMIC USAGE INCREMENT</text>
+
+  <!-- storage.ts incrementProofUsage() (66) -->
+  <rect x="160" y="685" width="480" height="45" fill="white" stroke="black" stroke-width="2" rx="3"/>
+  <text x="400" y="705" text-anchor="middle" font-family="Arial" font-size="11">storage.ts → incrementProofUsage() — PostgreSQL Atomic Upsert</text>
+  <text x="400" y="722" text-anchor="middle" font-family="Arial" font-size="11" font-style="italic">(66)</text>
+
+  <!-- Usage counter commit (68) -->
+  <rect x="160" y="740" width="480" height="30" fill="white" stroke="black" stroke-width="1.5" rx="3"/>
+  <text x="400" y="760" text-anchor="middle" font-family="Arial" font-size="11">Usage counter committed atomically — race-condition-proof (68)</text>
+
+  <!-- Arrow -->
+  <line x1="400" y1="775" x2="400" y2="810" stroke="black" stroke-width="2"/>
+  <polygon points="395,805 405,805 400,815" fill="black"/>
+
+  <!-- Return Verification URL (70) -->
+  <rect x="250" y="815" width="300" height="50" fill="white" stroke="black" stroke-width="2" rx="5"/>
+  <text x="400" y="837" text-anchor="middle" font-family="Arial" font-size="12">Return Verification URL</text>
+  <text x="400" y="855" text-anchor="middle" font-family="Arial" font-size="11" font-style="italic">(70)</text>
+
+  <!-- Legend -->
+  <text x="400" y="870" text-anchor="middle" font-family="Arial" font-size="10" font-style="italic">Reference: 60=Incoming Request (source-aware), 62=proof-service.ts, 64=Circuit Execution, 65=createProofResult(), 66=incrementProofUsage(), 68=Atomic Commit, 70=Verification URL</text>
+</svg>

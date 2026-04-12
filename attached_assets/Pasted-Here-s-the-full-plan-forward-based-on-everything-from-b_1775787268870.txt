@@ -1,0 +1,76 @@
+Here's the full plan forward based on everything from both Gemini meetings, our existing work, and the gaps that remain:
+
+PLAN FORWARD: Non-PPA Enhancement for Haylo AI Integration
+I. FIGURES — Revisions to Existing (4 updates)
+FIG. 1 — System Architecture
+
+Add a small annotation box near User Device (10): "Optional Inference Interface (Haylo AI)"
+Creates the visual anchor for Claim 22 in the drawings
+Minimal change — no structural redesign needed
+FIG. 2 — Seeded Sandbox
+
+Add annotation to Proof Allocation Meter (56) indicating it serves as a "Computational Governor for External Inference Agents"
+This is the "future-proof" hook Gemini recommended — one line that pipes to the 2nd Non-PPA
+FIG. 3 — Secure Onboarding Flow
+
+At Step 106 (Privacy Vault Interface), add notation that the request may originate from "a manual interface or an AI-driven inference agent"
+Ensures the method claim covers both human and AI-initiated proof requests
+FIG. 4 — Atomic Usage Metering
+
+Add a request_origin metadata tag concept to the Incoming Proof Request (60) — indicating the system distinguishes between MANUAL and AI_HAYLO sources
+Documents the pipeline as "source-aware" for the 2nd Non-PPA's metered AI claims
+II. FIGURES — New Drawings (2–3 new)
+FIG. 8 — Four-Gate Middleware Detail
+
+A dedicated diagram showing all four gates in sequence:
+Gate 1: Contextual Identity Isolation ("Who") — TenantID tagging
+Gate 2: Schema-Bound Query Translation ("How") — NL intent → structured operations
+Gate 3: Policy Enforcement & ZKP Check ("Should") — Deterministic Validation Layer
+Gate 4: Closed-Loop Feedback & Verification ("Result") — confirmation proof
+Reference numerals: New 400-series (400–408)
+This is critical — the Four-Gate Middleware is referenced heavily in the claims but has no dedicated figure yet
+FIG. 9 — Haylo AI Intent-to-Middleware Pipeline
+
+Shows the end-to-end flow: User natural language input → Grok inference → Structured JSON intent → Four-Gate Middleware interception → Meter check → ZKP circuit execution → Result feedback
+Reference numerals: New 500-series (500–514)
+Covers Claim 22's "external inference interface" and the "Intent-to-ZKP Bridge"
+FIG. 10 (Optional / 2nd Non-PPA prep) — Dual-Agent Consensus Loop
+
+Shows Grok (Primary) proposing a state change, Auditor (Secondary) validating, consensus JSON schema, then submission to the Middleware
+Reference numerals: New 600-series
+This one could be drawn now and held for the 2nd filing, or included as a forward-looking figure. Your call.
+III. EMBODIMENTS — Outstanding Work
+Already recognized but not yet written with reference numerals:
+
+Embodiment 4 (Identity Masking) — needs narrative with FIG. 6 numerals (200-series)
+Embodiment 5 (Progressive Onboarding) — needs narrative with FIG. 7 numerals (300-series)
+Embodiment 6 (Cross-session continuity / additional) — needs narrative
+New embodiments to create:
+
+Embodiment 7: Four-Gate Middleware Architecture — Detailed narrative of Gates 1–4, how each gate solves a specific technical problem, and how the middleware ensures "deterministic execution in a non-deterministic AI environment." Ties to new FIG. 8.
+Embodiment 8: AI-Driven Term Sheet Interaction (Haylo AI) — The "Intent Engine" workflow: Grok reads term sheet → outputs structured JSON → Middleware validates against tenant schema → Meter governs resource consumption → Noir circuit executes → Result returns through Security Ritual UX. Ties to new FIG. 9.
+Embodiment 9: Metered AI Governor — Detailed description of the "Token-per-Simulation" handshake, the pre-flight balance check, and the "no charge on failure" logic specifically for AI-initiated requests. References FIG. 2 (56), FIG. 4 (60, 66, 68).
+IV. PATENT DOCUMENT UPDATES
+Patent_Tableicity.md (Master Reference):
+
+Add Brief Description of Drawings for FIG. 8 and FIG. 9
+Expand the Reference Numeral Index with 400-series and 500-series
+Add cross-referencing entries for Haylo AI elements
+Patent_Embodiment1_Revised.md:
+
+Complete Embodiments 4–6 with reference numerals (already identified as gaps)
+Add Embodiments 7–9 (new)
+Add Diagram Descriptions 2.3–2.5 (already identified as gaps)
+Add Diagram Descriptions for FIG. 8 and FIG. 9
+V. PRIORITY ORDER
+Step	Work Item	Purpose
+1	Revise FIG. 1, 2, 3, 4 with Haylo AI annotations	Minimal changes that create legal "pipes" for Claim 22 and the 2nd filing
+2	Build FIG. 8 (Four-Gate Middleware)	Core architectural claim needs its own dedicated diagram
+3	Build FIG. 9 (Haylo AI Pipeline)	Visualizes the Claim 22 bridge and the Intent-to-ZKP flow
+4	Write Embodiments 4–6 with reference numerals	Close the existing gap
+5	Write Embodiments 7–9 (new)	Document the new Haylo AI architecture
+6	Update Patent_Tableicity.md master reference	Keep everything indexed and cross-referenced
+7	Decide on FIG. 10 (Dual-Agent)	Include now or hold for 2nd Non-PPA
+The key principle: Steps 1–3 are the "pipes" — they create the visual and textual anchors in this filing so that in 8 months, the 2nd Non-PPA's advanced claims (metered iteration, consensus verification, cross-border proofs) all trace back to priority dates established now.
+
+How would you like to proceed? We can start from the top, or if you want to discuss any of these items with the Professor first, I'll hold until you bring back direction.

@@ -1,0 +1,134 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="850" viewBox="0 0 900 850">
+  <rect width="900" height="850" fill="white"/>
+  <text x="450" y="30" text-anchor="middle" font-family="Arial" font-size="16" font-weight="bold">FIG. 7 — Progressive Onboarding Pipeline with Atomic Schema Provisioning</text>
+
+  <!-- Stage 1: Lead Capture (300) -->
+  <ellipse cx="150" cy="95" rx="115" ry="45" fill="white" stroke="black" stroke-width="2"/>
+  <text x="150" y="80" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold">STAGE 1</text>
+  <text x="150" y="97" text-anchor="middle" font-family="Arial" font-size="10">Lead Capture</text>
+  <text x="150" y="112" text-anchor="middle" font-family="Arial" font-size="10">User Device (10) → Application Server (20)</text>
+  <text x="150" y="130" text-anchor="middle" font-family="Arial" font-size="9" font-style="italic">(300)</text>
+
+  <!-- Arrow down -->
+  <line x1="150" y1="140" x2="150" y2="175" stroke="black" stroke-width="2"/>
+  <polygon points="145,170 155,170 150,180" fill="black"/>
+  <text x="250" y="162" font-family="Arial" font-size="9">POST /api/trial-signup → trialSignups table</text>
+  <text x="250" y="175" font-family="Arial" font-size="9">No Database Schema allocated</text>
+
+  <!-- Stage 2: Account Creation (302) -->
+  <ellipse cx="150" cy="230" rx="115" ry="45" fill="white" stroke="black" stroke-width="2"/>
+  <text x="150" y="215" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold">STAGE 2</text>
+  <text x="150" y="232" text-anchor="middle" font-family="Arial" font-size="10">Account Creation</text>
+  <text x="150" y="247" text-anchor="middle" font-family="Arial" font-size="10">bcrypt (12 rounds) hash</text>
+  <text x="150" y="265" text-anchor="middle" font-family="Arial" font-size="9" font-style="italic">(302)</text>
+
+  <!-- Arrow down -->
+  <line x1="150" y1="275" x2="150" y2="315" stroke="black" stroke-width="2"/>
+  <polygon points="145,310 155,310 150,320" fill="black"/>
+  <text x="280" y="295" font-family="Arial" font-size="9">emailVerified: false | 32-byte hex verification token</text>
+  <text x="280" y="308" font-family="Arial" font-size="9">Verification link emailed | No Database Schema allocated</text>
+
+  <!-- Stage 3: Verification + Atomic Provisioning (304) — LARGE BOX -->
+  <rect x="40" y="325" width="820" height="250" fill="white" stroke="black" stroke-width="2.5" rx="8"/>
+  <text x="450" y="348" text-anchor="middle" font-family="Arial" font-size="13" font-weight="bold">STAGE 3 — Email Verification + Atomic Provisioning (304)</text>
+  <text x="450" y="366" text-anchor="middle" font-family="Arial" font-size="10">GET /api/trial-verify — Single API call to Application Server (20) triggers entire sequence</text>
+
+  <!-- Sub-step 304a: Schema Creation -->
+  <ellipse cx="140" cy="420" rx="85" ry="32" fill="white" stroke="black" stroke-width="1.5"/>
+  <text x="140" y="410" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold">Schema Creation</text>
+  <text x="140" y="425" text-anchor="middle" font-family="Arial" font-size="9">CREATE SCHEMA</text>
+  <text x="140" y="438" text-anchor="middle" font-family="Arial" font-size="9">20+ tables + enum types</text>
+  <text x="140" y="450" text-anchor="middle" font-family="Arial" font-size="9" font-style="italic">(304a)</text>
+
+  <!-- Arrow right -->
+  <line x1="225" y1="420" x2="275" y2="420" stroke="black" stroke-width="1.5"/>
+  <polygon points="270,416 270,424 278,420" fill="black"/>
+
+  <!-- Sub-step 304b: Company Seeding -->
+  <ellipse cx="365" cy="420" rx="85" ry="32" fill="white" stroke="black" stroke-width="1.5"/>
+  <text x="365" y="410" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold">Company Seeding</text>
+  <text x="365" y="425" text-anchor="middle" font-family="Arial" font-size="9">Stakeholders, securities</text>
+  <text x="365" y="438" text-anchor="middle" font-family="Arial" font-size="9">SAFEs, equity plans</text>
+  <text x="365" y="450" text-anchor="middle" font-family="Arial" font-size="9" font-style="italic">(304b)</text>
+
+  <!-- Arrow right -->
+  <line x1="450" y1="420" x2="500" y2="420" stroke="black" stroke-width="1.5"/>
+  <polygon points="495,416 495,424 503,420" fill="black"/>
+
+  <!-- Sub-step 304c: ZKP Seeding -->
+  <ellipse cx="590" cy="420" rx="85" ry="32" fill="white" stroke="black" stroke-width="1.5"/>
+  <text x="590" y="407" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold">ZKP Seeding</text>
+  <text x="590" y="422" text-anchor="middle" font-family="Arial" font-size="9">seedZkpData() (50)</text>
+  <text x="590" y="435" text-anchor="middle" font-family="Arial" font-size="9">4 SHA-256 commitments</text>
+  <text x="590" y="448" text-anchor="middle" font-family="Arial" font-size="9" font-style="italic">(304c)</text>
+
+  <!-- Arrow right -->
+  <line x1="675" y1="420" x2="720" y2="420" stroke="black" stroke-width="1.5"/>
+  <polygon points="715,416 715,424 723,420" fill="black"/>
+
+  <!-- Sub-step 304d: Resources + Checklists -->
+  <ellipse cx="800" cy="420" rx="55" ry="32" fill="white" stroke="black" stroke-width="1.5"/>
+  <text x="800" y="410" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold">Resources</text>
+  <text x="800" y="425" text-anchor="middle" font-family="Arial" font-size="9">Test Drive</text>
+  <text x="800" y="438" text-anchor="middle" font-family="Arial" font-size="9">Checklists</text>
+  <text x="800" y="450" text-anchor="middle" font-family="Arial" font-size="9" font-style="italic">(304d)</text>
+
+  <!-- Detail labels under sub-steps -->
+  <text x="140" y="478" text-anchor="middle" font-family="Arial" font-size="9">tenant_sandbox-{userId}</text>
+  <text x="140" y="491" text-anchor="middle" font-family="Arial" font-size="9">→ Database Schema (30)</text>
+  <text x="365" y="478" text-anchor="middle" font-family="Arial" font-size="9">Simulated company data</text>
+  <text x="365" y="491" text-anchor="middle" font-family="Arial" font-size="9">with full hierarchy</text>
+  <text x="590" y="478" text-anchor="middle" font-family="Arial" font-size="9">1 pre-verified proof</text>
+  <text x="590" y="491" text-anchor="middle" font-family="Arial" font-size="9">seed_demo_ prefix, 1yr TTL</text>
+  <text x="800" y="478" text-anchor="middle" font-family="Arial" font-size="9">Guided</text>
+  <text x="800" y="491" text-anchor="middle" font-family="Arial" font-size="9">walkthroughs</text>
+
+  <!-- Membership + tenant records -->
+  <text x="450" y="525" text-anchor="middle" font-family="Arial" font-size="10">tenant_members record: user → tenant_admin | tenants record: isSandbox=true, plan="trial"</text>
+  <text x="450" y="542" text-anchor="middle" font-family="Arial" font-size="10">All operations complete before API response returns to User Device (10)</text>
+
+  <!-- Arrow down from Stage 3 box -->
+  <line x1="450" y1="575" x2="450" y2="615" stroke="black" stroke-width="2"/>
+  <polygon points="445,610 455,610 450,620" fill="black"/>
+  <text x="540" y="598" font-family="Arial" font-size="9">orgToken returned to User Device (10)</text>
+
+  <!-- Stage 4: Silent Auto-Login (306) -->
+  <ellipse cx="450" cy="665" rx="120" ry="42" fill="white" stroke="black" stroke-width="2"/>
+  <text x="450" y="650" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold">STAGE 4</text>
+  <text x="450" y="667" text-anchor="middle" font-family="Arial" font-size="10">Silent Auto-Login</text>
+  <text x="450" y="682" text-anchor="middle" font-family="Arial" font-size="10">Passport.js session via orgToken</text>
+  <text x="450" y="697" text-anchor="middle" font-family="Arial" font-size="9" font-style="italic">No re-entry of credentials (306)</text>
+
+  <!-- Arrow right -->
+  <line x1="570" y1="665" x2="630" y2="665" stroke="black" stroke-width="2"/>
+  <polygon points="625,660 625,670 635,665" fill="black"/>
+  <text x="600" y="655" font-family="Arial" font-size="9">redirect</text>
+
+  <!-- Stage 5: Guided First Experience (308) -->
+  <ellipse cx="750" cy="665" rx="115" ry="42" fill="white" stroke="black" stroke-width="2"/>
+  <text x="750" y="648" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold">STAGE 5</text>
+  <text x="750" y="665" text-anchor="middle" font-family="Arial" font-size="10">Guided First Experience</text>
+  <text x="750" y="680" text-anchor="middle" font-family="Arial" font-size="10">Populated workspace in Schema (30)</text>
+  <text x="750" y="697" text-anchor="middle" font-family="Arial" font-size="9" font-style="italic">(308)</text>
+
+  <!-- Stage 5 detail arrows -->
+  <line x1="680" y1="707" x2="580" y2="745" stroke="black" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="580" y="760" text-anchor="middle" font-family="Arial" font-size="9">Privacy Vault Interface (54)</text>
+  <text x="580" y="773" text-anchor="middle" font-family="Arial" font-size="9">ZKP operations</text>
+
+  <line x1="750" y1="707" x2="750" y2="745" stroke="black" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="750" y="760" text-anchor="middle" font-family="Arial" font-size="9">Test Drive Banners</text>
+  <text x="750" y="773" text-anchor="middle" font-family="Arial" font-size="9">Guided checklists</text>
+
+  <line x1="820" y1="707" x2="880" y2="745" stroke="black" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="870" y="760" text-anchor="middle" font-family="Arial" font-size="9">Cap Table Management</text>
+  <text x="870" y="773" text-anchor="middle" font-family="Arial" font-size="9">Full equity data</text>
+
+  <!-- Key Mechanism Box -->
+  <rect x="50" y="790" width="800" height="30" fill="white" stroke="black" stroke-width="1.5" rx="5"/>
+  <text x="450" y="810" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold">Key: Single email verification click (Stage 3) triggers atomic provisioning — schema + seeded data + ZKP commitments + checklists — before API response</text>
+
+  <!-- Legend -->
+  <text x="450" y="842" text-anchor="middle" font-family="Arial" font-size="10" font-style="italic">Reference: 300=Lead Capture, 302=Account Creation, 304=Atomic Provisioning (304a-d), 306=Auto-Login, 308=First Experience</text>
+  <text x="450" y="855" text-anchor="middle" font-family="Arial" font-size="10" font-style="italic">Cross-ref: (10) User Device, (20) App Server, (30) Database Schema, (50) seedZkpData(), (54) Privacy Vault — see FIG. 1, FIG. 2</text>
+</svg>

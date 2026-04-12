@@ -73,7 +73,12 @@ Every startup deserves a secure, affordable way to manage their cap table, issue
 ### Onboarding & Trial
 - **3-Click Onboarding** — Lead capture → Email verification → Sandbox provisioning
 - **Test Drive System** — Guided banners on equity plan pages with pre-seeded sample data
-- **Sandbox Environments** — New users get a fully populated demo organization to explore
+- **Sandbox Environments** — New users get a fully populated demo organization with:
+  - Pre-seeded cap table (stakeholders, securities, share classes, SAFEs)
+  - 4 ZKP commitment records derived from real seeded securities data
+  - 1 pre-verified demo proof (`seed_demo_` prefix, 1-year TTL) that works through the public verification pipeline
+  - Privacy labels (`XXXX-XXXX` format) for all stakeholders
+  - Idempotent seeding with partial-failure recovery (commitments and proofs checked independently)
 
 ### Investor Relations
 - **Investor Updates** — Draft, preview, and distribute company communications to stakeholders
@@ -144,11 +149,41 @@ Tableicity integrates Aztec's [Noir](https://noir-lang.org/) zero-knowledge prov
 | `GET` | `/api/v1/proofs/:proofId` | Required | Retrieve proof status and metadata |
 | `GET` | `/api/v1/verify/:proofId` | Public (Rate Limited) | Public verification — returns status only, no PII |
 
+### Four-Gate Access Control
+
+Proof generation is gated by a four-layer architecture:
+
+```
+Gate 1: Feature Flag (Frontend)     VITE_NOIR_ENABLED=true → show/hide sidebar
+Gate 2: Tier Configuration (Server)  BETA_MODE selects Beta or Production tier limits
+Gate 3: Usage Middleware (Server)    checkProofAccess: noirEnabled? + usage < limit?
+Gate 4: Atomic Tracking (Database)   INSERT ... ON CONFLICT DO UPDATE (PostgreSQL upsert)
+```
+
+- **Beta Mode** (`BETA_MODE = true` in `proof-config.ts`): All tiers get 10 proofs/month at no charge
+- **Production Mode** (`BETA_MODE = false`): Only Professional and Enterprise plans have access
+- **Failed proof attempts** do NOT consume the metered allocation — usage increments only on successful generation
+- **Dual-Configuration Kill Switch**: Changing `BETA_MODE` from `true` to `false` activates the monetization wall across all tenants simultaneously, with no middleware code changes
+
+### Security Ritual UX
+
+Proof generation displays an animated 4-step progress ceremony:
+
+| Step | Duration | Server Operation |
+|------|----------|-----------------|
+| 1: Validating commitment records | 2.5s | SHA-256 preimage check |
+| 2: Computing SHA-256 + Pedersen hashes | 3.5s | Pedersen commitment via test_hash WASM |
+| 3: Executing Noir zero-knowledge circuit | 4.5s | Witness generation in ownership_threshold |
+| 4: Finalizing cryptographic proof | 2.0s | UltraHonk proof generation + DB writes |
+
+Uses `requestAnimationFrame` for smooth browser-synced animation. Progress caps at 98% until the server responds.
+
 ### Security Guarantees
 
 - Private inputs (share counts, salt values) are **never** included in any API response
 - `proofHex` and `verificationKeyHex` are stored in the database but **never** returned to clients
 - The public verify endpoint returns **only** `{proofId, proofType, status, createdAt, expiresAt, isValid}` — no tenant info, no holder info, no PII
+- Public verification performs a **database status lookup, not cryptographic re-verification** — the BN254 pairing check runs once at generation time
 - Rate limited to 10 requests per minute per IP on the public verify endpoint
 - CORS enabled (`Access-Control-Allow-Origin: *`) on public verify for cross-origin verification
 - Feature access enforced **server-side** via `checkProofAccess` middleware — not client-only gating
@@ -186,9 +221,11 @@ Tableicity integrates Aztec's [Noir](https://noir-lang.org/) zero-knowledge prov
 │  │   public     │ │ tenant_acme  │ │ tenant_globex     │  │
 │  │  (users,     │ │ (companies,  │ │ (companies,       │  │
 │  │   tenants,   │ │  stakeholders│ │  stakeholders     │  │
-│  │   sessions,  │ │  securities, │ │  securities,      │  │
-│  │   proofs,    │ │  SAFEs,      │ │  SAFEs,           │  │
-│  │   usage)     │ │  documents)  │ │  documents)       │  │
+│  │   members,   │ │  securities, │ │  securities,      │  │
+│  │   sessions)  │ │  commitments,│ │  commitments,     │  │
+│  │              │ │  proofs,     │ │  proofs,          │  │
+│  │              │ │  SAFEs,      │ │  SAFEs,           │  │
+│  │              │ │  documents)  │ │  documents)       │  │
 │  └─────────────┘ └──────────────┘ └───────────────────┘  │
 └──────────────────────────────────────────────────────────┘
 ```
@@ -288,7 +325,14 @@ npm start
 | `STRIPE_WEBHOOK_SECRET` | Production | Required for webhook signature verification |
 | `STRIPE_PRICE_TIER_MAP` | Optional | Maps Stripe price IDs to tiers (format: `price_xxx:professional,price_yyy:enterprise`) |
 | `VITE_NOIR_ENABLED` | Optional | Set to `true` to show Privacy Vault in sidebar |
+| `BETA_LAB_CODE` | Optional | Shared code that, when set, allows MFA verification codes in API responses (development/testing only) |
 | `PORT` | Optional | Server port (default: 5000) |
+
+**Internal Configuration (not environment variables):**
+
+| Constant | File | Description |
+|----------|------|-------------|
+| `BETA_MODE` | `server/proof-config.ts` line 7 | Compile-time boolean. `true` = all tiers get 10 proofs/month free. `false` = production monetization (starter disabled, professional/enterprise gated). Change requires rebuild. |
 
 ---
 
@@ -305,10 +349,6 @@ npm start
 | `tenant_members` | User-to-tenant mapping with roles |
 | `trial_signups` | Onboarding lead capture |
 | `platform_resources` | Global document library |
-| `commitment_records` | SHA-256 + Pedersen commitments for ZK proofs |
-| `proof_requests` | Proof lifecycle tracking (generating → complete → expired) |
-| `proof_results` | Generated proofs and verification keys (never exposed via API) |
-| `proof_usage` | Monthly usage tracking per tenant (UNIQUE on tenant_id + billing_month) |
 | `session` | Express session store |
 
 **Per-Tenant Schema (`tenant_{slug}`):**
@@ -333,6 +373,10 @@ npm start
 | `audit_logs` | Action tracking |
 | `data_store_categories` | Custom document categories |
 | `privacy_labels` | Encrypted view custom labels |
+| `commitment_records` | SHA-256 + Pedersen commitments linking to cap table entries |
+| `proof_requests` | Proof lifecycle tracking (generating → complete → expired) |
+| `proof_results` | Generated proofs and verification keys (never exposed via API) |
+| `proof_usage` | Monthly usage tracking (UNIQUE on tenant_id + billing_month, atomic upsert) |
 
 ### Backup & Restore
 
@@ -481,6 +525,8 @@ docker run -p 5000:5000 \
 - **Stripe Webhooks**: `STRIPE_WEBHOOK_SECRET` is **required** in production. Unsigned webhook events are rejected when `NODE_ENV=production`.
 - **Trust Proxy**: Express is configured with `trust proxy = 1`. Ensure the app runs behind exactly one trusted reverse proxy (App Runner, CloudFront, or load balancer) for accurate IP-based rate limiting.
 - **Rate Limiting**: The public proof verification endpoint (`/api/v1/verify/:proofId`) is rate-limited to 10 requests per minute per IP. The rate limiter uses `req.ip` which relies on the trust proxy setting.
+- **Session Security**: Cookie `secure` flag is environment-aware (`true` in production, `false` in development). Session secret refuses server startup if unset in production.
+- **MFA Code Exposure**: In development/testing, MFA verification codes can be exposed in API responses only when `BETA_LAB_CODE` env var is set and matched. Never exposed in production regardless of config.
 
 ---
 
@@ -551,7 +597,18 @@ tableicity/
 │   │   └── target/                  # Compiled ACIR bytecode
 │   └── test_hash/                   # Pedersen commitment helper circuit
 ├── scripts/
-│   └── generate-commitments.ts      # Commitment seeding script
+│   ├── generate-commitments.ts      # Commitment seeding script
+│   ├── test-ownership-proof.ts      # 5-test cryptographic integration suite
+│   └── test-noir.ts                 # Gate 0 NoirJS + Barretenberg WASM test
+├── John/                            # Patent documentation & IP records
+│   ├── Middleware_Gemini.md         # Architect vs Gemini patent alignment (6 corrections)
+│   ├── Response_One.md              # Patent: libraries, circuits, code locations
+│   ├── Response_Two.md              # Patent: data transformation pipeline
+│   ├── Response_Three.md            # Patent: cloud verification storage
+│   ├── Response_Four.md             # Patent: circuit math, multi-tenant isolation, monetization
+│   ├── Response_Five.md             # Patent: sandbox seeding, Encrypted View
+│   ├── Response_Six.md              # Patent: full system inventory, 7 novel claims
+│   └── History/                     # Historical development records
 ├── John_Assets/                     # Marketing & slideshow images
 ├── attached_assets/                 # Uploaded assets
 ├── package.json                     # Dependencies & scripts
@@ -645,6 +702,7 @@ tableicity/
 ## Roadmap
 
 ### Near Term
+- [x] USPTO provisional patent filing — 7 novel claims covering ZKP architecture, monetization gating, sandbox seeding, and dual-configuration feature gate
 - [ ] AWS deployment (App Runner + RDS + S3 + CloudFront)
 - [ ] Docker containerization and ECR pipeline
 - [ ] Complete Stripe product setup and live billing

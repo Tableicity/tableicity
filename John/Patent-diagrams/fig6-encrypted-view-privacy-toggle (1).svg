@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="720" viewBox="0 0 900 720">
+  <rect width="900" height="720" fill="white"/>
+  <text x="450" y="30" text-anchor="middle" font-family="Arial" font-size="16" font-weight="bold">FIG. 6 — Encrypted View / Privacy Toggle: Data Flow Diagram</text>
+
+  <!-- Three-Layer Privacy Stack Header (200) -->
+  <rect x="250" y="50" width="400" height="35" fill="white" stroke="black" stroke-width="1.5" rx="5"/>
+  <text x="450" y="72" text-anchor="middle" font-family="Arial" font-size="11" font-weight="bold">Three-Layer Privacy Stack (200)</text>
+
+  <!-- Layer 1: Schema Isolation (202) -->
+  <ellipse cx="150" cy="130" rx="110" ry="35" fill="white" stroke="black" stroke-width="2"/>
+  <text x="150" y="120" text-anchor="middle" font-family="Arial" font-size="11" font-weight="bold">Layer 1: Schema</text>
+  <text x="150" y="135" text-anchor="middle" font-family="Arial" font-size="10">Tenant Isolation</text>
+  <text x="150" y="150" text-anchor="middle" font-family="Arial" font-size="9">Database-level</text>
+  <text x="150" y="163" text-anchor="middle" font-family="Arial" font-size="9" font-style="italic">(202)</text>
+
+  <!-- Layer 2: ZKP Verification (204) -->
+  <ellipse cx="450" cy="130" rx="110" ry="35" fill="white" stroke="black" stroke-width="2"/>
+  <text x="450" y="120" text-anchor="middle" font-family="Arial" font-size="11" font-weight="bold">Layer 2: ZKP</text>
+  <text x="450" y="135" text-anchor="middle" font-family="Arial" font-size="10">Proof Verification</text>
+  <text x="450" y="150" text-anchor="middle" font-family="Arial" font-size="9">Processing-level</text>
+  <text x="450" y="163" text-anchor="middle" font-family="Arial" font-size="9" font-style="italic">(204)</text>
+
+  <!-- Layer 3: Encrypted View (206) -->
+  <ellipse cx="750" cy="130" rx="110" ry="35" fill="white" stroke="black" stroke-width="2"/>
+  <text x="750" y="120" text-anchor="middle" font-family="Arial" font-size="11" font-weight="bold">Layer 3: Encrypted View</text>
+  <text x="750" y="135" text-anchor="middle" font-family="Arial" font-size="10">Visual Masking</text>
+  <text x="750" y="150" text-anchor="middle" font-family="Arial" font-size="9">Display-level</text>
+  <text x="750" y="163" text-anchor="middle" font-family="Arial" font-size="9" font-style="italic">(206)</text>
+
+  <!-- Divider -->
+  <line x1="50" y1="190" x2="850" y2="190" stroke="black" stroke-width="1" stroke-dasharray="4,4"/>
+  <text x="450" y="210" text-anchor="middle" font-family="Arial" font-size="11" font-weight="bold">Encrypted View Detail — Layer 3 (206)</text>
+
+  <!-- State: Normal View (208) -->
+  <ellipse cx="150" cy="290" rx="100" ry="45" fill="white" stroke="black" stroke-width="2"/>
+  <text x="150" y="275" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold">NORMAL VIEW</text>
+  <text x="150" y="292" text-anchor="middle" font-family="Arial" font-size="10">Plaintext names</text>
+  <text x="150" y="307" text-anchor="middle" font-family="Arial" font-size="10">displayed</text>
+  <text x="150" y="325" text-anchor="middle" font-family="Arial" font-size="10" font-style="italic">(208)</text>
+
+  <!-- Arrow: Toggle ON (210) -->
+  <line x1="250" y1="275" x2="370" y2="275" stroke="black" stroke-width="2"/>
+  <polygon points="365,270 365,280 375,275" fill="black"/>
+  <text x="310" y="265" text-anchor="middle" font-family="Arial" font-size="10">Privacy Toggle ON (210)</text>
+  <text x="310" y="253" text-anchor="middle" font-family="Arial" font-size="9">(localStorage persisted)</text>
+
+  <!-- State: HMAC Hashing (212) -->
+  <ellipse cx="480" cy="290" rx="100" ry="45" fill="white" stroke="black" stroke-width="2"/>
+  <text x="480" y="275" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold">HMAC-SHA-256</text>
+  <text x="480" y="292" text-anchor="middle" font-family="Arial" font-size="10">Hash with companyId</text>
+  <text x="480" y="307" text-anchor="middle" font-family="Arial" font-size="10">as HMAC key</text>
+  <text x="480" y="325" text-anchor="middle" font-family="Arial" font-size="10" font-style="italic">(212)</text>
+
+  <!-- Arrow: Hash output -->
+  <line x1="580" y1="290" x2="640" y2="290" stroke="black" stroke-width="2"/>
+  <polygon points="635,285 635,295 645,290" fill="black"/>
+
+  <!-- State: Masked View (214) -->
+  <ellipse cx="750" cy="290" rx="100" ry="45" fill="white" stroke="black" stroke-width="2"/>
+  <text x="750" y="275" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold">MASKED VIEW</text>
+  <text x="750" y="292" text-anchor="middle" font-family="Arial" font-size="10">0x{first8}...{last4}</text>
+  <text x="750" y="307" text-anchor="middle" font-family="Arial" font-size="10">format displayed</text>
+  <text x="750" y="325" text-anchor="middle" font-family="Arial" font-size="10" font-style="italic">(214)</text>
+
+  <!-- Arrow: Toggle OFF (back) -->
+  <path d="M 650,330 Q 450,365 250,330" fill="none" stroke="black" stroke-width="1.5" stroke-dasharray="6,3"/>
+  <polygon points="253,325 248,334 255,332" fill="black"/>
+  <text x="450" y="360" text-anchor="middle" font-family="Arial" font-size="10">Privacy Toggle OFF (210)</text>
+
+  <!-- Display Priority Chain Header (216) -->
+  <text x="450" y="405" text-anchor="middle" font-family="Arial" font-size="11" font-weight="bold">Display Priority Chain (216)</text>
+
+  <!-- Priority 1: Label (218) -->
+  <ellipse cx="180" cy="455" rx="90" ry="35" fill="white" stroke="black" stroke-width="2"/>
+  <text x="180" y="445" text-anchor="middle" font-family="Arial" font-size="11" font-weight="bold">LABEL</text>
+  <text x="180" y="460" text-anchor="middle" font-family="Arial" font-size="10">e.g., MTS9-T77L</text>
+  <text x="180" y="478" text-anchor="middle" font-family="Arial" font-size="9" font-style="italic">Priority 1 (218)</text>
+
+  <!-- Arrow -->
+  <line x1="270" y1="455" x2="340" y2="455" stroke="black" stroke-width="2"/>
+  <polygon points="335,450 335,460 345,455" fill="black"/>
+  <text x="305" y="445" text-anchor="middle" font-family="Arial" font-size="9">if no label</text>
+
+  <!-- Priority 2: Hash (220) -->
+  <ellipse cx="440" cy="455" rx="90" ry="35" fill="white" stroke="black" stroke-width="2"/>
+  <text x="440" y="445" text-anchor="middle" font-family="Arial" font-size="11" font-weight="bold">HASH</text>
+  <text x="440" y="460" text-anchor="middle" font-family="Arial" font-size="10">0x{8}...{4}</text>
+  <text x="440" y="478" text-anchor="middle" font-family="Arial" font-size="9" font-style="italic">Priority 2 (220)</text>
+
+  <!-- Arrow -->
+  <line x1="530" y1="455" x2="600" y2="455" stroke="black" stroke-width="2"/>
+  <polygon points="595,450 595,460 605,455" fill="black"/>
+  <text x="565" y="445" text-anchor="middle" font-family="Arial" font-size="9">if no hash</text>
+
+  <!-- Priority 3: Placeholder (222) -->
+  <ellipse cx="700" cy="455" rx="90" ry="35" fill="white" stroke="black" stroke-width="2"/>
+  <text x="700" y="445" text-anchor="middle" font-family="Arial" font-size="11" font-weight="bold">PLACEHOLDER</text>
+  <text x="700" y="460" text-anchor="middle" font-family="Arial" font-size="10">Generic mask</text>
+  <text x="700" y="478" text-anchor="middle" font-family="Arial" font-size="9" font-style="italic">Priority 3 (222)</text>
+
+  <!-- RBAC Box (224) -->
+  <rect x="100" y="515" width="700" height="60" fill="white" stroke="black" stroke-width="1.5" rx="5"/>
+  <text x="450" y="535" text-anchor="middle" font-family="Arial" font-size="11" font-weight="bold">Role-Based Access Control (224)</text>
+  <text x="450" y="552" text-anchor="middle" font-family="Arial" font-size="10">tenant_staff: View masked identities | tenant_admin: Edit custom labels inline</text>
+  <text x="450" y="567" text-anchor="middle" font-family="Arial" font-size="10">requireRole middleware enforces via tenant_members table | 403 on unauthorized access</text>
+
+  <!-- Key Mechanism Box -->
+  <rect x="100" y="590" width="700" height="50" fill="white" stroke="black" stroke-width="1.5" rx="5"/>
+  <text x="450" y="610" text-anchor="middle" font-family="Arial" font-size="11" font-weight="bold">Key Mechanism: No Layer Coupling</text>
+  <text x="450" y="627" text-anchor="middle" font-family="Arial" font-size="10">Each privacy layer (202, 204, 206) addresses distinct threat vectors with no interdependency.</text>
+
+  <!-- Backend Detail Box (226) -->
+  <rect x="100" y="655" width="700" height="40" fill="white" stroke="black" stroke-width="1.5" rx="5"/>
+  <text x="450" y="672" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold">Backend Endpoints (226)</text>
+  <text x="450" y="687" text-anchor="middle" font-family="Arial" font-size="10">privacyLabels table | GET /api/privacy/hashes | PATCH /api/privacy/labels/:stakeholderId</text>
+
+  <!-- Legend -->
+  <text x="450" y="715" text-anchor="middle" font-family="Arial" font-size="10" font-style="italic">Reference: 200=Privacy Stack, 202=Schema Layer, 204=ZKP Layer, 206=Encrypted View Layer, 208=Normal View, 210=Toggle, 212=HMAC Engine, 214=Masked View, 216=Priority Chain, 218=Label, 220=Hash, 222=Placeholder, 224=RBAC, 226=Backend</text>
+</svg>

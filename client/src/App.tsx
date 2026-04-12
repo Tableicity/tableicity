@@ -80,6 +80,8 @@ import PrivacyVaultPage from "@/pages/privacy-vault";
 import VerifyProofPage from "@/pages/verify-proof";
 import AuditProofsPage from "@/pages/audit-proofs";
 import PublicVerifyPage from "@/pages/public-verify";
+import HayloPage from "@/pages/haylo";
+import HayloActivityPage from "@/pages/haylo-activity";
 
 function ShareholderHome() {
   return <Redirect to="/my-position" />;
@@ -187,6 +189,8 @@ function AppRoutes() {
       <Route path="/privacy-vault" component={isShareholder ? ShareholderHome : PrivacyVaultPage} />
       <Route path="/verify-proof" component={isShareholder ? ShareholderHome : VerifyProofPage} />
       <Route path="/audit-proofs" component={isShareholder ? ShareholderHome : AuditProofsPage} />
+      <Route path="/haylo/activity" component={isShareholder ? ShareholderHome : HayloActivityPage} />
+      <Route path="/haylo" component={isShareholder ? ShareholderHome : HayloPage} />
       <Route path="/profile" component={ProfilePage} />
       <Route component={NotFound} />
     </Switch>

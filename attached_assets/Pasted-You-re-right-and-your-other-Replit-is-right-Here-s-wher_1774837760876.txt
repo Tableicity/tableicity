@@ -1,0 +1,25 @@
+You're right, and your other Replit is right. Here's where I land on each point:
+
+1. Extended TTL on seeded sandbox proofs — I adopt this fully.
+
+Our current seed script uses the default 72-hour TTL from PROOF_CONFIG.defaultTtlHours. The seeded demo proof needs a 1-year TTL so it's always green when a new user first sees their sandbox. This is a small change — just pass 8760 hours (365 days) instead of 72 when creating the seeded proof result. No argument from me.
+
+2. Static template vs. live computation for user-generated proofs — I agree with you and your other Replit.
+
+The pre-computed static proof is only for the sandbox seed — so the user lands and immediately sees a populated Privacy Vault with a verified proof and a working public verification link. That's the "first date" instant gratification moment.
+
+But when the user clicks "Generate Proof" themselves, it should absolutely run the real Noir circuit every time. The 5-15 seconds of computation is the product. That's where the Security Ritual progress bar comes in — the 4-step animated sequence showing real cryptographic work happening. That wait builds trust and differentiates this from every other platform that just flips a boolean.
+
+So the steps I would take (when you give the green light):
+
+Update proof-seed.ts — Change the seeded demo proof's TTL from 72 hours to 8760 hours (1 year) so it's always valid for new sandbox users
+
+Build the Security Ritual progress bar — Replace the current spinner on proof generation with an animated 4-step progress sequence:
+
+"Validating commitment records..."
+"Computing SHA-256 + Pedersen hashes..."
+"Executing Noir zero-knowledge circuit..."
+"Finalizing cryptographic proof..."
+Keep live computation for all user-generated proofs — No static templates for user actions, ever. The real circuit runs every time.
+
+That's three focused changes. No architecture shifts, no schema changes, just the seed TTL fix and the UX upgrade on proof generation. Ready to build when you say go.

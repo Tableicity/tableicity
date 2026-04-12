@@ -25,8 +25,10 @@ import {
   type ProofRequest, type InsertProofRequest,
   type ProofResult, type InsertProofResult,
   type ProofUsage,
+  type HayloIntent, type InsertHayloIntent,
   warrants, phantomGrants, sars, dataStoreCategories, privacyLabels,
   commitmentRecords, proofRequests, proofResults, proofUsage,
+  hayloIntents,
 } from "@shared/schema";
 import * as schema from "@shared/schema";
 
@@ -142,6 +144,11 @@ export interface IStorage {
 
   getProofUsage(tenantId: string, billingMonth: string): Promise<ProofUsage | undefined>;
   incrementProofUsage(tenantId: string, billingMonth: string): Promise<ProofUsage>;
+
+  getHayloIntents(tenantId: string): Promise<HayloIntent[]>;
+  getHayloIntent(id: string): Promise<HayloIntent | undefined>;
+  createHayloIntent(data: InsertHayloIntent): Promise<HayloIntent>;
+  updateHayloIntent(id: string, data: Partial<InsertHayloIntent>): Promise<HayloIntent>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -643,6 +650,29 @@ export class DatabaseStorage implements IStorage {
       RETURNING *
     `);
     return result.rows[0] as unknown as ProofUsage;
+  }
+
+  async getHayloIntents(tenantId: string): Promise<HayloIntent[]> {
+    return this._db.select().from(hayloIntents)
+      .where(eq(hayloIntents.tenantId, tenantId));
+  }
+
+  async getHayloIntent(id: string): Promise<HayloIntent | undefined> {
+    const [record] = await this._db.select().from(hayloIntents).where(eq(hayloIntents.id, id));
+    return record;
+  }
+
+  async createHayloIntent(data: InsertHayloIntent): Promise<HayloIntent> {
+    const [record] = await this._db.insert(hayloIntents).values({
+      ...data,
+      createdAt: new Date().toISOString(),
+    }).returning();
+    return record;
+  }
+
+  async updateHayloIntent(id: string, data: Partial<InsertHayloIntent>): Promise<HayloIntent> {
+    const [record] = await this._db.update(hayloIntents).set(data).where(eq(hayloIntents.id, id)).returning();
+    return record;
   }
 }
 

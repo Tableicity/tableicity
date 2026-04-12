@@ -42,6 +42,8 @@ waitForPort = 5000
 
 [userenv.shared]
 VITE_NOIR_ENABLED = "true"
+BETA_LAB_CODE = "true"
+VITE_HAYLO_ENABLED = "true"
 
 [agent]
 integrations = ["github:1.0.0"]
